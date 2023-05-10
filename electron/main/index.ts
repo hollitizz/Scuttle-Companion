@@ -8,7 +8,7 @@ import {
 } from 'electron';
 import { release } from 'node:os';
 import { join } from 'node:path';
-import { autoUpdater } from 'electron-updater';
+import { autoUpdater } from 'electron-updater'
 import fs from 'fs';
 import axios from 'axios';
 

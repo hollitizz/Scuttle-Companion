@@ -74,7 +74,13 @@ export default defineConfig(({ command }) => {
             electronBuilder: {
                 preload: 'dist-electron/preload/index.js',
                 builderOptions: {
-                    publish: ['github']
+                    publish: [
+                        {
+                            provider: 'github',
+                            private: false,
+                            releaseType: 'release'
+                        }
+                    ]
                 }
             }
         },

@@ -1,14 +1,16 @@
 {
     "name": "league_login_app",
     "productName": "League login app",
-    "version": "0.0.1",
+    "version": "0.8.0",
     "description": "An app to help you login to League of Legends",
     "author": "Hollitizz#0111",
     "scripts": {
         "build-dir": "vue-tsc --noEmit && vite build && electron-builder --dir",
         "build": "vue-tsc --noEmit && vite build && electron-builder",
         "dev": "vite",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "increment-version": "git add . && git commit -m 'newversion' && git push",
+        "build-and-publish": "npm run increment-version && npm run build -p always --win nsis"
     },
     "main": "dist-electron/main/index.js",
     "devDependencies": {
@@ -19,6 +21,7 @@
         "electron-builder": "^23.6.0",
         "electron-forge": "^5.2.4",
         "typescript": "^5.0.2",
+        "versiony": "^2.0.1",
         "vite": "^4.1.4",
         "vite-plugin-electron": "^0.11.2",
         "vite-plugin-electron-renderer": "^0.14.1",
@@ -41,6 +44,7 @@
     "license": "MIT",
     "dependencies": {
         "axios": "^1.4.0",
+        "electron-updater": "^5.3.0",
         "encrypt-with-password": "^1.0.0",
         "pinia": "^2.0.35",
         "sass": "^1.62.1",
