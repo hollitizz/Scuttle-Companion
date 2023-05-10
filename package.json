@@ -1,7 +1,7 @@
 {
     "name": "league_login_app",
     "productName": "League login app",
-    "version": "0.8.0",
+    "version": "1.0.0",
     "description": "An app to help you login to League of Legends",
     "author": "Hollitizz#0111",
     "scripts": {
@@ -10,7 +10,7 @@
         "dev": "vite",
         "preview": "vite preview",
         "increment-version": "git add . && git commit -m 'newversion' && git push",
-        "build-and-publish": "npm run increment-version && npm run build -p always --win nsis"
+        "build-and-publish": "npm run increment-version && npm run build -p"
     },
     "main": "dist-electron/main/index.js",
     "devDependencies": {
