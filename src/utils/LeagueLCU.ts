@@ -95,7 +95,7 @@ export const useLeagueLCUAPI = () => {
         ipcRenderer.send(
             'download-image',
             `http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${iconId}.png`,
-            `profileIcons/${iconId}.png`
+            `${process.env['RESOURCES_FOLDER']}/profileIcons/${iconId}.png`
         );
         return {
             summoner_name: response.data.displayName,

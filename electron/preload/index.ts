@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 function domReady(
     condition: DocumentReadyState[] = ['complete', 'interactive']
 ) {
@@ -89,8 +91,14 @@ if (process.platform === 'darwin') {
 } else if (process.platform === 'win32') {
     process.env.RIOT_LOCKFILE = `${process.env['LOCALAPPDATA']}/Riot Games/Riot Client/Config/lockfile`;
     process.env.LEAGUE_LOCKFILE = `${process.env['SystemDrive']}/Riot Games/League of Legends/lockfile`;
+    if (process.env.VITE_DEV_SERVER_URL) {
+        process.env['RESOURCES_FOLDER'] = ``;
+    } else {
+        process.env['RESOURCES_FOLDER'] = `${process.env['APPDATA']}/League\ login\ app/resources`;
+        fs.existsSync(process.env['RESOURCES_FOLDER']) || fs.mkdirSync(process.env['RESOURCES_FOLDER']);
+    }
 } else {
-    throw new Error('Unsupported platform')
+    throw new Error('Unsupported platform');
 }
 
 const { appendLoading, removeLoading } = useLoading();

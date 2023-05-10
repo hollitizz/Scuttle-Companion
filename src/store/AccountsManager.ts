@@ -17,13 +17,13 @@ export const useAccountStore = defineStore('accountsStore', () => {
             );
         let file = null;
         try {
-            file = fs.readFileSync('accounts.lal', 'utf-8');
+            file = fs.readFileSync(process.env['RESOURCES_FOLDER'] + '/accounts.lal', 'utf-8');
         } catch (e) {
             fs.writeFileSync(
                 'accounts.lal',
                 JSON.stringify({ accounts: [] }, null, 4)
             );
-            file = fs.readFileSync('accounts.lal', 'utf-8');
+            file = fs.readFileSync(process.env['RESOURCES_FOLDER'] + '/accounts.lal', 'utf-8');
         }
         if (isEncrypted.value) {
             accounts.value = encryptpwd.decryptJSON(
@@ -54,7 +54,7 @@ export const useAccountStore = defineStore('accountsStore', () => {
             );
         if (isEncrypted.value) {
             fs.writeFileSync(
-                'accounts.lal',
+                process.env['RESOURCES_FOLDER'] + '/accounts.lal',
                 encryptpwd.encryptJSON(
                     { accounts: accounts.value },
                     password.value
@@ -62,7 +62,7 @@ export const useAccountStore = defineStore('accountsStore', () => {
             );
         } else {
             fs.writeFileSync(
-                'accounts.lal',
+                process.env['RESOURCES_FOLDER'] + '/accounts.lal',
                 JSON.stringify({ accounts: accounts.value }, null, 4)
             );
         }

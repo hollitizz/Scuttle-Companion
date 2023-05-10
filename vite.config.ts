@@ -80,7 +80,8 @@ export default defineConfig(({ command }) => {
                             private: false,
                             releaseType: 'release'
                         }
-                    ]
+                    ],
+                    appId: 'league.login.app',
                 }
             }
         },
