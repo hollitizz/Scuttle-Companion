@@ -1,12 +1,12 @@
 <template>
-    <div class="mx-auto flex gap-1 select-none relative">
+    <div class="mx-auto flex gap-1 relative">
         <UiCardCircle class="circle-elo">
-            <img :src="tierImg" alt="rank" />
+            <img class="select-none" :src="tierImg" alt="rank" />
         </UiCardCircle>
         <div class="text-center m-auto rank-text">
-            <h3 class="m-0">{{ tier + rank }}</h3>
-            <h3 class="m-0">{{ account.lp }} LP</h3>
-            <h3 v-if="account.wins || account.losses" class="m-0">
+            <h3 class="m-0 select-none">{{ tier + rank }}</h3>
+            <h3 class="m-0 select-none">{{ account.lp }} LP</h3>
+            <h3 v-if="account.wins || account.losses" class="m-0 select-none">
                 {{
                     `${account.is_provisional ? '[P] ' : ''}${account.wins}V ${
                         account.losses

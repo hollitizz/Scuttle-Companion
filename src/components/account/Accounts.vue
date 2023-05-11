@@ -1,15 +1,15 @@
 <template>
-    <ul class="account-list" @dragenter.prevent @dragleave.prevent>
+    <ul class="account-list" @dragenter.prevent @dragleave.prevent :key="len">
         <li
             v-for="(account, index) in accounts"
             class="list-element"
+            :class="{ draggable: isEditMode }"
             :draggable="isEditMode"
             @dragstart="dragStart"
             @dragover="dragOver"
             @dragend="dragEnd"
             @dragenter.prevent
             @dragleave.prevent
-            @drop.prevent
         >
             <UiCardsRectangle
                 class="card-element"
@@ -30,7 +30,7 @@
 import { Account } from '../../types';
 import AccountAccount from './Account.vue';
 import UiCardsRectangle from '../ui/cards/Rectangle.vue';
-import { PropType, ref } from 'vue';
+import { PropType, computed, ref, watch } from 'vue';
 
 const emits = defineEmits([
     'update:accounts',
@@ -48,11 +48,14 @@ const props = defineProps({
         required: true
     }
 });
+
 const itemList = ref(null as HTMLUListElement | null);
 const items = ref(null as NodeListOf<HTMLLIElement> | null);
 const startIndex = ref(null as number | null);
 const currentIndex = ref(null as number | null);
 const draggingItem = ref(null as HTMLLIElement | null);
+
+const len = computed(() => props.accounts.length);
 
 function handleDeleteAccount(account: Account) {
     emits('delete:account', account);
@@ -63,7 +66,10 @@ async function updateAccount(from: Account, to: Account) {
 }
 
 function dragStart(event: DragEvent) {
-    if (!props.isEditMode) return;
+    if (!props.isEditMode) {
+        event.preventDefault();
+        return;
+    }
     itemList.value = document.querySelector('.account-list');
     items.value = document.querySelectorAll('.list-element');
     const target = event.target as EventTarget;
@@ -100,10 +106,12 @@ function dragOver(event: DragEvent) {
     const list = document.getElementsByClassName('account-list')[0];
     if (list === undefined) return;
     const scrollY = list.scrollTop;
-    console.log(scrollY);
     const nextSibling = siblings.find(sibling => {
         console.log(sibling.offsetTop, event.clientY);
-        return event.clientY + scrollY < sibling.offsetTop + sibling.offsetHeight / 2;
+        return (
+            event.clientY + scrollY <
+            sibling.offsetTop + sibling.offsetHeight / 2
+        );
     });
     currentIndex.value = siblings.findIndex(sb => sb === nextSibling);
     //@ts-ignore

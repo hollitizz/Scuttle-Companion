@@ -17,13 +17,19 @@ export const useAccountStore = defineStore('accountsStore', () => {
             );
         let file = null;
         try {
-            file = fs.readFileSync(process.env['RESOURCES_FOLDER'] + 'accounts.lal', 'utf-8');
+            file = fs.readFileSync(
+                process.env['RESOURCES_FOLDER'] + 'accounts.lal',
+                'utf-8'
+            );
         } catch (e) {
             fs.writeFileSync(
                 process.env['RESOURCES_FOLDER'] + 'accounts.lal',
                 JSON.stringify({ accounts: [] }, null, 4)
             );
-            file = fs.readFileSync(process.env['RESOURCES_FOLDER'] + 'accounts.lal', 'utf-8');
+            file = fs.readFileSync(
+                process.env['RESOURCES_FOLDER'] + 'accounts.lal',
+                'utf-8'
+            );
         }
         if (isEncrypted.value) {
             accounts.value = encryptpwd.decryptJSON(
@@ -43,6 +49,8 @@ export const useAccountStore = defineStore('accountsStore', () => {
             if (acc.wins === undefined) acc.wins = 0;
             if (acc.losses === undefined) acc.losses = 0;
             if (acc.summoner_level === undefined) acc.summoner_level = 0;
+            if (acc.app_id === undefined)
+                acc.app_id = Math.floor(Math.random() * 1000000000);
         });
         saveAccounts();
     }
@@ -71,7 +79,19 @@ export const useAccountStore = defineStore('accountsStore', () => {
     function addAccount(account: Account): void {
         if (!account.summoner_name || !account.username || !account.password)
             return;
-        accounts.value.push({ ...account, tier: 0, rank: 0, lp: 0 });
+        accounts.value.push({
+            ...account,
+            tier: 0,
+            rank: 0,
+            lp: 0,
+            icon_id: 0,
+            is_provisional: false,
+            wins: 0,
+            losses: 0,
+            summoner_level: 0,
+            id: 0,
+            app_id: Math.floor(Math.random() * 1000000000)
+        });
         saveAccounts();
     }
 
@@ -88,6 +108,8 @@ export const useAccountStore = defineStore('accountsStore', () => {
                 )
             )
                 return;
+            if (inAcc.app_id && accounts.value.find(a => inAcc.app_id === a.app_id))
+                inAcc.app_id = Math.floor(Math.random() * 1000000000);
             accounts.value.push({ ...inAcc });
         });
         accounts.value.forEach(acc => {
@@ -100,14 +122,14 @@ export const useAccountStore = defineStore('accountsStore', () => {
             if (acc.wins === undefined) acc.wins = 0;
             if (acc.losses === undefined) acc.losses = 0;
             if (acc.summoner_level === undefined) acc.summoner_level = 0;
+            if (acc.app_id === undefined)
+                acc.app_id = Math.floor(Math.random() * 1000000000);
         });
         saveAccounts();
     }
 
     function deleteAccount(account: Account): void {
-        const index = accounts.value.findIndex(
-            acc => acc.summoner_name === account.summoner_name
-        );
+        const index = accounts.value.findIndex(acc => acc.app_id === account.app_id);
         if (index === -1) return;
         accounts.value.splice(index, 1);
         saveAccounts();
@@ -122,7 +144,7 @@ export const useAccountStore = defineStore('accountsStore', () => {
 
     function updateAccount(from: Account, to: Account): void {
         const index = accounts.value.findIndex(
-            acc => acc.summoner_name === from.summoner_name
+            acc => acc.app_id === from.app_id
         );
         if (index === -1) return;
         accounts.value[index] = to;

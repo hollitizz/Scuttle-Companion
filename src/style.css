@@ -17,6 +17,11 @@
     -webkit-text-size-adjust: 100%;
 }
 
+img {
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
 html,
 body,
 :root,
@@ -61,14 +66,6 @@ body,
     user-select: none; /* Standard syntax */
 }
 
-img {
-    -webkit-user-drag: none;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-}
-
 input,
 button {
     outline: none;
@@ -85,3 +82,4 @@ button {
 .relative {
     position: relative;
 }
+

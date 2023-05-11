@@ -1,6 +1,7 @@
 
 export interface Account {
     id: number;
+    app_id: number;
     summoner_name: string;
     username: string;
     password: string;

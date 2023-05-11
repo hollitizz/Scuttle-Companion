@@ -38,7 +38,7 @@ import AccountAddAccount from './account/AddAccount.vue';
 import Settings from './Settings.vue';
 import { storeToRefs } from 'pinia';
 import { useAlerts } from '../utils/Alerts';
-import { Account, RankedStats } from '../types';
+import { Account } from '../types';
 
 const props = defineProps({
     modelValue: {
@@ -84,12 +84,12 @@ function updateAccount(from:Account, to: Account) {
 
 function addAccount(account: Account) {
     accountStore.addAccount(account);
-    success(`Le compte "${account.username}" a bien été ajouté !`);
+    success(`Le compte "${account.summoner_name}" a bien été ajouté !`);
 }
 
 function deleteAccount(account: Account) {
     accountStore.deleteAccount(account);
-    success(`Le compte "${account.username}" a bien été supprimé !`);
+    success(`Le compte "${account.summoner_name}" a bien été supprimé !`);
 }
 
 function importAccounts(accounts: Account[]) {

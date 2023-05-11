@@ -8,7 +8,7 @@ import {
 } from 'electron';
 import { release } from 'node:os';
 import { join } from 'node:path';
-import { autoUpdater } from 'electron-updater'
+import { autoUpdater } from 'electron-updater';
 import fs from 'fs';
 import axios from 'axios';
 
@@ -101,7 +101,7 @@ app.whenReady().then(() => {
         globalShortcut.register('CommandOrControl+Shift+R', () => {});
         globalShortcut.register('Alt+CommandOrControl+I', () => {});
         globalShortcut.register('Shift+CommandOrControl+I', () => {});
-        autoUpdater.checkForUpdatesAndNotify()
+        autoUpdater.checkForUpdatesAndNotify();
     }
     createWindow();
     ipcMain.on('export-accounts', (event, file: string) => {
@@ -122,13 +122,18 @@ app.whenReady().then(() => {
             event.reply('import-accounts-reply', JSON.parse(file));
         }
     });
-    ipcMain.on('download-image', (event, url, path) => {
+    ipcMain.on('download-image', (event, url, path, summoner_id) => {
         if (!fs.existsSync('profileIcons')) {
             fs.mkdirSync('profileIcons');
         }
-        axios.get(url, { responseType: 'stream' }).then(res => {
-            res.data.pipe(fs.createWriteStream(path));
-        });
+        axios
+            .get(url, { responseType: 'stream' })
+            .then(res => {
+                res.data.pipe(fs.createWriteStream(path));
+            })
+            .then(() => {
+                event.reply('download-image-reply', summoner_id);
+            });
     });
 });
 

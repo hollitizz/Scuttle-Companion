@@ -41,6 +41,7 @@ export const useLeagueLCUAPI = () => {
     }
 
     async function checkIsLoggedIn(id: number = -1): Promise<boolean> {
+        if (id === 0) return false;
         try {
             refreshLockfile();
             const response = await axios.get(
@@ -95,7 +96,8 @@ export const useLeagueLCUAPI = () => {
         ipcRenderer.send(
             'download-image',
             `http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${iconId}.png`,
-            `${process.env['RESOURCES_FOLDER']}profileIcons/${iconId}.png`
+            `${process.env['RESOURCES_FOLDER']}profileIcons/${iconId}.png`,
+            response.data.summonerId
         );
         return {
             summoner_name: response.data.displayName,
