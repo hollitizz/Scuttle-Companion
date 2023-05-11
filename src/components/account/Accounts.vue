@@ -1,12 +1,12 @@
 <template>
-    <ul class="account-list" @dragenter="dragEnter">
+    <ul class="account-list" @dragenter.prevent @dragleave.prevent>
         <li
             v-for="(account, index) in accounts"
             class="list-element"
             :draggable="isEditMode"
-            @dragstart="dragStart($event, index)"
-            @dragover="dragOver($event, index)"
-            @dragend="dragEnd($event, index)"
+            @dragstart="dragStart"
+            @dragover="dragOver"
+            @dragend="dragEnd"
             @dragenter.prevent
             @dragleave.prevent
             @drop.prevent
@@ -30,7 +30,7 @@
 import { Account } from '../../types';
 import AccountAccount from './Account.vue';
 import UiCardsRectangle from '../ui/cards/Rectangle.vue';
-import { PropType, ref, onMounted } from 'vue';
+import { PropType, ref } from 'vue';
 
 const emits = defineEmits([
     'update:accounts',
@@ -62,7 +62,7 @@ async function updateAccount(from: Account, to: Account) {
     emits('update:account', from, to);
 }
 
-function dragStart(event: DragEvent, index: number) {
+function dragStart(event: DragEvent) {
     if (!props.isEditMode) return;
     itemList.value = document.querySelector('.account-list');
     items.value = document.querySelectorAll('.list-element');
@@ -80,7 +80,7 @@ function dragStart(event: DragEvent, index: number) {
     }
 }
 
-function dragEnd(event: DragEvent, index: number) {
+function dragEnd(event: DragEvent) {
     event.preventDefault();
     if (!props.isEditMode) return;
     const target = event.target;
@@ -90,20 +90,21 @@ function dragEnd(event: DragEvent, index: number) {
     target.classList.remove('dragging');
 }
 
-function dragEnter(event: DragEvent) {
-    event.preventDefault();
-}
-
-function dragOver(event: DragEvent, index: number) {
+function dragOver(event: DragEvent) {
     event.preventDefault();
     if (itemList.value === null) return;
     const siblings = [
         // @ts-ignore
         ...itemList.value.querySelectorAll('.list-element:not(.dragging)')
     ];
-    const nextSibling = siblings.find(
-        sibling => event.clientY < sibling.offsetTop + sibling.offsetHeight / 2
-    );
+    const list = document.getElementsByClassName('account-list')[0];
+    if (list === undefined) return;
+    const scrollY = list.scrollTop;
+    console.log(scrollY);
+    const nextSibling = siblings.find(sibling => {
+        console.log(sibling.offsetTop, event.clientY);
+        return event.clientY + scrollY < sibling.offsetTop + sibling.offsetHeight / 2;
+    });
     currentIndex.value = siblings.findIndex(sb => sb === nextSibling);
     //@ts-ignore
     itemList.value.insertBefore(draggingItem.value, nextSibling);
@@ -117,7 +118,7 @@ function dragOver(event: DragEvent, index: number) {
     margin: 1rem auto;
 }
 .account-list {
-    width: 100%;
+    width: 45rem;
     height: 100%;
     list-style: none;
     padding: 0;
