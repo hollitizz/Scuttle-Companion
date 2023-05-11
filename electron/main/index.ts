@@ -99,8 +99,8 @@ app.whenReady().then(() => {
         globalShortcut.register('F12', () => {});
         globalShortcut.register('CommandOrControl+R', () => {});
         globalShortcut.register('CommandOrControl+Shift+R', () => {});
-        globalShortcut.register('Alt+CommandOrControl+I', () => {});
-        globalShortcut.register('Shift+CommandOrControl+I', () => {});
+        // globalShortcut.register('Alt+CommandOrControl+I', () => {});
+        // globalShortcut.register('Shift+CommandOrControl+I', () => {});
         autoUpdater.checkForUpdatesAndNotify();
     }
     createWindow();
