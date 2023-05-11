@@ -20,11 +20,11 @@ const props = defineProps({
 });
 
 const iconExists = computed(() => {
-    return fs.existsSync(`${process.env['RESOURCES_FOLDER']}/profileIcons/${props.account.icon_id}.png`);
+    return fs.existsSync(`${process.env['RESOURCES_FOLDER']}profileIcons/${props.account.icon_id}.png`);
 });
 
 const icon = computed(() => {
-    return `${process.env['RESOURCES_FOLDER']}/profileIcons/${props.account.icon_id}.png`;
+    return `${process.env['RESOURCES_FOLDER']}profileIcons/${props.account.icon_id}.png`;
 });
 
 </script>

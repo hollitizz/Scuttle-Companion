@@ -94,7 +94,7 @@ if (process.platform === 'darwin') {
     if (process.env.VITE_DEV_SERVER_URL) {
         process.env['RESOURCES_FOLDER'] = ``;
     } else {
-        process.env['RESOURCES_FOLDER'] = `${process.env['APPDATA']}/League\ login\ app/resources`;
+        process.env['RESOURCES_FOLDER'] = `${process.env['APPDATA']}/League\ login\ app/resources/`;
         fs.existsSync(process.env['RESOURCES_FOLDER']) || fs.mkdirSync(process.env['RESOURCES_FOLDER']);
     }
 } else {

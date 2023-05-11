@@ -32,6 +32,7 @@ app.config.errorHandler = function (err) {
             icon: true,
             rtl: false
         });
+        console.error(err);
     } else {
         console.error(err);
     }

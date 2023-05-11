@@ -12,10 +12,10 @@ export const useSettingsStore = defineStore('settings', () => {
     function loadSettings() {
         let file = null;
         try {
-            file = fs.readFileSync(process.env['RESOURCES_FOLDER'] + '/config.lal', 'utf-8');
+            file = fs.readFileSync(process.env['RESOURCES_FOLDER'] + 'config.lal', 'utf-8');
         } catch (e) {
-            fs.writeFileSync(process.env['RESOURCES_FOLDER'] + '/config.lal', JSON.stringify({ isFirstTime: true, isEncrypted: false, password: '' }, null, 4));
-            file = fs.readFileSync(process.env['RESOURCES_FOLDER'] + '/config.lal', 'utf-8');
+            fs.writeFileSync(process.env['RESOURCES_FOLDER'] + 'config.lal', JSON.stringify({ isFirstTime: true, isEncrypted: false, password: '' }, null, 4));
+            file = fs.readFileSync(process.env['RESOURCES_FOLDER'] + 'config.lal', 'utf-8');
         }
         settings.value = JSON.parse(file);
         if (!settings.value.isFirstTime) settings.value.isFirstTime = true;
@@ -28,7 +28,7 @@ export const useSettingsStore = defineStore('settings', () => {
             settings.value.isFirstTime = false;
         }
         fs.writeFileSync(
-            process.env['RESOURCES_FOLDER'] + '/config.lal',
+            process.env['RESOURCES_FOLDER'] + 'config.lal',
             JSON.stringify(settings.value, null, 4)
         );
     }
