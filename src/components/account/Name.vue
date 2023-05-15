@@ -23,6 +23,7 @@ const props = defineProps({
 const icon = computed(() => {
     return `${process.env['RESOURCES_FOLDER']}profileIcons/${props.account.icon_id}.png`;
 });
+
 const imgKey = ref(0);
 function sleep(s: number) {
     return new Promise((resolve) => setTimeout(resolve, s * 1000));

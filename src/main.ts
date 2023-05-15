@@ -1,10 +1,14 @@
 import App from './App.vue';
 import { createApp } from 'vue';
-import './style.css';
+import './assets/css/main.css';
 import './samples/node-api';
 import Toast, { POSITION, useToast } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import { createPinia } from 'pinia';
+import VueTippy from 'vue-tippy';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/dist/svg-arrow.css';
+import './assets/css/theme.css';
 
 const pinia = createPinia();
 const app = createApp(App);
@@ -14,6 +18,16 @@ app.use(Toast, {
     transition: 'Vue-Toastification__fade',
     maxToasts: 20,
     newestOnTop: true
+});
+app.use(VueTippy, {
+    directive: 'tooltip',
+    component: 'tippy',
+    componentSingleton: 'tippy-singleton',
+    defaultProps: {
+        theme: 'dark',
+        placement: 'auto-end',
+        allowHTML: true
+    }
 });
 const toast = useToast();
 app.config.errorHandler = function (err) {

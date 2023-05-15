@@ -13,6 +13,7 @@
             v-if="isLogged"
             class="refresh text-center"
             @click="refreshButton"
+            v-tooltip="'Rafraîchir le compte'"
             variant="transparent"
         >
             <img src="../../assets/svg/refresh.svg" alt="refresh" />

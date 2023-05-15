@@ -11,13 +11,32 @@
         @update:encryption="changeEncryption"
         @add:accounts="importAccounts"
     />
-    <UiButton @click="openSettings" class="button-settings">
+    <UiButton
+        v-tooltip="'Lancer League'"
+        @click="openLeague"
+        class="button-league"
+    >
+        <img src="../assets/svg/league.svg" alt="league" />
+    </UiButton>
+    <UiButton
+        v-tooltip="'Paramètres'"
+        @click="openSettings"
+        class="button-settings"
+    >
         <img src="../assets/svg/settings.svg" alt="edit" />
     </UiButton>
-    <UiButton @click="editAccounts" class="button-edit">
+    <UiButton
+        v-tooltip="`${!isEditMode ? 'Activer' : 'Desactiver'} le mode édition`"
+        @click="editAccounts"
+        class="button-edit"
+    >
         <img src="../assets/svg/edit.svg" alt="edit" />
     </UiButton>
-    <UiButton @click="isAddingAccount = true" class="button-add">
+    <UiButton
+        v-tooltip="'Ajouter un compte'"
+        @click="isAddingAccount = true"
+        class="button-add"
+    >
         <img src="../assets/svg/add.svg" alt="add" />
     </UiButton>
     <AccountAccounts
@@ -39,6 +58,8 @@ import Settings from './Settings.vue';
 import { storeToRefs } from 'pinia';
 import { useAlerts } from '../utils/Alerts';
 import { Account } from '../types';
+import { shell } from 'electron';
+import { spawn } from 'child_process';
 
 const props = defineProps({
     modelValue: {
@@ -51,10 +72,12 @@ const props = defineProps({
     }
 });
 
+const test = ref('test');
+
 const isEditMode = ref(false);
 const isAddingAccount = ref(false);
 const isSettingsOpen = ref(false);
-const { success } = useAlerts();
+const { success, error } = useAlerts();
 const accountStore = useAccountStore();
 const { accounts, password, isEncrypted } = storeToRefs(accountStore);
 
@@ -78,7 +101,7 @@ watch(isEncrypted, () => {
     }
 });
 
-function updateAccount(from:Account, to: Account) {
+function updateAccount(from: Account, to: Account) {
     accountStore.updateAccount(from, to);
 }
 
@@ -97,6 +120,24 @@ function importAccounts(accounts: Account[]) {
     success(`Les comptes ont été correctement importé !`);
 }
 
+function openLeague() {
+    const mainDrive = process.env.SystemDrive || 'C:';
+    const path = mainDrive + '\\Riot Games\\Riot Client\\RiotClientServices.exe';
+    try {
+        spawn('cmd.exe', [
+            '/c',
+            'start',
+            '""',
+            path,
+            '--launch-product=league_of_legends',
+            '--launch-patchline=live'
+        ]);
+        success('League of Legends lancé !');
+    } catch (e) {
+        error('Impossible de lancer League of Legends');
+    }
+}
+
 function changeEncryption(isEncrypt: boolean, pass: string) {
     password.value = pass;
     isEncrypted.value = isEncrypt;
@@ -108,6 +149,7 @@ function changeEncryption(isEncrypt: boolean, pass: string) {
     height: 100%;
     width: 100%;
 }
+
 .button {
     position: absolute;
     padding: 0;
@@ -117,6 +159,9 @@ function changeEncryption(isEncrypt: boolean, pass: string) {
     display: flex;
     align-items: center;
     justify-content: center;
+    &-league {
+        top: 11.5rem;
+    }
     &-settings {
         top: 3.5rem;
     }
@@ -126,7 +171,7 @@ function changeEncryption(isEncrypt: boolean, pass: string) {
     }
 
     &-add {
-        top: 11.5rem;
+        top: 15.5rem;
     }
 }
 </style>

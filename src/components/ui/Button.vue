@@ -1,10 +1,13 @@
 <template>
-    <button class="button select-none" @click="click" :class="{ [variant]: Boolean(variant) }">
+    <button
+        class="button select-none"
+        @click="click"
+        :class="{ [variant]: Boolean(variant) }"
+    >
         <slot />
     </button>
 </template>
 <script setup lang="ts">
-
 const emits = defineEmits(['click']);
 
 defineProps({
@@ -31,10 +34,10 @@ function click() {
     transition: all 0.1s ease-in-out;
     font-weight: 800;
     &:hover {
-        transform: scale(1.05);
+        transform: scale(1.1);
     }
     &:active {
-        box-shadow: inset 0px 0px 5px #000;
+        box-shadow: inset -1px 2px 5px #000;
     }
 }
 

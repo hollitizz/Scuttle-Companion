@@ -2,7 +2,7 @@
     "name": "league_login_app",
     "productName": "League login app",
     "private": false,
-    "version": "1.0.3",
+    "version": "1.1.0",
     "description": "An app to help you login to League of Legends",
     "author": "hollitizz",
     "scripts": {
@@ -43,11 +43,13 @@
     ],
     "license": "MIT",
     "dependencies": {
+        "@vue/cli": "^5.0.8",
         "axios": "^1.4.0",
         "electron-updater": "^5.3.0",
         "encrypt-with-password": "^1.0.0",
         "pinia": "^2.0.35",
         "sass": "^1.62.1",
+        "vue-tippy": "^6.1.2",
         "vue-toastification": "^2.0.0-rc.2"
     }
 }
