@@ -58,7 +58,6 @@ import Settings from './Settings.vue';
 import { storeToRefs } from 'pinia';
 import { useAlerts } from '../utils/Alerts';
 import { Account } from '../types';
-import { shell } from 'electron';
 import { spawn } from 'child_process';
 
 const props = defineProps({
