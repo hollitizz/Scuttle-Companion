@@ -1,7 +1,7 @@
 <template>
     <div class="account">
         <AccountElo class="w-full" :account="account" />
-        <AccountName class="w-full" :account="account" :isLoggedIn="isLogged" />
+        <AccountName class="w-full" :account="account" />
         <AccountActions
             :account="account"
             :isEditMode="isEditMode"
