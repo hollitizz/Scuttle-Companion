@@ -10,35 +10,37 @@
         :accounts="accounts"
         @update:encryption="changeEncryption"
         @add:accounts="importAccounts"
+        @update:leaguePath="updateLeaguePath"
     />
-    <UiButton
-        v-tooltip="'Lancer League'"
-        @click="openLeague"
-        class="button-league"
-    >
-        <img src="../assets/svg/league.svg" alt="league" />
-    </UiButton>
-    <UiButton
-        v-tooltip="'Paramètres'"
-        @click="openSettings"
-        class="button-settings"
-    >
-        <img src="../assets/svg/settings.svg" alt="edit" />
-    </UiButton>
-    <UiButton
-        v-tooltip="`${!isEditMode ? 'Activer' : 'Desactiver'} le mode édition`"
-        @click="editAccounts"
-        class="button-edit"
-    >
-        <img src="../assets/svg/edit.svg" alt="edit" />
-    </UiButton>
-    <UiButton
-        v-tooltip="'Ajouter un compte'"
-        @click="isAddingAccount = true"
-        class="button-add"
-    >
-        <img src="../assets/svg/add.svg" alt="add" />
-    </UiButton>
+    <div class="buttons">
+        <UiButton v-tooltip="'Paramètres'" @click="openSettings" class="button">
+            <img src="../assets/svg/settings.svg" alt="edit" />
+        </UiButton>
+        <UiButton
+        v-tooltip="
+                `${!isEditMode ? 'Activer' : 'Desactiver'} le mode édition`
+            "
+            @click="editAccounts"
+            class="button"
+            >
+            <img src="../assets/svg/edit.svg" alt="edit" />
+        </UiButton>
+        <UiButton
+            v-if="isValidPath"
+            v-tooltip="'Lancer League'"
+            @click="openLeague"
+            class="button"
+        >
+            <img src="../assets/svg/league.svg" alt="league" />
+        </UiButton>
+        <UiButton
+            v-tooltip="'Ajouter un compte'"
+            @click="isAddingAccount = true"
+            class="button"
+        >
+            <img src="../assets/svg/add.svg" alt="add" />
+        </UiButton>
+    </div>
     <AccountAccounts
         class="main"
         :isEditMode="isEditMode"
@@ -71,8 +73,6 @@ const props = defineProps({
     }
 });
 
-const test = ref('test');
-
 const isEditMode = ref(false);
 const isAddingAccount = ref(false);
 const isSettingsOpen = ref(false);
@@ -84,6 +84,13 @@ if (props.isEncrypted) {
     password.value = props.modelValue;
     isEncrypted.value = props.isEncrypted;
 }
+
+const isValidPath = ref(process.env['LEAGUE_EXECUTABLE'] !== '');
+
+function updateLeaguePath() {
+    isValidPath.value = process.env['LEAGUE_EXECUTABLE'] !== '';
+}
+
 accountStore.loadAccounts();
 
 function editAccounts() {
@@ -120,17 +127,16 @@ function importAccounts(accounts: Account[]) {
 }
 
 function openLeague() {
-    const mainDrive = process.env.SystemDrive || 'C:';
-    const path = mainDrive + '\\Riot Games\\Riot Client\\RiotClientServices.exe';
+    if (!process.env['LEAGUE_EXECUTABLE']) {
+        error('Impossible de lancer League of Legends');
+        return;
+    }
     try {
-        spawn('cmd.exe', [
-            '/c',
-            'start',
-            '""',
-            path,
-            '--launch-product=league_of_legends',
-            '--launch-patchline=live'
-        ]);
+        if (process.platform === 'win32') {
+            spawn('cmd.exe', ['/c', 'start', process.env['LEAGUE_EXECUTABLE']]);
+        } else if (process.platform === 'darwin') {
+            spawn('open', [process.env['LEAGUE_EXECUTABLE']]);
+        }
         success('League of Legends lancé !');
     } catch (e) {
         error('Impossible de lancer League of Legends');
@@ -149,28 +155,23 @@ function changeEncryption(isEncrypt: boolean, pass: string) {
     width: 100%;
 }
 
-.button {
+.buttons {
     position: absolute;
-    padding: 0;
-    right: 3.5rem;
-    width: 3rem;
-    height: 3rem;
+    right: 4rem;
+    top: 3.5rem;
     display: flex;
+    flex-direction: column;
+    gap: 1rem;
     align-items: center;
     justify-content: center;
-    &-league {
-        top: 11.5rem;
-    }
-    &-settings {
-        top: 3.5rem;
-    }
-
-    &-edit {
-        top: 7.5rem;
-    }
-
-    &-add {
-        top: 15.5rem;
+    .button {
+        padding: 0;
+        right: 3.5rem;
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 </style>

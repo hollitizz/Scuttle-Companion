@@ -19,6 +19,7 @@ export interface Settings {
     isFirstTime?: boolean;
     isEncrypted?: boolean;
     password?: string;
+    leagueExecutable?: string;
 }
 
 export interface RankedStats {

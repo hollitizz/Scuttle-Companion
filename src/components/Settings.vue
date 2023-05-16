@@ -48,6 +48,16 @@
                     >
                 </div>
             </UiCardsRectangle>
+            <UiCardsRectangle v-if="!leaguePathValid" class="path">
+                <UiInputText
+                    v-model="leaguePath"
+                    label="Chemin d'accès à League of Legends"
+                    maxWidth="100%"
+                    @enter="changePath"
+                >
+                </UiInputText>
+                <UiButton @click="changePath">Valider</UiButton>
+            </UiCardsRectangle>
         </div>
     </UiModal>
     <SetPassword
@@ -67,14 +77,16 @@ import UiModal from './ui/Modal.vue';
 import UiButton from './ui/Button.vue';
 import UiInputPassword from './ui/input/Password.vue';
 import UiCardsRectangle from './ui/cards/Rectangle.vue';
-import { useSettingsStore } from '../store/Settings';
-import { storeToRefs } from 'pinia';
-import { PropType, ref } from 'vue';
 import SetPassword from './SetPassword.vue';
 import AskPassword from './AskPassword.vue';
+import UiInputText from './ui/input/Text.vue';
+import { useSettingsStore } from '../store/Settings';
+import { storeToRefs } from 'pinia';
+import { PropType, computed, ref, watch } from 'vue';
 import { Account } from '../types';
 import { ipcRenderer } from 'electron';
 import { useAlerts } from '../utils/Alerts';
+import fs from 'fs';
 
 const settingsStore = useSettingsStore();
 settingsStore.loadSettings();
@@ -96,7 +108,8 @@ const props = defineProps({
 const emits = defineEmits([
     'update:modelValue',
     'update:encryption',
-    'add:accounts'
+    'add:accounts',
+    'update:leaguePath'
 ]);
 const isSettingPassword = ref(false);
 const isAskingPassword = ref(false);
@@ -104,6 +117,9 @@ const isAskingPassword = ref(false);
 const oldPassword = ref('' as string);
 const newPassword = ref('' as string);
 const newPasswordConfirm = ref('' as string);
+const leaguePath = ref('' as string);
+
+const leaguePathValid = ref(process.env['LEAGUE_EXECUTABLE'] !== '');
 
 function importAccounts() {
     ipcRenderer.send('import-accounts');
@@ -117,7 +133,7 @@ function exportAccounts() {
         'export-accounts',
         JSON.stringify(props.accounts, null, 4)
     );
-    ipcRenderer.on('export-accounts-reply', (event) => {
+    ipcRenderer.on('export-accounts-reply', event => {
         success('Les comptes ont bien été exportés !');
     });
 }
@@ -148,6 +164,15 @@ function disableEncryption(password: string) {
     settingsStore.deletePassword(password);
     emits('update:encryption', false);
     success('Le chiffrement a été désactivé !');
+}
+
+function changePath() {
+    if (fs.existsSync(leaguePath.value)) {
+        settingsStore.setLeaguePath(leaguePath.value);
+        leaguePathValid.value = true;
+        emits('update:leaguePath')
+        success('Le chemin d\'accès a bien été changé !');
+    } else throw new Error("Le chemin d'accès n'est pas valide");
 }
 </script>
 
@@ -218,6 +243,18 @@ function disableEncryption(password: string) {
             align-items: center;
             justify-content: center;
             gap: 1rem;
+        }
+    }
+    .path {
+        position: relative;
+        width: 80%;
+        height: 7rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        .title {
+            margin: 0;
         }
     }
 }
