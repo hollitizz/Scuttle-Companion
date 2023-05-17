@@ -17,12 +17,12 @@
             <img src="../assets/svg/settings.svg" alt="edit" />
         </UiButton>
         <UiButton
-        v-tooltip="
+            v-tooltip="
                 `${!isEditMode ? 'Activer' : 'Desactiver'} le mode édition`
             "
             @click="editAccounts"
             class="button"
-            >
+        >
             <img src="../assets/svg/edit.svg" alt="edit" />
         </UiButton>
         <UiButton
@@ -133,7 +133,14 @@ function openLeague() {
     }
     try {
         if (process.platform === 'win32') {
-            spawn('cmd.exe', ['/c', 'start', process.env['LEAGUE_EXECUTABLE']]);
+            spawn('cmd.exe', [
+                '/c',
+                'start',
+                '""',
+                process.env['LEAGUE_EXECUTABLE'],
+                '--launch-product=league_of_legends',
+                '--launch-patchline=live'
+            ]);
         } else if (process.platform === 'darwin') {
             spawn('open', [process.env['LEAGUE_EXECUTABLE']]);
         }
