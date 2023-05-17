@@ -97,10 +97,10 @@ if (process.platform === 'darwin') {
     process.env.LEAGUE_LOCKFILE = `${process.env['SystemDrive']}/Riot Games/League of Legends/lockfile`;
     process.env[
         'LEAGUE_EXECUTABLE'
-    ] = `${process.env['ProgramFiles']}/Riot Games/League of Legends/LeagueClient.exe`;
+    ] = `${process.env.SystemDrive}\\Riot Games\\Riot Client\\RiotClientServices.exe`;
     process.env[
         'RESOURCES_FOLDER'
-    ] = `${process.env.SystemDrive}\\Riot Games\\Riot Client\\RiotClientServices.exe`;
+    ] = ``;
     if (process.env.VITE_DEV_SERVER_URL) {
     } else {
         process.env[
