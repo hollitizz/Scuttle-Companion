@@ -113,7 +113,6 @@ if (process.platform === 'darwin') {
     throw new Error('Unsupported platform');
 }
 if (!fs.existsSync(process.env['LEAGUE_EXECUTABLE'])) {
-    console.log('League executable not default');
     process.env['LEAGUE_EXECUTABLE'] = '';
 }
 

@@ -1,13 +1,11 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { Settings } from '../types';
+import { LeagueSettings, Settings } from '../types';
 import fs from 'fs';
 import bcrypt from 'bcryptjs';
-import { useAlerts } from '../utils/Alerts';
 
 export const useSettingsStore = defineStore('settings', () => {
     const settings = ref({} as Settings);
-    const { success } = useAlerts();
 
     function loadSettings() {
         let file = null;
@@ -34,6 +32,7 @@ export const useSettingsStore = defineStore('settings', () => {
         if (!settings.value.isFirstTime) settings.value.isFirstTime = true;
         if (!settings.value.isEncrypted) settings.value.isEncrypted = false;
         if (!settings.value.password) settings.value.password = '';
+        if (!settings.value.leagueSettings) settings.value.leagueSettings = {} as LeagueSettings;
         if (!process.env['LEAGUE_EXECUTABLE']) {
             if (settings.value.leagueExecutable)
                 process.env['LEAGUE_EXECUTABLE'] =
@@ -92,6 +91,12 @@ export const useSettingsStore = defineStore('settings', () => {
         saveSettings();
     }
 
+    function setLeagueSettings(leagueSettings: LeagueSettings) {
+        console.log(leagueSettings);
+        settings.value.leagueSettings = leagueSettings;
+        saveSettings();
+    }
+
     return {
         settings,
         loadSettings,
@@ -100,5 +105,6 @@ export const useSettingsStore = defineStore('settings', () => {
         deletePassword,
         checkPassword,
         setLeaguePath,
+        setLeagueSettings
     };
 });

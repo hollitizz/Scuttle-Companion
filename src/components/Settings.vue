@@ -49,6 +49,7 @@
                 </div>
             </UiCardsRectangle>
             <UiCardsRectangle v-if="!leaguePathValid" class="path">
+                <h2 class="title text-center">Chemin d'applications</h2>
                 <UiInputText
                     v-model="leaguePath"
                     label="Chemin d'accès à League of Legends"
@@ -57,6 +58,21 @@
                 >
                 </UiInputText>
                 <UiButton @click="changePath">Valider</UiButton>
+            </UiCardsRectangle>
+            <UiCardsRectangle class="league-settings">
+                <h2 class="title text-center">
+                    Paramètres de League of Legend
+                </h2>
+                <div class="buttons">
+                    <UiButton @click="saveLeagueSettings"
+                        >Sauvegarder les paramètres</UiButton
+                    >
+                    <UiButton
+                        v-if="settings.leagueSettings?.inputSettings"
+                        @click="applyLeagueSettings"
+                        >Appliquer au compte actuel</UiButton
+                    >
+                </div>
             </UiCardsRectangle>
         </div>
     </UiModal>
@@ -87,13 +103,16 @@ import { Account } from '../types';
 import { ipcRenderer } from 'electron';
 import { useAlerts } from '../utils/Alerts';
 import fs from 'fs';
+import { useLeagueLCUAPI } from '../utils/LeagueLCU';
 
 const settingsStore = useSettingsStore();
 settingsStore.loadSettings();
 const { settings } = storeToRefs(settingsStore);
+const { getSummonerSettings, patchSummonerSettings } = useLeagueLCUAPI();
 
 const { success } = useAlerts();
 
+console.log('settings: ' + settings.value.leagueSettings);
 const props = defineProps({
     modelValue: {
         type: Boolean,
@@ -144,6 +163,24 @@ function setPassword(password: string) {
     success('Le mot de passe a bien été défini !');
 }
 
+async function saveLeagueSettings() {
+    const summonerSettings = await getSummonerSettings();
+
+    settingsStore.setLeagueSettings(summonerSettings);
+    success('Les paramètres ont bien été sauvegardés !');
+}
+
+async function applyLeagueSettings() {
+    if (!settings.value.leagueSettings) {
+        throw new Error(
+            'Les paramètres de League of Legends sont introuvables'
+        );
+    }
+    await patchSummonerSettings(settings.value.leagueSettings);
+
+    success('Les paramètres ont bien été appliqués !');
+}
+
 function handleEncryptionButton() {
     if (!settings.value.isEncrypted) {
         isSettingPassword.value = true;
@@ -170,8 +207,8 @@ function changePath() {
     if (fs.existsSync(leaguePath.value)) {
         settingsStore.setLeaguePath(leaguePath.value);
         leaguePathValid.value = true;
-        emits('update:leaguePath')
-        success('Le chemin d\'accès a bien été changé !');
+        emits('update:leaguePath');
+        success("Le chemin d'accès a bien été changé !");
     } else throw new Error("Le chemin d'accès n'est pas valide");
 }
 </script>
@@ -255,6 +292,25 @@ function changePath() {
         gap: 0.5rem;
         .title {
             margin: 0;
+        }
+    }
+
+    .league-settings {
+        position: relative;
+        width: 80%;
+        height: 9rem;
+        .title {
+            margin: 0;
+        }
+        .buttons {
+            margin-top: 0.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.5rem;
+            height: 6rem;
         }
     }
 }

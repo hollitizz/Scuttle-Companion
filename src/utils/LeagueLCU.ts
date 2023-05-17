@@ -1,6 +1,11 @@
 import fs from 'fs';
 import { ref } from 'vue';
-import { RankedStats } from '../types';
+import {
+    GameSettings,
+    LeagueSettings,
+    RankedStats,
+    inputSettings
+} from '../types';
 import axios from 'axios';
 import https from 'https';
 import { ipcRenderer } from 'electron';
@@ -51,7 +56,8 @@ export const useLeagueLCUAPI = () => {
                     httpsAgent
                 }
             );
-            if (response.status !== 200 || !response.data.summonerId) throw new Error('Not logged in');
+            if (response.status !== 200 || !response.data.summonerId)
+                throw new Error('Not logged in');
             if (id === -1) return true;
             return response.data.summonerId === id;
         } catch (error) {
@@ -143,5 +149,67 @@ export const useLeagueLCUAPI = () => {
         };
     }
 
-    return { getCurrentSummonerRankedData, getSummonerInfo, checkIsLoggedIn };
+    async function getSummonerSettings(): Promise<LeagueSettings> {
+        await waitIsLoggedIn();
+        const gameSettingsEndpoint = `${baseUrl.value}/lol-game-settings/v1/game-settings`;
+        const inputSettingsEndpoint = `${baseUrl.value}/lol-game-settings/v1/input-settings`;
+
+        const gameSettingsResponse = await axios.get<GameSettings>(
+            gameSettingsEndpoint,
+            {
+                auth: auth.value,
+                httpsAgent
+            }
+        );
+        const inputSettingsResponse = await axios.get<inputSettings>(
+            inputSettingsEndpoint,
+            {
+                auth: auth.value,
+                httpsAgent
+            }
+        );
+
+        return {
+            gameSettings: gameSettingsResponse.data,
+            inputSettings: inputSettingsResponse.data
+        };
+    }
+
+    async function patchSummonerSettings(
+        leagueSettings: LeagueSettings
+    ): Promise<void> {
+        await waitIsLoggedIn();
+        const gameSettingsEndpoint = `${baseUrl.value}/lol-game-settings/v1/game-settings`;
+        const inputSettingsEndpoint = `${baseUrl.value}/lol-game-settings/v1/input-settings`;
+
+        await axios.patch(
+            gameSettingsEndpoint,
+            {
+                ...leagueSettings.gameSettings
+            },
+            {
+                auth: auth.value,
+                httpsAgent
+            }
+        );
+        await axios.patch(
+            inputSettingsEndpoint,
+            {
+                ...leagueSettings.inputSettings
+            },
+            {
+                auth: auth.value,
+                httpsAgent
+            }
+        );
+        return;
+    }
+
+    return {
+        getCurrentSummonerRankedData,
+        getSummonerInfo,
+        checkIsLoggedIn,
+        getSummonerSettings,
+        patchSummonerSettings
+    };
 };

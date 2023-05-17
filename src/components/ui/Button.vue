@@ -44,6 +44,9 @@ function click() {
 .primary {
     background-color: var(--primary);
     color: white;
+    &:hover {
+        transform: scale(1.05);
+    }
 }
 
 .red {
