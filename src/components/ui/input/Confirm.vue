@@ -4,7 +4,7 @@
             <h3 class="title text-center">{{ text }}</h3>
             <div class="buttons">
                 <UiButton @click="emits('cancel')" variant="red">{{ textCancel }}</UiButton>
-                <UiButton @click="emits('validate')" variant="primary">{{ textValidate }}</UiButton>
+                <UiButton @click="emits('validate')" variant="green">{{ textValidate }}</UiButton>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="name-fields" :key="imgKey">
+    <div class="name-fields" :key="imgKey" :style="{'--color': isLogged ? 'var(--green)' : 'var(--secondary)'}">
         <div
             v-if="account.icon_id && iconExists"
             class="profileIcon select-none"
@@ -22,6 +22,10 @@ const props = defineProps({
     },
     imgKey: {
         type: Number,
+        required: true
+    },
+    isLogged: {
+        type: Boolean,
         required: true
     }
 });
@@ -56,11 +60,14 @@ const iconExists = computed(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: 32px;
+    outline: solid 3px var(--color);
     img {
         width: 6rem;
         height: 6rem;
         border-radius: 32px;
         margin: 0;
+        z-index: 1;
     }
 
     .lvl {
@@ -71,10 +78,12 @@ const iconExists = computed(() => {
         padding: 0 0.5rem;
         border-radius: 0.8rem;
         border: var(--secondary) solid 0.3rem;
+        z-index: 1;
     }
 }
 
 .name-fields {
+    position: relative;
     height: 100%;
     display: flex;
     flex-direction: column;

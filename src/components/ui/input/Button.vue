@@ -45,6 +45,15 @@ function click() {
     background-color: var(--primary);
     color: white;
 }
+.secondary {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.green {
+    background-color: var(--green);
+    color: white;
+}
 
 .red {
     background-color: var(--red);

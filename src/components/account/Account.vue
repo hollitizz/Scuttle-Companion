@@ -1,7 +1,7 @@
 <template>
-    <div class="account">
+    <div class="account" >
         <AccountElo class="w-full" :account="account" />
-        <AccountName class="w-full" :account="account" :imgKey="nameKey" />
+        <AccountName class="w-full name" :account="account" :imgKey="nameKey" :isLogged="isLogged" />
         <AccountActions
             :account="account"
             :isEditMode="isEditMode"
@@ -9,15 +9,6 @@
             @delete:account="handleDelete"
             @login:success="updateAccount"
         />
-        <UiButton
-            v-if="isLogged"
-            class="refresh text-center"
-            @click="refreshButton"
-            v-tooltip="'Rafraîchir le compte'"
-            variant="transparent"
-        >
-            <img src="../../assets/svg/refresh.svg" alt="refresh" />
-        </UiButton>
     </div>
 </template>
 <script setup lang="ts">
@@ -27,7 +18,6 @@ import AccountElo from './Elo.vue';
 import AccountName from './Name.vue';
 import AccountActions from './Actions.vue';
 import { useLeagueLCUAPI } from '../../utils/LeagueLCU';
-import UiButton from '../ui/input/Button.vue';
 import { RankedStats } from '../../types';
 import { ipcRenderer } from 'electron';
 
@@ -94,16 +84,12 @@ onMounted(async () => {
     isLogged.value = res;
 });
 
-async function refreshButton() {
-    isLogged.value = await checkIsLoggedIn(account.value.id);
-    if (!isLogged.value) return;
-    updateAccount();
-}
-
 function checkStillLoggedIn() {
     if (runningInterval) clearInterval(runningInterval);
     runningInterval = setInterval(async () => {
         isLogged.value = await checkIsLoggedIn(account.value.id);
+        if (!isLogged.value) return;
+        updateAccount();
     }, 10000);
 }
 
@@ -158,31 +144,16 @@ watch(isLogged, () => {
     justify-content: space-around;
     height: 100%;
     width: 100%;
-
+    padding: 0;
     h2 {
         margin: 0;
         padding: 0;
     }
 }
+
 .mx-auto {
     margin-left: auto;
     margin-right: auto;
-}
-
-.refresh {
-    position: absolute;
-    top: 0.2rem;
-    right: 0.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.2rem;
-    margin: 0;
-    img {
-        width: 100%;
-        height: 100%;
-        margin: auto;
-    }
 }
 
 .w-full {
