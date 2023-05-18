@@ -99,6 +99,9 @@ export const useLeagueLCUAPI = () => {
             httpsAgent
         });
         const iconId = response.data.profileIconId;
+        if (!fs.existsSync(`${process.env['RESOURCES_FOLDER']}profileIcons`)) {
+            fs.mkdirSync(`${process.env['RESOURCES_FOLDER']}profileIcons`);
+        }
         ipcRenderer.send(
             'download-image',
             `http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${iconId}.png`,

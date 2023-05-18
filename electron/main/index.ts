@@ -123,9 +123,6 @@ app.whenReady().then(() => {
         }
     });
     ipcMain.on('download-image', (event, url, path, summoner_id) => {
-        if (!fs.existsSync(process.env['RESOURCE_FOLDER'] + 'profileIcons')) {
-            fs.mkdirSync(process.env['RESOURCE_FOLDER'] + 'profileIcons');
-        }
         axios
             .get(url, { responseType: 'stream' })
             .then(res => {
