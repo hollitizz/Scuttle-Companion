@@ -34,7 +34,7 @@ function click() {
     transition: all 0.1s ease-in-out;
     font-weight: 800;
     &:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
     &:active {
         box-shadow: inset -1px 2px 5px #000;
@@ -44,9 +44,6 @@ function click() {
 .primary {
     background-color: var(--primary);
     color: white;
-    &:hover {
-        transform: scale(1.05);
-    }
 }
 
 .red {
@@ -56,5 +53,8 @@ function click() {
 
 .transparent {
     background-color: transparent;
+    &:hover {
+        transform: scale(1.1);
+    }
 }
 </style>

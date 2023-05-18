@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
 import UiInputPassword from './ui/input/Password.vue';
-import UiButton from './ui/Button.vue';
+import UiButton from './ui/input/Button.vue';
 import { ref } from 'vue';
 
 const emits = defineEmits(['update:modelValue']);

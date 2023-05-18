@@ -9,6 +9,7 @@ import VueTippy from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/dist/svg-arrow.css';
 import './assets/css/theme.css';
+import './assets/css/animation.css';
 
 const pinia = createPinia();
 const app = createApp(App);

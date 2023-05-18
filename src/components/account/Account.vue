@@ -27,7 +27,7 @@ import AccountElo from './Elo.vue';
 import AccountName from './Name.vue';
 import AccountActions from './Actions.vue';
 import { useLeagueLCUAPI } from '../../utils/LeagueLCU';
-import UiButton from '../ui/Button.vue';
+import UiButton from '../ui/input/Button.vue';
 import { RankedStats } from '../../types';
 
 const { getCurrentSummonerRankedData, getSummonerInfo, checkIsLoggedIn } =

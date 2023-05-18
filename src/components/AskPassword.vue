@@ -16,7 +16,7 @@
 import { ref } from 'vue';
 import UiModal from './ui/Modal.vue';
 import UiInputPassword from './ui/input/Password.vue';
-import UiButton from './ui/Button.vue';
+import UiButton from './ui/input/Button.vue';
 
 const emits = defineEmits(['update:modelValue', 'send:password']);
 const password = ref('' as string);

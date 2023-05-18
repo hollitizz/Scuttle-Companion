@@ -28,7 +28,7 @@ import { useRiotLCUAPI } from '../../utils/RiotClient';
 import { PropType } from 'vue';
 import { Account } from '../../types';
 import { useAlerts } from '../../utils/Alerts';
-import UiButton from '../ui/Button.vue';
+import UiButton from '../ui/input/Button.vue';
 
 const { success } = useAlerts();
 const emits = defineEmits(['delete:account', "login:success"]);

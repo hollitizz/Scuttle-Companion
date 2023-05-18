@@ -54,7 +54,7 @@
 import { ref, watch } from 'vue';
 import { useAccountStore } from '../store/AccountsManager';
 import AccountAccounts from './account/Accounts.vue';
-import UiButton from './ui/Button.vue';
+import UiButton from './ui/input/Button.vue';
 import AccountAddAccount from './account/AddAccount.vue';
 import Settings from './Settings.vue';
 import { storeToRefs } from 'pinia';

@@ -86,19 +86,28 @@
         v-model="isAskingPassword"
         @send:password="disableEncryption"
     />
+    <Transition name="pop" appear >
+        <UiInputConfirm
+            v-if="isWaitingConfirm"
+            @cancel="confirmCallback(false)"
+            @validate="confirmCallback(true)"
+            :text="confirmText"
+        />
+    </Transition>
 </template>
 
 <script setup lang="ts">
 import UiModal from './ui/Modal.vue';
-import UiButton from './ui/Button.vue';
+import UiButton from './ui/input/Button.vue';
 import UiInputPassword from './ui/input/Password.vue';
 import UiCardsRectangle from './ui/cards/Rectangle.vue';
 import SetPassword from './SetPassword.vue';
 import AskPassword from './AskPassword.vue';
 import UiInputText from './ui/input/Text.vue';
+import UiInputConfirm from './ui/input/Confirm.vue';
 import { useSettingsStore } from '../store/Settings';
 import { storeToRefs } from 'pinia';
-import { PropType, computed, ref, watch } from 'vue';
+import { PropType, ref } from 'vue';
 import { Account } from '../types';
 import { ipcRenderer } from 'electron';
 import { useAlerts } from '../utils/Alerts';
@@ -110,9 +119,12 @@ settingsStore.loadSettings();
 const { settings } = storeToRefs(settingsStore);
 const { getSummonerSettings, patchSummonerSettings } = useLeagueLCUAPI();
 
-const { success } = useAlerts();
+const { success, info } = useAlerts();
 
-console.log('settings: ' + settings.value.leagueSettings);
+const isWaitingConfirm = ref(false);
+const confirmText = ref('');
+const confirmCallback = ref((e: boolean) => {});
+
 const props = defineProps({
     modelValue: {
         type: Boolean,
@@ -166,8 +178,24 @@ function setPassword(password: string) {
 async function saveLeagueSettings() {
     const summonerSettings = await getSummonerSettings();
 
-    settingsStore.setLeagueSettings(summonerSettings);
-    success('Les paramètres ont bien été sauvegardés !');
+    if (settings.value.leagueSettings?.inputSettings) {
+        isWaitingConfirm.value = true;
+        confirmText.value =
+            'Voulez-vous vraiment écraser les paramètres actuels ?';
+        confirmCallback.value = (e) => {
+            if (e) {
+                settingsStore.setLeagueSettings(summonerSettings);
+                success('Les paramètres ont bien été sauvegardés !');
+            } else {
+                info('Les paramètres n\'ont pas été sauvegardés !');
+            }
+            isWaitingConfirm.value = false;
+        };
+    } else {
+        settingsStore.setLeagueSettings(summonerSettings);
+        success('Les paramètres ont bien été sauvegardés !');
+    }
+
 }
 
 async function applyLeagueSettings() {

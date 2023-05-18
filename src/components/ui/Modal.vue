@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import UiButton from './Button.vue';
+import UiButton from './input/Button.vue';
 
 const emits = defineEmits(['close']);
 
