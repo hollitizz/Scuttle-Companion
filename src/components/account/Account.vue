@@ -1,7 +1,7 @@
 <template>
     <div class="account">
         <AccountElo class="w-full" :account="account" />
-        <AccountName class="w-full" :account="account" />
+        <AccountName class="w-full" :account="account" :imgKey="nameKey" />
         <AccountActions
             :account="account"
             :isEditMode="isEditMode"
@@ -29,6 +29,7 @@ import AccountActions from './Actions.vue';
 import { useLeagueLCUAPI } from '../../utils/LeagueLCU';
 import UiButton from '../ui/input/Button.vue';
 import { RankedStats } from '../../types';
+import { ipcRenderer } from 'electron';
 
 const { getCurrentSummonerRankedData, getSummonerInfo, checkIsLoggedIn } =
     useLeagueLCUAPI();
@@ -68,6 +69,21 @@ const isEditMode = computed(() => {
 });
 
 const isLogged = ref(false);
+const nameKey = ref(0);
+
+async function sleep(seconds: number) {
+    return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+}
+
+watch(isLogged, () => {
+    if (isLogged) {
+        ipcRenderer.on('download-image-reply', async () => {
+            await sleep(1);
+            nameKey.value++;
+        });
+    }
+});
+
 let runningInterval: NodeJS.Timer | null = null;
 
 onMounted(async () => {
