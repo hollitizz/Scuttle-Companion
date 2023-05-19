@@ -1,5 +1,9 @@
 <template>
     <div class="login">
+        <div class="icon">
+            <img src="../assets/icon.png" alt="Logo" />
+            <h1>League Account Manager</h1>
+        </div>
         <UiInputPassword
             v-model="password"
             @enter="sendPassword"
@@ -31,5 +35,26 @@ function sendPassword() {
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    .icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 23rem;
+        background-color: var(--primary);
+        padding: 10px;
+        border-radius: 10px;
+        img {
+            width: 20rem;
+            height: 20rem;
+        }
+
+        h1 {
+            width: 27rem;
+            text-align: center;
+            font-size: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+    }
 }
 </style>
