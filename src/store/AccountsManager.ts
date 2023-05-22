@@ -49,6 +49,7 @@ export const useAccountStore = defineStore('accountsStore', () => {
             if (acc.wins === undefined) acc.wins = 0;
             if (acc.losses === undefined) acc.losses = 0;
             if (acc.summoner_level === undefined) acc.summoner_level = 0;
+            if (acc.champions === undefined) acc.champions = [];
             if (acc.app_id === undefined)
                 acc.app_id = Math.floor(Math.random() * 1000000000);
         });
@@ -90,6 +91,7 @@ export const useAccountStore = defineStore('accountsStore', () => {
             losses: 0,
             summoner_level: 0,
             id: 0,
+            champions: [],
             app_id: Math.floor(Math.random() * 1000000000)
         });
         saveAccounts();
@@ -122,6 +124,7 @@ export const useAccountStore = defineStore('accountsStore', () => {
             if (acc.wins === undefined) acc.wins = 0;
             if (acc.losses === undefined) acc.losses = 0;
             if (acc.summoner_level === undefined) acc.summoner_level = 0;
+            if (acc.champions === undefined) acc.champions = [];
             if (acc.app_id === undefined)
                 acc.app_id = Math.floor(Math.random() * 1000000000);
         });

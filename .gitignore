@@ -33,3 +33,4 @@ yarn.lock
 *.pyc
 profileIcons
 .env
+championTiles

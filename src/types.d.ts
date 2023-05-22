@@ -11,6 +11,7 @@ export interface Account {
     is_provisional: boolean;
     wins: number;
     losses: number;
+    champions: string[];
     summoner_level: number;
 }
 

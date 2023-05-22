@@ -21,7 +21,7 @@ import { useLeagueLCUAPI } from '../../utils/LeagueLCU';
 import { RankedStats } from '../../types';
 import { ipcRenderer } from 'electron';
 
-const { getCurrentSummonerRankedData, getSummonerInfo, checkIsLoggedIn } =
+const { getCurrentSummonerRankedData, getSummonerInfo, checkIsLoggedIn, getOwnedChampions } =
     useLeagueLCUAPI();
 
 const props = defineProps({
@@ -96,9 +96,11 @@ function checkStillLoggedIn() {
 async function updateAccount() {
     let summoner = null;
     let rankedStats = {} as RankedStats;
+    let champions = [] as string[];
     try {
         summoner = await getSummonerInfo();
         rankedStats = await getCurrentSummonerRankedData();
+        champions = await getOwnedChampions();
     } catch (error) {
         return;
     }
@@ -113,7 +115,8 @@ async function updateAccount() {
         lp: rankedStats.leaguePoints,
         wins: rankedStats.wins,
         losses: rankedStats.losses,
-        is_provisional: rankedStats.isProvisional
+        is_provisional: rankedStats.isProvisional,
+        champions
     };
     emits('update:account', account.value, to);
     isLogged.value = true;

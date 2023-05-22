@@ -152,6 +152,38 @@ export const useLeagueLCUAPI = () => {
         };
     }
 
+    async function getOwnedChampions(): Promise<string[]> {
+        await waitIsLoggedIn();
+        const endpoint = `${baseUrl.value}/lol-champions/v1/owned-champions-minimal`;
+        const response = await axios.get(endpoint, {
+            auth: auth.value,
+            httpsAgent
+        });
+        return response.data.reduce((acc: string[], cur: any) => {
+            if (!cur.ownership.owned) return acc;
+            acc.push(cur.name);
+            if (
+                !fs.existsSync(
+                    `${process.env['RESOURCES_FOLDER']}championTiles`
+                )
+            )
+                fs.mkdirSync(`${process.env['RESOURCES_FOLDER']}championTiles`);
+            if (
+                !fs.existsSync(
+                    `${process.env['RESOURCES_FOLDER']}championTiles/${cur.name}.png`
+                )
+            ) {
+                ipcRenderer.send(
+                    'download-image',
+                    `http://ddragon.leagueoflegends.com/cdn/13.9.1/img/champion/${cur.alias}.png`,
+                    `${process.env['RESOURCES_FOLDER']}championTiles/${cur.name}.png`,
+                    0
+                );
+            }
+            return acc;
+        }, [] as string[]);
+    }
+
     async function getSummonerSettings(): Promise<LeagueSettings> {
         await waitIsLoggedIn();
         const gameSettingsEndpoint = `${baseUrl.value}/lol-game-settings/v1/game-settings`;
@@ -213,6 +245,7 @@ export const useLeagueLCUAPI = () => {
         getSummonerInfo,
         checkIsLoggedIn,
         getSummonerSettings,
-        patchSummonerSettings
+        patchSummonerSettings,
+        getOwnedChampions
     };
 };

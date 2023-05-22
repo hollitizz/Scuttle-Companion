@@ -4,7 +4,7 @@
     "private": false,
     "version": "1.2.9",
     "description": "An app to help you login to League of Legends",
-    "author": "hollitizz",
+    "author": "Hollitizz",
     "scripts": {
         "build-dir": "vue-tsc --noEmit && vite build && electron-builder --dir",
         "build": "vue-tsc --noEmit && vite build && electron-builder",
