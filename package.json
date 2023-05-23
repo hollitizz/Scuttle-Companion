@@ -2,7 +2,7 @@
     "name": "league_login_app",
     "productName": "League login app",
     "private": false,
-    "version": "1.2.10",
+    "version": "1.3.0",
     "description": "An app to help you login to League of Legends",
     "author": "Hollitizz",
     "scripts": {
