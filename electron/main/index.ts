@@ -11,6 +11,7 @@ import { join } from 'node:path';
 import { autoUpdater } from 'electron-updater';
 import fs from 'fs';
 import axios from 'axios';
+import https from 'https';
 
 // The built directory structure
 //
@@ -122,16 +123,52 @@ app.whenReady().then(() => {
             event.reply('import-accounts-reply', JSON.parse(file));
         }
     });
-    ipcMain.on('download-image', (event, url, path, summoner_id) => {
-        axios
-            .get(url, { responseType: 'stream' })
-            .then(res => {
-                res.data.pipe(fs.createWriteStream(path));
-            })
-            .then(() => {
-                event.reply('download-image-reply', summoner_id);
+    ipcMain.on(
+        'download-image',
+        (
+            event,
+            url,
+            path,
+            summoner_id,
+        ) => {
+            console.log(url);
+            axios
+                .get(url, {
+                    responseType: 'stream',
+                })
+                .then(res => {
+                    res.data.pipe(fs.createWriteStream(path));
+                })
+                .then(() => {
+                    event.reply('download-image-reply', summoner_id);
+                });
+        }
+    );
+    ipcMain.on(
+        'download-champ-image',
+        (
+            event,
+            url,
+            path,
+            auth = {
+                username: 'riot',
+                password: ''
+            },
+        ) => {
+            const httpsAgent = new https.Agent({
+                rejectUnauthorized: false
             });
-    });
+            axios
+                .get(url, {
+                    responseType: 'stream',
+                    auth,
+                    httpsAgent
+                })
+                .then(res => {
+                    res.data.pipe(fs.createWriteStream(path));
+                });
+        }
+    );
 });
 
 app.on('window-all-closed', () => {

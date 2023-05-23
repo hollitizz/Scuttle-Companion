@@ -1,7 +1,12 @@
 <template>
-    <div class="account" >
+    <div class="account">
         <AccountElo class="w-full" :account="account" />
-        <AccountName class="w-full name" :account="account" :imgKey="nameKey" :isLogged="isLogged" />
+        <AccountName
+            class="w-full name"
+            :account="account"
+            :imgKey="nameKey"
+            :isLogged="isLogged"
+        />
         <AccountActions
             :account="account"
             :isEditMode="isEditMode"
@@ -9,20 +14,46 @@
             @delete:account="handleDelete"
             @login:success="updateAccount"
         />
+        <div
+            v-if="account.champions.length && isLoaded"
+            :id="`${account.app_id}`"
+            @click="infoIsOpen = !infoIsOpen"
+            class="info-button"
+        >
+            <img src="../../assets/svg/info.svg" alt="info" />
+        </div>
+        <AccountInfo
+            v-if="infoIsOpen"
+            class="w-full"
+            :account="account"
+            @close="infoIsOpen = false"
+        />
     </div>
 </template>
 <script setup lang="ts">
 import { PropType, computed, onMounted, ref, watch } from 'vue';
 import { Account } from '../../types';
-import AccountElo from './Elo.vue';
-import AccountName from './Name.vue';
-import AccountActions from './Actions.vue';
 import { useLeagueLCUAPI } from '../../utils/LeagueLCU';
 import { RankedStats } from '../../types';
 import { ipcRenderer } from 'electron';
+import AccountElo from './Elo.vue';
+import AccountName from './Name.vue';
+import AccountActions from './Actions.vue';
+import AccountInfo from './Info.vue';
 
-const { getCurrentSummonerRankedData, getSummonerInfo, checkIsLoggedIn, getOwnedChampions } =
-    useLeagueLCUAPI();
+const isLoaded = ref(false);
+
+onMounted(() => {
+    isLoaded.value = true;
+});
+
+const {
+    getCurrentSummonerRankedData,
+    getSummonerInfo,
+    checkIsLoggedIn,
+    getOwnedChampions,
+    getSummonerWallet
+} = useLeagueLCUAPI();
 
 const props = defineProps({
     account: {
@@ -35,6 +66,7 @@ const props = defineProps({
     }
 });
 
+const infoIsOpen = ref(false);
 const account = ref<Account>(props.account);
 
 const APITier = [
@@ -97,10 +129,12 @@ async function updateAccount() {
     let summoner = null;
     let rankedStats = {} as RankedStats;
     let champions = [] as string[];
+    let wallet = {} as { rp: number; be: number };
     try {
         summoner = await getSummonerInfo();
         rankedStats = await getCurrentSummonerRankedData();
         champions = await getOwnedChampions();
+        wallet = await getSummonerWallet();
     } catch (error) {
         return;
     }
@@ -116,6 +150,7 @@ async function updateAccount() {
         wins: rankedStats.wins,
         losses: rankedStats.losses,
         is_provisional: rankedStats.isProvisional,
+        wallet,
         champions
     };
     emits('update:account', account.value, to);
@@ -151,6 +186,25 @@ watch(isLogged, () => {
     h2 {
         margin: 0;
         padding: 0;
+    }
+    .info-button {
+        position: absolute;
+        top: 0;
+        right: 19rem;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border-radius: 100%;
+        background-color: var(--primary);
+        z-index: 5;
+        transition: all 0.1s ease-in-out;
+        &:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+        &:active {
+            transform: scale(1.05);
+        }
     }
 }
 

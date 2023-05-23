@@ -102,17 +102,36 @@ export const useLeagueLCUAPI = () => {
         if (!fs.existsSync(`${process.env['RESOURCES_FOLDER']}profileIcons`)) {
             fs.mkdirSync(`${process.env['RESOURCES_FOLDER']}profileIcons`);
         }
-        ipcRenderer.send(
-            'download-image',
-            `http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${iconId}.png`,
-            `${process.env['RESOURCES_FOLDER']}profileIcons/${iconId}.png`,
-            response.data.summonerId
-        );
+        if (
+            !fs.existsSync(
+                `${process.env['RESOURCES_FOLDER']}profileIcons/${iconId}.png`
+            )
+        ) {
+            ipcRenderer.send(
+                'download-image',
+                `http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${iconId}.png`,
+                `${process.env['RESOURCES_FOLDER']}profileIcons/${iconId}.png`,
+                response.data.summonerId
+            );
+        }
         return {
             summoner_name: response.data.displayName,
             iconId,
             level: response.data.summonerLevel,
             id: response.data.summonerId
+        };
+    }
+
+    async function getSummonerWallet(): Promise<{ rp: number; be: number }> {
+        await waitIsLoggedIn();
+        const endpoint = `${baseUrl.value}/lol-store/v1/wallet`;
+        const response = await axios.get(endpoint, {
+            auth: auth.value,
+            httpsAgent
+        });
+        return {
+            rp: response.data.rp,
+            be: response.data.ip
         };
     }
 
@@ -173,11 +192,12 @@ export const useLeagueLCUAPI = () => {
                     `${process.env['RESOURCES_FOLDER']}championTiles/${cur.name}.png`
                 )
             ) {
+                if (cur.alias === 'FiddleSticks') cur.alias = 'Fiddlesticks';
                 ipcRenderer.send(
-                    'download-image',
-                    `http://ddragon.leagueoflegends.com/cdn/13.9.1/img/champion/${cur.alias}.png`,
+                    'download-champ-image',
+                    `${method.value}://127.0.0.1:${port.value}${cur.squarePortraitPath}`,
                     `${process.env['RESOURCES_FOLDER']}championTiles/${cur.name}.png`,
-                    0
+                    { ...auth.value }
                 );
             }
             return acc;
@@ -246,6 +266,7 @@ export const useLeagueLCUAPI = () => {
         checkIsLoggedIn,
         getSummonerSettings,
         patchSummonerSettings,
-        getOwnedChampions
+        getOwnedChampions,
+        getSummonerWallet
     };
 };

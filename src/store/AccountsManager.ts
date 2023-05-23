@@ -50,6 +50,7 @@ export const useAccountStore = defineStore('accountsStore', () => {
             if (acc.losses === undefined) acc.losses = 0;
             if (acc.summoner_level === undefined) acc.summoner_level = 0;
             if (acc.champions === undefined) acc.champions = [];
+            if (acc.wallet === undefined) acc.wallet = { rp: 0, be: 0 };
             if (acc.app_id === undefined)
                 acc.app_id = Math.floor(Math.random() * 1000000000);
         });
@@ -92,6 +93,7 @@ export const useAccountStore = defineStore('accountsStore', () => {
             summoner_level: 0,
             id: 0,
             champions: [],
+            wallet: { rp: 0, be: 0 },
             app_id: Math.floor(Math.random() * 1000000000)
         });
         saveAccounts();
@@ -110,7 +112,10 @@ export const useAccountStore = defineStore('accountsStore', () => {
                 )
             )
                 return;
-            if (inAcc.app_id && accounts.value.find(a => inAcc.app_id === a.app_id))
+            if (
+                inAcc.app_id &&
+                accounts.value.find(a => inAcc.app_id === a.app_id)
+            )
                 inAcc.app_id = Math.floor(Math.random() * 1000000000);
             accounts.value.push({ ...inAcc });
         });
@@ -125,6 +130,7 @@ export const useAccountStore = defineStore('accountsStore', () => {
             if (acc.losses === undefined) acc.losses = 0;
             if (acc.summoner_level === undefined) acc.summoner_level = 0;
             if (acc.champions === undefined) acc.champions = [];
+            if (acc.wallet === undefined) acc.wallet = { rp: 0, be: 0 };
             if (acc.app_id === undefined)
                 acc.app_id = Math.floor(Math.random() * 1000000000);
         });
@@ -132,7 +138,9 @@ export const useAccountStore = defineStore('accountsStore', () => {
     }
 
     function deleteAccount(account: Account): void {
-        const index = accounts.value.findIndex(acc => acc.app_id === account.app_id);
+        const index = accounts.value.findIndex(
+            acc => acc.app_id === account.app_id
+        );
         if (index === -1) return;
         accounts.value.splice(index, 1);
         saveAccounts();

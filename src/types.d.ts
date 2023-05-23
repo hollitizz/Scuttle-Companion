@@ -13,6 +13,10 @@ export interface Account {
     losses: number;
     champions: string[];
     summoner_level: number;
+    wallet: {
+        rp: number;
+        be: number;
+    }
 }
 
 export interface LeagueSettings {

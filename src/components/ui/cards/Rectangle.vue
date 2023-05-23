@@ -9,7 +9,7 @@
     box-shadow: 0 0 4px 5px rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
     padding: 0.5rem;
-    height: 50rem;
-    width: 45rem;
+    height: 100%;
+    width: 100%;
 }
 </style>
