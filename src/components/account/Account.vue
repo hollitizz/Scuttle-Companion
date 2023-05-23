@@ -106,6 +106,10 @@ watch(isLogged, () => {
     }
 });
 
+watch(() => props.account, () => {
+    account.value = props.account;
+});
+
 let runningInterval: NodeJS.Timer | null = null;
 
 onMounted(async () => {
