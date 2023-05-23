@@ -92,7 +92,6 @@ export const useSettingsStore = defineStore('settings', () => {
     }
 
     function setLeagueSettings(leagueSettings: LeagueSettings) {
-        console.log(leagueSettings);
         settings.value.leagueSettings = leagueSettings;
         saveSettings();
     }

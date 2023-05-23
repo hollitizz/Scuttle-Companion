@@ -107,7 +107,6 @@ function dragOver(event: DragEvent) {
     if (list === undefined) return;
     const scrollY = list.scrollTop;
     const nextSibling = siblings.find(sibling => {
-        console.log(sibling.offsetTop, event.clientY);
         return (
             event.clientY + scrollY <
             sibling.offsetTop + sibling.offsetHeight / 2

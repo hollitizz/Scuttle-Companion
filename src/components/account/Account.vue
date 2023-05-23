@@ -137,10 +137,14 @@ async function updateAccount() {
     try {
         summoner = await getSummonerInfo();
         rankedStats = await getCurrentSummonerRankedData();
-        champions = await getOwnedChampions();
         wallet = await getSummonerWallet();
     } catch (error) {
         return;
+    }
+    try {
+        champions = await getOwnedChampions();
+    } catch (error) {
+        champions = account.value.champions;
     }
     const to: Account = {
         ...account.value,

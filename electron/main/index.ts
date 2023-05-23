@@ -131,7 +131,6 @@ app.whenReady().then(() => {
             path,
             summoner_id,
         ) => {
-            console.log(url);
             axios
                 .get(url, {
                     responseType: 'stream',
