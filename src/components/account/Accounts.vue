@@ -2,6 +2,7 @@
     <ul class="account-list" @dragenter.prevent @dragleave.prevent :key="len">
         <li
             v-for="(account, index) in accounts"
+            :key="index"
             class="list-element"
             :class="{ draggable: isEditMode }"
             :draggable="isEditMode"
@@ -49,13 +50,22 @@ const props = defineProps({
     }
 });
 
+const accounts = ref(props.accounts);
+
+watch(
+    () => props.accounts,
+    () => {
+        accounts.value = props.accounts;
+    }
+);
+
 const itemList = ref(null as HTMLUListElement | null);
 const items = ref(null as NodeListOf<HTMLLIElement> | null);
 const startIndex = ref(null as number | null);
 const currentIndex = ref(null as number | null);
 const draggingItem = ref(null as HTMLLIElement | null);
 
-const len = computed(() => props.accounts.length);
+const len = computed(() => accounts.value.length);
 
 function handleDeleteAccount(account: Account) {
     emits('delete:account', account);
