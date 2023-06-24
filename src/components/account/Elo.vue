@@ -67,14 +67,17 @@ const correspondingTier = [
 const correspondingRank = ['0', 'I', 'II', 'III', 'IV'];
 
 const tier = computed(() => {
+    if (!props.account.tier || props.account.tier === -1) return correspondingTier[0];
     return correspondingTier[props.account.tier];
 });
 
 const tierImg = computed(() => {
+    if (!props.account.tier || props.account.tier === -1) return UnrankedImg;
     return img[props.account.tier];
 });
 
 const rank = computed(() => {
+    if (!props.account.tier || props.account.tier === -1) return '';
     return !props.account.tier || props.account.tier > 6
         ? ''
         : ` ${correspondingRank[props.account.rank]}`;
