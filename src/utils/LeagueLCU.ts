@@ -114,7 +114,6 @@ export const useLeagueLCUAPI = () => {
                 response.data.summonerId
             );
         }
-        console.log(response.data);
 
         return {
             summoner_name: response.data.displayName,
@@ -126,14 +125,18 @@ export const useLeagueLCUAPI = () => {
 
     async function getSummonerWallet(): Promise<{ rp: number; be: number }> {
         await waitIsLoggedIn();
-        // const endpoint = `${baseUrl.value}/lol-store/v1/wallet`;
-        // const response = await axios.get(endpoint, {
-        //     auth: auth.value,
-        //     httpsAgent
-        // });
+        const endpoint = `${baseUrl.value}/lol-inventory/v1/wallet`;
+        const response = await axios.get(endpoint, {
+            auth: auth.value,
+            httpsAgent,
+            params: {
+                currencyTypes: "[\"lol_blue_essence\",\"RP\"]"
+            }
+        });
+        console.log(response.data);
         return {
-            rp: 0,
-            be: 0
+            rp: response.data.RP,
+            be: response.data.lol_blue_essence
         };
     }
 
