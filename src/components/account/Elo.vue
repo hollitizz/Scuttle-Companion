@@ -20,11 +20,12 @@
 import { PropType, computed } from 'vue';
 import { Account } from '../../types';
 import UiCardCircle from '../ui/cards/Circle.vue';
-import ChallengerImg from '../../assets/rank/9.png';
-import GrandmasterImg from '../../assets/rank/8.png';
-import MasterImg from '../../assets/rank/7.png';
-import DiamondImg from '../../assets/rank/6.png';
-import PlatinumImg from '../../assets/rank/5.png';
+import ChallengerImg from '../../assets/rank/10.png';
+import GrandmasterImg from '../../assets/rank/9.png';
+import MasterImg from '../../assets/rank/8.png';
+import DiamondImg from '../../assets/rank/7.png';
+import PlatinumImg from '../../assets/rank/6.png';
+import EmeraldImg from '../../assets/rank/5.png';
 import GoldImg from '../../assets/rank/4.png';
 import SilverImg from '../../assets/rank/3.png';
 import BronzeImg from '../../assets/rank/2.png';
@@ -45,6 +46,7 @@ const img = [
     SilverImg,
     GoldImg,
     PlatinumImg,
+    EmeraldImg,
     DiamondImg,
     MasterImg,
     GrandmasterImg,
@@ -58,6 +60,7 @@ const correspondingTier = [
     'Silver',
     'Gold',
     'Platinum',
+    'Emerald',
     'Diamond',
     'Master',
     'Grandmaster',

@@ -109,11 +109,13 @@ export const useLeagueLCUAPI = () => {
         ) {
             ipcRenderer.send(
                 'download-image',
-                `http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${iconId}.png`,
+                `http://ddragon.leagueoflegends.com/cdn/13.14.1/img/profileicon/${iconId}.png`,
                 `${process.env['RESOURCES_FOLDER']}profileIcons/${iconId}.png`,
                 response.data.summonerId
             );
         }
+        console.log(response.data);
+
         return {
             summoner_name: response.data.displayName,
             iconId,
@@ -124,14 +126,14 @@ export const useLeagueLCUAPI = () => {
 
     async function getSummonerWallet(): Promise<{ rp: number; be: number }> {
         await waitIsLoggedIn();
-        const endpoint = `${baseUrl.value}/lol-store/v1/wallet`;
-        const response = await axios.get(endpoint, {
-            auth: auth.value,
-            httpsAgent
-        });
+        // const endpoint = `${baseUrl.value}/lol-store/v1/wallet`;
+        // const response = await axios.get(endpoint, {
+        //     auth: auth.value,
+        //     httpsAgent
+        // });
         return {
-            rp: response.data.rp,
-            be: response.data.ip
+            rp: 0,
+            be: 0
         };
     }
 
@@ -160,6 +162,7 @@ export const useLeagueLCUAPI = () => {
         const soloQStats = response.data.queues.find(
             (queue: any) => queue.queueType === 'RANKED_SOLO_5x5'
         );
+
         return {
             tier: soloQStats.tier,
             division: soloQStats.division,
