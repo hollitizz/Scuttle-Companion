@@ -24,11 +24,11 @@
         </div>
         <AccountInfo
             v-if="infoIsOpen"
-            class="w-full"
-            :account="account"
             :search="search"
+            :account="account"
             @update:search="emits('update:search', $event)"
             @close="handleClose"
+            class="w-full"
         />
     </div>
 </template>
