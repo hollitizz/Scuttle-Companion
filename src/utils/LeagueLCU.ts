@@ -133,7 +133,6 @@ export const useLeagueLCUAPI = () => {
                 currencyTypes: "[\"lol_blue_essence\",\"RP\"]"
             }
         });
-        console.log(response.data);
         return {
             rp: response.data.RP,
             be: response.data.lol_blue_essence

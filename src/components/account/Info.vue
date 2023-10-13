@@ -12,10 +12,26 @@
                         formatBigNumber(account.wallet.be)
                     }}
                 </p>
+                <template v-if="isSearching">
+                    <input
+                        type="text"
+                        name="search"
+                        id="search"
+                        ref="searchInput"
+                        v-model="search"
+                        @input="handleInput"
+                    />
+                </template>
+                <img
+                    src="../../assets/svg/find.svg"
+                    alt="find"
+                    class="find"
+                    @click="handleFindClick"
+                />
             </div>
             <ul class="champ-list">
-                <li v-for="champName in account.champions">
-                    <img :src="getPathOf(champName)" alt="champ" />
+                <li v-for="champName in filteredChampions" :key="champName">
+                    <img :src="getPathOf(champName)" :alt="champName" />
                 </li>
             </ul>
         </UiCardsRectangle>
@@ -25,16 +41,33 @@
 <script lang="ts" setup>
 import { Account } from '../../types';
 import UiCardsRectangle from '../ui/cards/Rectangle.vue';
-import { PropType, onMounted, onUnmounted, ref } from 'vue';
+import { PropType, computed, onMounted, onUnmounted, ref, watch } from 'vue';
 
 const card = ref(null as HTMLElement | null);
-const emits = defineEmits(['close']);
+const emits = defineEmits(['close', 'update:search']);
+const searchInput = ref();
+
 const props = defineProps({
     account: {
         type: Object as PropType<Account>,
         required: true
+    },
+    search: {
+        type: String,
+        required: true
     }
 });
+
+const isSearching = ref(props.search !== '');
+const search = ref(props.search);
+
+watch(
+    () => props.search,
+    () => {
+        search.value = props.search;
+    },
+    { immediate: true }
+);
 
 function formatBigNumber(n: number) {
     if (n < 100000) return n;
@@ -47,14 +80,53 @@ const getPathOf = (champName: string) => {
     return `${process.env['RESOURCES_FOLDER']}championTiles/${champName}.png`;
 };
 
+function handleFindClick() {
+    isSearching.value = !isSearching.value;
+    if (isSearching.value) {
+        setTimeout(() => {
+            if (searchInput.value) searchInput.value?.focus(), 50;
+        });
+    } else {
+        emits('update:search', '');
+    }
+}
+
+function handleInput(event: Event) {
+    emits('update:search', (event.target as HTMLInputElement)?.value);
+}
+
+const filteredChampions = computed(() =>
+    props.account.champions.filter(champ => {
+        if (props.search !== '') isSearching.value = true;
+        return champ
+            .toLocaleLowerCase()
+            .includes(props.search.toLocaleLowerCase());
+    })
+);
+
 onMounted(async () => {
     const button = document.getElementById(`${props.account.app_id}`);
-    document.addEventListener('click', (e: MouseEvent) => {
+    document.addEventListener('mousedown', (e: MouseEvent) => {
         if (
             card.value &&
             !card.value.contains(e.target as Node) &&
             !button?.contains(e.target as Node)
         ) {
+            emits('close');
+        } else {
+            if (searchInput.value && isSearching.value)
+                searchInput.value?.focus();
+        }
+    });
+    if (searchInput.value && isSearching.value) searchInput.value?.focus();
+
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+            if (isSearching.value) {
+                emits('update:search', '');
+                isSearching.value = false;
+                return;
+            }
             emits('close');
         }
     });
@@ -66,6 +138,17 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+input {
+    position: absolute;
+    outline: solid 2px var(--darker);
+    border: none;
+    border-radius: 8px;
+    top: 10px;
+    left: 50%;
+    translate: -55%;
+    padding: 2px 6px;
+}
+
 .card {
     position: absolute;
     top: 0.75rem;
@@ -85,7 +168,7 @@ onUnmounted(() => {
             text-align: center;
             position: sticky;
             top: 0;
-            padding: 0.5rem 0;
+            padding: 0.5rem 0 0.4rem 0;
             background-color: var(--primary);
             display: flex;
             justify-content: center;
@@ -98,6 +181,19 @@ onUnmounted(() => {
             img {
                 width: 1rem;
                 margin: 0 0.2rem;
+                &.find {
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    top: 10px;
+                    right: 0px;
+                    cursor: pointer;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+                    transition: all 0.1s ease-in-out;
+                }
             }
         }
         .champ-list {

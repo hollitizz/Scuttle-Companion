@@ -34,3 +34,4 @@ yarn.lock
 profileIcons
 .env
 championTiles
+main.py

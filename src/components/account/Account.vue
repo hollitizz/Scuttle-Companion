@@ -17,7 +17,7 @@
         <div
             v-if="account.champions.length && isLoaded"
             :id="`${account.app_id}`"
-            @click="infoIsOpen = !infoIsOpen"
+            @click="handleOpen"
             class="info-button"
         >
             <img src="../../assets/svg/info.svg" alt="info" />
@@ -26,7 +26,9 @@
             v-if="infoIsOpen"
             class="w-full"
             :account="account"
-            @close="infoIsOpen = false"
+            :search="search"
+            @update:search="emits('update:search', $event)"
+            @close="handleClose"
         />
     </div>
 </template>
@@ -63,6 +65,10 @@ const props = defineProps({
     isEditMode: {
         type: Boolean,
         required: true
+    },
+    search: {
+        type: String,
+        required: true
     }
 });
 
@@ -85,7 +91,7 @@ const APITier = [
 
 const APIRank = ['0', 'I', 'II', 'III', 'IV'];
 
-const emits = defineEmits(['delete:account', 'update:account']);
+const emits = defineEmits(['delete:account', 'update:account', 'update:search']);
 
 const isEditMode = computed(() => {
     return props.isEditMode;
@@ -107,10 +113,6 @@ watch(isLogged, () => {
     }
 });
 
-// watch(() => props.account, () => {
-//     account.value = props.account;
-// });
-
 let runningInterval: NodeJS.Timer | null = null;
 
 onMounted(async () => {
@@ -120,6 +122,14 @@ onMounted(async () => {
     }
     isLogged.value = res;
 });
+
+function handleOpen() {
+    infoIsOpen.value = true
+}
+
+function handleClose() {
+    infoIsOpen.value = false;
+}
 
 function checkStillLoggedIn() {
     if (runningInterval) clearInterval(runningInterval);

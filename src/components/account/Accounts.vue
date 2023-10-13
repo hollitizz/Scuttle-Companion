@@ -22,6 +22,7 @@
                     @update:account="updateAccount"
                     :isEditMode="isEditMode"
                     :account="account"
+                    v-model:search="search"
                 />
             </UiCardsRectangle>
         </li>
@@ -64,6 +65,7 @@ const items = ref(null as NodeListOf<HTMLLIElement> | null);
 const startIndex = ref(null as number | null);
 const currentIndex = ref(null as number | null);
 const draggingItem = ref(null as HTMLLIElement | null);
+const search = ref('')
 
 const len = computed(() => accounts.value.length);
 
