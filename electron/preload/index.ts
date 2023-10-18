@@ -89,18 +89,14 @@ if (process.platform === 'darwin') {
     process.env.RIOT_LOCKFILE = `${process.env.HOME}/Library/Application Support/Riot Games/Riot Client/Config/lockfile`;
     process.env.LEAGUE_LOCKFILE = `/Applications/League\ of\ Legends.app/Contents/LoL/lockfile`;
     process.env['RESOURCES_FOLDER'] = ``;
-    process.env[
-        'LEAGUE_EXECUTABLE'
-    ] = `/Applications/League of Legends.app`;
+    process.env['LEAGUE_EXECUTABLE'] = `/Applications/League of Legends.app`;
 } else if (process.platform === 'win32') {
     process.env.RIOT_LOCKFILE = `${process.env['LOCALAPPDATA']}/Riot Games/Riot Client/Config/lockfile`;
-    process.env.LEAGUE_LOCKFILE = `${process.env['SystemDrive']}/Riot Games/League of Legends/lockfile`;
+    process.env.LEAGUE_LOCKFILE = `${process.env['SystemDrive']}/Riot Games/League of Legends`;
     process.env[
         'LEAGUE_EXECUTABLE'
     ] = `${process.env.SystemDrive}\\Riot Games\\Riot Client\\RiotClientServices.exe`;
-    process.env[
-        'RESOURCES_FOLDER'
-    ] = ``;
+    process.env['RESOURCES_FOLDER'] = ``;
     if (process.env.VITE_DEV_SERVER_URL) {
     } else {
         process.env[
@@ -112,9 +108,8 @@ if (process.platform === 'darwin') {
 } else {
     throw new Error('Unsupported platform');
 }
-if (!fs.existsSync(process.env['LEAGUE_EXECUTABLE'])) {
-    process.env['LEAGUE_EXECUTABLE'] = '';
-}
+process.env['LEAGUE_LOCKFILE'] = '';
+process.env['LEAGUE_EXECUTABLE'] = '';
 
 const { appendLoading, removeLoading } = useLoading();
 domReady().then(appendLoading);

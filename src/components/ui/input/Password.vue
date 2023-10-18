@@ -47,10 +47,11 @@ const isShowed = ref(false);
     justify-content: center;
     .label {
         width: 100%;
-        font-size: large;
-        font-weight: 600;
+        font-size: small;
+        font-weight: 400;
         text-align: left;
         margin: 0;
+        margin-left: 4px;
     }
     .input {
         width: 100%;

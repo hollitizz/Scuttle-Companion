@@ -322,6 +322,7 @@ export interface Settings {
     isEncrypted?: boolean;
     password?: string;
     leagueExecutable?: string;
+    leagueLockfile?: string;
     leagueSettings?: LeagueSettings;
 }
 

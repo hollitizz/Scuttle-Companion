@@ -48,17 +48,7 @@
                     >
                 </div>
             </UiCardsRectangle>
-            <UiCardsRectangle v-if="!leaguePathValid" class="path">
-                <h2 class="title text-center">Chemin d'applications</h2>
-                <UiInputText
-                    v-model="leaguePath"
-                    label="Chemin d'accès à League of Legends"
-                    maxWidth="100%"
-                    @enter="changePath"
-                >
-                </UiInputText>
-                <UiButton @click="changePath">Valider</UiButton>
-            </UiCardsRectangle>
+
             <UiCardsRectangle class="league-settings">
                 <h2 class="title text-center">
                     Paramètres de League of Legend
@@ -74,6 +64,56 @@
                     >
                 </div>
             </UiCardsRectangle>
+
+            <UiCardsRectangle class="path">
+                <h2 class="title text-center">Chemins d'applications</h2>
+                <div class="flex">
+                    <div>
+                        <p>Chemin d'installation de League of Legends</p>
+                        <UiInputText
+                            v-model="leagueLockfilePath"
+                            :label="
+                                !leagueLockfilePathValid
+                                    ? `Ressemble à : 'C:/Riot Games/League of Legends'`
+                                    : ''
+                            "
+                            maxWidth="100%"
+                            :borderColor="
+                                leagueLockfilePathValid
+                                    ? 'var(--green)'
+                                    : 'var(--red)'
+                            "
+                            @enter="changePath"
+                        >
+                        </UiInputText>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div>
+                        <p>Raccourci League of Legends</p>
+                        <UiInputText
+                            v-model="leagueExecPath"
+                            :label="
+                                !leagueExecPathValid
+                                    ? `Ressemble à : 'C:\Riot Games\Riot Client\RiotClientServices.exe'`
+                                    : ''
+                            "
+                            maxWidth="100%"
+                            :borderColor="
+                                leagueExecPathValid
+                                    ? 'var(--green)'
+                                    : 'var(--red)'
+                            "
+                            @enter="changePath"
+                        >
+                        </UiInputText>
+                    </div>
+                    <div class="button">
+                        <UiButton @click="changePath"> Valider </UiButton>
+                    </div>
+                </div>
+            </UiCardsRectangle>
         </div>
     </UiModal>
     <SetPassword
@@ -86,7 +126,7 @@
         v-model="isAskingPassword"
         @send:password="disableEncryption"
     />
-    <Transition name="pop" appear >
+    <Transition name="pop" appear>
         <UiInputConfirm
             v-if="isWaitingConfirm"
             @cancel="confirmCallback(false)"
@@ -107,12 +147,13 @@ import UiInputText from './ui/input/Text.vue';
 import UiInputConfirm from './ui/input/Confirm.vue';
 import { useSettingsStore } from '../store/Settings';
 import { storeToRefs } from 'pinia';
-import { PropType, ref } from 'vue';
+import { PropType, computed, ref } from 'vue';
 import { Account } from '../types';
 import { ipcRenderer } from 'electron';
 import { useAlerts } from '../utils/Alerts';
 import fs from 'fs';
 import { useLeagueLCUAPI } from '../utils/LeagueLCU';
+import { useToast } from 'vue-toastification';
 
 const settingsStore = useSettingsStore();
 settingsStore.loadSettings();
@@ -148,9 +189,15 @@ const isAskingPassword = ref(false);
 const oldPassword = ref('' as string);
 const newPassword = ref('' as string);
 const newPasswordConfirm = ref('' as string);
-const leaguePath = ref('' as string);
+const leagueExecPath = ref(process.env['LEAGUE_EXECUTABLE'] as string);
+const leagueLockfilePath = ref(process.env['LEAGUE_LOCKFILE'] as string);
 
-const leaguePathValid = ref(process.env['LEAGUE_EXECUTABLE'] !== '');
+const leagueExecPathValid = computed(() => {
+    return process.env['LEAGUE_EXECUTABLE'] !== '';
+});
+const leagueLockfilePathValid = computed(
+    () => process.env['LEAGUE_LOCKFILE'] !== ''
+);
 
 function importAccounts() {
     ipcRenderer.send('import-accounts');
@@ -182,12 +229,12 @@ async function saveLeagueSettings() {
         isWaitingConfirm.value = true;
         confirmText.value =
             'Voulez-vous vraiment écraser les paramètres actuels ?';
-        confirmCallback.value = (e) => {
+        confirmCallback.value = e => {
             if (e) {
                 settingsStore.setLeagueSettings(summonerSettings);
                 success('Les paramètres ont bien été sauvegardés !');
             } else {
-                info('Les paramètres n\'ont pas été sauvegardés !');
+                info("Les paramètres n'ont pas été sauvegardés !");
             }
             isWaitingConfirm.value = false;
         };
@@ -195,7 +242,6 @@ async function saveLeagueSettings() {
         settingsStore.setLeagueSettings(summonerSettings);
         success('Les paramètres ont bien été sauvegardés !');
     }
-
 }
 
 async function applyLeagueSettings() {
@@ -232,12 +278,37 @@ function disableEncryption(password: string) {
 }
 
 function changePath() {
-    if (fs.existsSync(leaguePath.value)) {
-        settingsStore.setLeaguePath(leaguePath.value);
-        leaguePathValid.value = true;
-        emits('update:leaguePath');
-        success("Le chemin d'accès a bien été changé !");
-    } else throw new Error("Le chemin d'accès n'est pas valide");
+    if (leagueExecPath.value !== process.env['LEAGUE_EXECUTABLE']) {
+        if (fs.existsSync(leagueExecPath.value)) {
+            settingsStore.setLeaguePath(leagueExecPath.value);
+            emits('update:leaguePath');
+            success("Le chemin d'accès a bien été changé !");
+        } else
+            useToast().error(
+                "Le chemin de raccourci de League of Legends n'est pas valide"
+            );
+    }
+
+    if (leagueLockfilePath.value !== process.env['LEAGUE_LOCKFILE']) {
+        if (fs.existsSync(leagueLockfilePath.value)) {
+            if (
+                leagueLockfilePath.value.charAt(
+                    leagueLockfilePath.value.length - 1
+                ) === '/'
+            ) {
+                leagueLockfilePath.value = leagueLockfilePath.value.slice(
+                    0,
+                    leagueLockfilePath.value.length - 1
+                );
+                console.log(leagueLockfilePath.value);
+            }
+            settingsStore.setLeagueLockPath(leagueLockfilePath.value);
+            success("Le chemin d'accès a bien été changé !");
+        } else
+            useToast().error(
+                "Le chemin d'installation League of Legends n'est pas valide"
+            );
+    }
 }
 </script>
 
@@ -313,7 +384,6 @@ function changePath() {
     .path {
         position: relative;
         width: 80%;
-        height: 7rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -321,12 +391,40 @@ function changePath() {
         .title {
             margin: 0;
         }
+
+        .flex {
+            // display: flex;
+            justify-content: center;
+            align-items: end;
+            gap: 2rem;
+            width: 80%;
+
+            p {
+                width: 100%;
+                font-size: medium;
+                font-weight: 500;
+                text-align: center;
+                margin: 0;
+            }
+
+            .button {
+                button {
+                    width: 6rem;
+                }
+                width: 100%;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                display: flex;
+                justify-content: center;
+                height: 2.5rem;
+            }
+        }
     }
 
     .league-settings {
         position: relative;
         width: 80%;
-        height: 9rem;
+        height: auto;
         .title {
             margin: 0;
         }
@@ -338,7 +436,6 @@ function changePath() {
             align-items: center;
             justify-content: flex-start;
             gap: 0.5rem;
-            height: 6rem;
         }
     }
 }

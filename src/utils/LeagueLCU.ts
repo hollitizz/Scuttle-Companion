@@ -30,8 +30,8 @@ export const useLeagueLCUAPI = () => {
     }
 
     function refreshLockfile() {
-        const lockfilePath = `${process.env['LEAGUE_LOCKFILE']}`;
-        if (!fs.existsSync(`${process.env['LEAGUE_LOCKFILE']}`)) {
+        const lockfilePath = `${process.env['LEAGUE_LOCKFILE']}/lockfile`;
+        if (!fs.existsSync(`${process.env['LEAGUE_LOCKFILE']}/lockfile`)) {
             throw new Error("League of Legends n'a pas été détecté");
         }
         [

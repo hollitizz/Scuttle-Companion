@@ -1,6 +1,11 @@
 <template>
-    <div class="text">
-        <label v-if="label" :style="{ maxWidth }" class="label">{{
+    <div
+        class="text"
+        :style="{
+            '--border-color': borderColor
+        }"
+    >
+        <label v-if="label" style="{ maxWidth }" class="label">{{
             label
         }}</label>
         <input
@@ -15,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-
 const emits = defineEmits(['update:modelValue', 'enter']);
 
 const props = defineProps({
@@ -30,6 +34,10 @@ const props = defineProps({
     label: {
         type: String,
         default: ''
+    },
+    borderColor: {
+        type: String,
+        default: 'var(--primary)'
     }
 });
 
@@ -47,16 +55,17 @@ function handleInput(event: Event) {
     justify-content: center;
     .label {
         width: 100%;
-        font-size: large;
-        font-weight: 600;
+        font-size: small;
+        font-weight: 400;
         text-align: left;
         margin: 0;
+        margin-left: 4px;
     }
     .input {
         width: 100%;
         border: none;
         background-color: white;
-        outline: 0.2rem solid var(--primary);
+        outline: 2px solid var(--border-color);
         padding: 0.5rem;
         border-radius: 0.5rem;
         font-size: large;
