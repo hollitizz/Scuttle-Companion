@@ -69,7 +69,7 @@
                 <h2 class="title text-center">Chemins d'applications</h2>
                 <div class="flex">
                     <div>
-                        <p>Chemin d'installation de League of Legends</p>
+                        <p>Raccourci League of Legends</p>
                         <UiInputText
                             v-model="leagueLockfilePath"
                             :label="
@@ -91,7 +91,7 @@
 
                 <div class="flex">
                     <div>
-                        <p>Raccourci League of Legends</p>
+                        <p>Chemin d'installation de League of Legends</p>
                         <UiInputText
                             v-model="leagueExecPath"
                             :label="
