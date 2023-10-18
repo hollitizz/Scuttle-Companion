@@ -35,7 +35,7 @@ export const useSettingsStore = defineStore('settings', () => {
         if (!settings.value.leagueSettings)
             settings.value.leagueSettings = {} as LeagueSettings;
 
-        if (settings.value.leagueExecutable)
+        if (settings.value.leagueExecutable && settings.value.leagueExecutable !== "")
             process.env['LEAGUE_EXECUTABLE'] = settings.value.leagueExecutable;
         else {
             if (
@@ -55,7 +55,7 @@ export const useSettingsStore = defineStore('settings', () => {
             }
         }
 
-        if (settings.value.leagueLockfile) {
+        if (settings.value.leagueLockfile && settings.value.leagueLockfile !== "") {
             process.env['LEAGUE_LOCKFILE'] = settings.value.leagueLockfile;
         } else {
             if (
