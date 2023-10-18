@@ -35,27 +35,30 @@ export const useSettingsStore = defineStore('settings', () => {
         if (!settings.value.leagueSettings)
             settings.value.leagueSettings = {} as LeagueSettings;
 
-        if (settings.value.leagueExecutable && settings.value.leagueExecutable !== "")
+        if (
+            settings.value.leagueExecutable &&
+            settings.value.leagueExecutable !== ''
+        ) {
             process.env['LEAGUE_EXECUTABLE'] = settings.value.leagueExecutable;
-        else {
+        } else {
             if (
                 fs.existsSync(
-                    `${process.env.SystemDrive}/Riot Games/Riot Client/RiotClientServices.exe`
+                    `${process.env['SystemDrive']}/Riot Games/Riot Client/RiotClientServices.exe`
                 )
             ) {
-                process.env[
-                    'LEAGUE_EXECUTABLE'
-                ] = `${process.env.SystemDrive}/Riot Games/Riot Client/RiotClientServices.exe`;
-                settings.value.leagueExecutable =
-                    process.env['LEAGUE_EXECUTABLE'];
-                setLeaguePath(process.env['LEAGUE_EXECUTABLE']);
+                setLeaguePath(
+                    `${process.env['SystemDrive']}/Riot Games/Riot Client/RiotClientServices.exe`
+                );
             } else {
                 process.env['LEAGUE_EXECUTABLE'] = '';
                 settings.value.leagueExecutable = '';
             }
         }
 
-        if (settings.value.leagueLockfile && settings.value.leagueLockfile !== "") {
+        if (
+            settings.value.leagueLockfile &&
+            settings.value.leagueLockfile !== ''
+        ) {
             process.env['LEAGUE_LOCKFILE'] = settings.value.leagueLockfile;
         } else {
             if (
@@ -63,11 +66,9 @@ export const useSettingsStore = defineStore('settings', () => {
                     `${process.env['SystemDrive']}/Riot Games/League of Legends`
                 )
             ) {
-                process.env[
-                    'LEAGUE_LOCKFILE'
-                ] = `${process.env['SystemDrive']}/Riot Games/League of Legends`;
-                settings.value.leagueLockfile = process.env['LEAGUE_LOCKFILE'];
-                setLeagueLockPath(process.env['LEAGUE_LOCKFILE']);
+                setLeagueLockPath(
+                    `${process.env['SystemDrive']}/Riot Games/League of Legends`
+                );
             } else {
                 process.env['LEAGUE_LOCKFILE'] = '';
                 settings.value.leagueLockfile = '';
