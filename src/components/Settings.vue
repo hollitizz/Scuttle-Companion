@@ -96,7 +96,7 @@
                             v-model="leagueExecPath"
                             :label="
                                 !leagueExecPathValid
-                                    ? `Ressemble à : 'C:\Riot Games\Riot Client\RiotClientServices.exe'`
+                                    ? `Ressemble à : 'C:/Riot Games/Riot Client/RiotClientServices.exe'`
                                     : ''
                             "
                             maxWidth="100%"
@@ -300,7 +300,6 @@ function changePath() {
                     0,
                     leagueLockfilePath.value.length - 1
                 );
-                console.log(leagueLockfilePath.value);
             }
             settingsStore.setLeagueLockPath(leagueLockfilePath.value);
             success("Le chemin d'accès a bien été changé !");
