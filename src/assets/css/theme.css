@@ -1,7 +1,0 @@
-.tippy-box[data-theme~='dark'] {
-    background-color: var(--darker);
-}
-
-.tippy-box[data-theme~='dark'] .tippy-arrow {
-    color: var(--darker);
-}

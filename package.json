@@ -2,54 +2,39 @@
     "name": "league_login_app",
     "productName": "League login app",
     "private": false,
-    "version": "1.5.3",
+    "version": "2.0.0",
     "description": "An app to help you to login to League of Legends",
     "author": "Hollitizz",
     "scripts": {
         "build-dir": "vue-tsc --noEmit && vite build && electron-builder --dir",
-        "build": "vue-tsc --noEmit && vite build && electron-builder",
-        "dev": "vite",
+        "dev": "nuxi dev",
+        "build": "nuxi build --prerender && electron-builder",
         "preview": "vite preview",
         "release": "vue-tsc --noEmit && vite build && electron-builder -p always"
     },
-    "main": "dist-electron/main/index.js",
+    "main": "dist-electron/main.js",
     "devDependencies": {
-        "@types/bcryptjs": "^2.4.2",
-        "@vitejs/plugin-vue": "^4.1.0",
-        "bcryptjs": "^2.4.3",
-        "electron": "^23.1.1",
-        "electron-builder": "^23.6.0",
-        "electron-forge": "^5.2.4",
-        "typescript": "^5.0.2",
-        "versiony": "^2.0.1",
-        "vite": "^4.1.4",
-        "vite-plugin-electron": "^0.11.2",
-        "vite-plugin-electron-renderer": "^0.14.1",
-        "vue": "^3.2.47",
-        "vue-svg-loader": "^0.17.0-beta.2",
-        "vue-tsc": "^1.2.0"
+        "electron": "^25.3.0",
+        "electron-builder": "^24.4.0",
+        "nuxt": "^3.8.1",
+        "nuxt-electron": "^0.6.0",
+        "vite-plugin-electron": "^0.15.4",
+        "vite-plugin-electron-renderer": "^0.14.5",
+        "sass": "^1.69.5",
+        "sass-loader": "^13.3.2",
+        "postcss": "^8.4.31",
+        "prettier": "^3.1.0",
+        "prettier-plugin-tailwindcss": "^0.5.6"
     },
-    "debug": {
-        "env": {
-            "VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/"
-        }
-    },
-    "keywords": [
-        "electron",
-        "rollup",
-        "vite",
-        "vue3",
-        "vue"
-    ],
     "license": "MIT",
     "dependencies": {
-        "@vue/cli": "^5.0.8",
-        "axios": "^1.4.0",
-        "electron-updater": "^5.3.0",
-        "encrypt-with-password": "^1.0.0",
-        "pinia": "^2.0.35",
-        "sass": "^1.62.1",
-        "vue-tippy": "^6.1.2",
-        "vue-toastification": "^2.0.0-rc.2"
-    }
+        "@pinia/nuxt": "^0.5.1",
+        "floating-vue": "^2.0.0-beta.24",
+        "pinia": "^2.1.7",
+        "tailwindcss": "^3.3.5",
+        "vue-toastification": "2.0.0-rc.5"
+    },
+    "overrides": {
+		"vue": "latest"
+	}
 }
