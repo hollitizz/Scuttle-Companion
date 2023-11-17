@@ -3,64 +3,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (prefers-color-scheme: light) {
-    :root.automatic {
-        --text: #562b31;
-        --background: #f3e7e9;
-        --primary: #eabca4;
-        --secondary: #e4c8cc;
-        --accent: #a65461;
-        --success: #81e052;
-        --danger: #ee2b3b;
-        --warning: #f9c753;
-
-        --card-bg: rgba(0, 0, 0, 0.03);
-        --hover-bg: rgba(0, 0, 0, 0.05);
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    :root.automatic {
-        --text: #f8f1f2;
-        --background: #180c0e;
-        --primary: #5b2e15;
-        --secondary: #371b1f;
-        --accent: #ab5967;
-        --success: #58c322;
-        --danger: #d41121;
-        --warning: #f7b722;
-
-        --card-bg: rgba(255, 255, 255, 0.03);
-        --hover-bg: rgba(255, 255, 255, 0.05);
-    }
-}
 
 :root {
-    --text: #562b31;
-    --background: #f3e7e9;
-    --primary: #eabca4;
-    --secondary: #e4c8cc;
-    --accent: #a65461;
+    --text: #ffffff;
+    --background: #1c5877;
+    --primary: #234557;
+    --secondary: #082f40;
+    --accent: #2c8fc3;
     --success: #81e052;
     --danger: #ee2b3b;
     --warning: #f9c753;
-
-    --card-bg: rgba(0, 0, 0, 0.03);
-    --hover-bg: rgba(0, 0, 0, 0.05);
-}
-
-:root.dark {
-    --text: #f8f1f2;
-    --background: #180c0e;
-    --primary: #5b2e15;
-    --secondary: #371b1f;
-    --accent: #ab5967;
-    --success: #58c322;
-    --danger: #d41121;
-    --warning: #f7b722;
-
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --hover-bg: rgba(255, 255, 255, 0.05);
 }
 
 html {
