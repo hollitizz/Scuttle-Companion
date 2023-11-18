@@ -1,1 +1,1 @@
-console.log('---- electron/preload.ts ----')
+console.log('preload.ts');

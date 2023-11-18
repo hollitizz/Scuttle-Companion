@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 
 // The built directory structure
@@ -40,6 +40,22 @@ function bootstrap() {
     } else {
         win.loadFile(path.join(process.env.VITE_PUBLIC!, 'index.html'));
     }
+
+    ipcMain.on('close', () => {
+        win.close();
+    });
+
+    ipcMain.on('minimize', () => {
+        win.minimize();
+    });
+
+    ipcMain.on('maximize', () => {
+        if (win.isMaximized()) {
+            win.unmaximize();
+        } else {
+            win.maximize();
+        }
+    });
 }
 
 app.whenReady().then(bootstrap);
