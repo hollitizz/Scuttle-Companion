@@ -34,6 +34,10 @@ const props = defineProps({
     focusOutlineColor: {
         type: String as PropType<CssColors>,
         default: 'var(--accent)'
+    },
+    fontColor: {
+        type: String as PropType<CssColors>,
+        default: 'black'
     }
 });
 

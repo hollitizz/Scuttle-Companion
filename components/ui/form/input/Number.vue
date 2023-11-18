@@ -22,7 +22,7 @@ defineProps({
     },
 
     textAlign: {
-        type: String as PropType<'left' | ' center' | 'right'>,
+        type: String as PropType<'left' | 'center' | 'right'>,
         default: 'left'
     },
     autocomplete: {
@@ -44,7 +44,7 @@ defineProps({
     },
     fontColor: {
         type: String as PropType<CssColors>,
-        default: 'var(--text)'
+        default: 'black'
     }
 });
 
@@ -73,6 +73,7 @@ input {
     outline: 1.2px solid var(--outline-color);
     outline-offset: -1px;
     background: var(--bg-color, white);
+    color: var(--font-color, white);
 
     -moz-appearance: textfield;
     appearance: textfield;

@@ -59,7 +59,9 @@
                 </li>
             </ul>
         </nav>
-        <slot />
+        <div class="flex-1">
+            <slot />
+        </div>
     </main>
 </template>
 
@@ -84,10 +86,16 @@ header {
     position: relative;
     padding: 0px;
     height: 2rem;
+    -webkit-app-region: drag;
 
     img {
         height: 100%;
     }
+
+    & > * {
+        -webkit-app-region: no-drag;
+    }
+
     background-color: var(--primary);
 }
 main {

@@ -13,6 +13,8 @@
     --success: #81e052;
     --danger: #ee2b3b;
     --warning: #f9c753;
+
+    --card-color: rgba(255, 255, 255, 0.03);
 }
 
 html {
@@ -31,6 +33,11 @@ html {
 *::after {
     box-sizing: border-box;
     /* margin: 0; */
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
 }
 
 ::-webkit-scrollbar {

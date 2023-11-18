@@ -30,6 +30,7 @@ defineProps({
         type: String as PropType<CssColors>,
         default: 'white'
     },
+
     outlineColor: {
         type: String as PropType<CssColors>,
         default: 'var(--primary)'
@@ -40,7 +41,7 @@ defineProps({
     },
     fontColor: {
         type: String as PropType<CssColors>,
-        default: 'var(--text)'
+        default: 'black'
     }
 });
 
@@ -69,6 +70,7 @@ input {
     outline: 1.2px solid var(--outline-color);
     outline-offset: -1px;
     background: var(--bg-color, white);
+    color: var(--font-color, white);
 
     &::placeholder {
         color: var(--outline-color);

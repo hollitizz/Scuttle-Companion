@@ -23,7 +23,6 @@ module.exports = {
                 warning: 'var(--warning)',
                 danger: 'var(--danger)',
                 'card-color': 'var(--card-bg)',
-                hover: 'var(--hover-bg)'
             },
         }
     },

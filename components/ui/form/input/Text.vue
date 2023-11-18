@@ -40,7 +40,7 @@ defineProps({
     },
     fontColor: {
         type: String as PropType<CssColors>,
-        default: 'var(--text)'
+        default: 'black'
     }
 });
 

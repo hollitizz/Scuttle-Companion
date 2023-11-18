@@ -21,26 +21,25 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 let win: BrowserWindow;
 const preload = path.join(process.env.DIST, 'preload.js');
 
-function bootstrap() {
-    win = new BrowserWindow({
-        webPreferences: {
-            preload,
-            nodeIntegrationInWorker: true,
-            contextIsolation: false,
-            nodeIntegration: true,
-            webSecurity: false
-        },
-        icon: path.join('assets/favicon.ico'),
-        frame: false
-    });
-
-    if (process.env.VITE_DEV_SERVER_URL) {
-        win.loadURL(process.env.VITE_DEV_SERVER_URL);
-        win.webContents.openDevTools();
-    } else {
-        win.loadFile(path.join(process.env.VITE_PUBLIC!, 'index.html'));
+function appListener() {
+    if (process.platform === 'win32') {
+        app.setAppUserModelId('com.electron.vite-react-ts');
     }
 
+    app.on('window-all-closed', () => {
+        if (process.platform !== 'darwin') {
+            app.quit();
+        }
+    });
+
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            bootstrap();
+        }
+    });
+}
+
+function clientListeners() {
     ipcMain.on('close', () => {
         win.close();
     });
@@ -56,6 +55,36 @@ function bootstrap() {
             win.maximize();
         }
     });
+}
+
+function bootstrap() {
+    win = new BrowserWindow({
+        webPreferences: {
+            preload,
+            nodeIntegrationInWorker: true,
+            contextIsolation: false,
+            nodeIntegration: true,
+            webSecurity: false
+        },
+        minWidth: 800,
+        minHeight: 600,
+        width: 1024,
+        height: 768,
+        backgroundColor: '#1c5877',
+
+        icon: path.join('assets/favicon.ico'),
+        frame: false
+    });
+
+    if (process.env.VITE_DEV_SERVER_URL) {
+        win.loadURL(process.env.VITE_DEV_SERVER_URL);
+        win.webContents.openDevTools();
+    } else {
+        win.loadFile(path.join(process.env.VITE_PUBLIC!, 'index.html'));
+    }
+
+    clientListeners();
+    appListener();
 }
 
 app.whenReady().then(bootstrap);
