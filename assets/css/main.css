@@ -53,6 +53,12 @@ html {
     display: none;
 }
 
+#__nuxt {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
 html,
 body,
 #__nuxt,

@@ -7,28 +7,32 @@
         xmlns="http://www.w3.org/2000/svg"
     >
         <path
-            d="M6 24H16H26"
+            d="M7 25H25"
             :stroke="color"
-            stroke-width="4"
+            stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"
         />
         <path
-            d="M6 16H16H26"
+            d="M25 25V7"
             :stroke="color"
-            stroke-width="4"
+            stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"
         />
         <path
-            d="M6 8H16H26"
+            d="M7 25L7 7"
             :stroke="color"
-            stroke-width="4"
+            stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"
+        />
+        <path
+            d="M7 7H25"
+            :stroke="color"
+            stroke-width="2"
+            stroke-linecap="round"
         />
     </svg>
 </template>
+
 <script setup lang="ts">
 const props = defineProps({
     color: { type: String, default: 'white' }

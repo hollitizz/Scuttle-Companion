@@ -4,5 +4,5 @@
     </svg>
 </template>
 <script setup lang="ts">
-const { color } = defineProps({ color: { type: String, default: 'var(--accent)' } });
+const { color } = defineProps({ color: { type: String, default: 'white' } });
 </script>

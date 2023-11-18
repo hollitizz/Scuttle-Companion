@@ -14,6 +14,6 @@
 
 <script lang="ts" setup>
 defineProps({
-    color: { type: String, default: 'var(--accent)' }
+    color: { type: String, default: 'white' }
 });
 </script>
