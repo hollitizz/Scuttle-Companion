@@ -75,7 +75,7 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
         ) {
             process.env['LEAGUE_LOCKFILE'] = settings.value.leagueLockfile;
         } else {
-            setLeaguePath(
+            setLockfilePath(
                 fs.existsSync(
                     `${process.env['SystemDrive']}/Riot Games/League of Legends`
                 )

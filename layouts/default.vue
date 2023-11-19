@@ -36,6 +36,7 @@
                         content: 'Lancer League of Legends',
                         placement: 'right'
                     }"
+                    @click="openGame('League of Legends')"
                 >
                     <SvgLeague />
                 </li>
@@ -44,6 +45,7 @@
                         content: 'Lancer Valorant',
                         placement: 'right'
                     }"
+                    @click="openGame('Valorant')"
                 >
                     <SvgValorant class="w-8 h-8" />
                 </li>
@@ -59,7 +61,7 @@
                 </li>
             </ul>
         </nav>
-        <div class="flex-1">
+        <div class="flex-1 h-[calc(100vh-2rem)]">
             <slot />
         </div>
     </main>
@@ -67,6 +69,7 @@
 
 <script lang="ts" setup>
 import { ipcRenderer } from 'electron';
+import { spawn } from 'child_process';
 
 function minimize() {
     ipcRenderer.send('minimize');
@@ -78,6 +81,34 @@ function maximize() {
 
 function close() {
     ipcRenderer.send('close');
+}
+
+function openGame(game: 'League of Legends' | 'Valorant') {
+    if (!process.env['LEAGUE_EXECUTABLE']) {
+        return useToast.error(
+            `Impossible de lancer ${game} car le chemin d'accès n'est pas valide`
+        );
+    }
+
+    const product = game === 'League of Legends'? 'league_of_legends' : 'valorant';
+
+    try {
+        if (process.platform === 'win32') {
+            spawn('cmd.exe', [
+                '/c',
+                'start',
+                '""',
+                process.env['LEAGUE_EXECUTABLE'],
+                `--launch-product=${product}`,
+                '--launch-patchline=live'
+            ]);
+        } else if (process.platform === 'darwin') {
+            spawn('open', [process.env['LEAGUE_EXECUTABLE']]);
+        }
+        useToast.success(`${game} lancé !`);
+    } catch (e) {
+        useToast.error(`Impossible de lancer ${game}`);
+    }
 }
 </script>
 

@@ -1,11 +1,11 @@
 <template>
     <button
         v-bind="{ ...$attrs, class: '', style: '' }"
-        class="px-4 py-2 rounded-md font-h4"
+        class="px-4 py-2 rounded-lg font-h3"
         :disabled="disabled"
         :style="`--bg-color: ${bgColor}; --outline-color: ${outlineColor}; --font-color: ${fontColor};`"
     >
-        <slot />
+            <slot />
     </button>
 </template>
 

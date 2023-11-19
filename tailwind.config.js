@@ -22,7 +22,7 @@ module.exports = {
                 success: 'var(--success)',
                 warning: 'var(--warning)',
                 danger: 'var(--danger)',
-                'card-color': 'var(--card-bg)',
+                'card-color': 'var(--card-color)',
             },
         }
     },
@@ -60,7 +60,7 @@ module.exports = {
                     alignItems: 'center'
                 },
                 '.font-h1': {
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Merriweather Sans',
                     fontStyle: 'normal',
 
                     fontWeight: 900,
@@ -71,7 +71,7 @@ module.exports = {
                 },
 
                 '.font-h2': {
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Merriweather Sans',
                     fontStyle: 'normal',
 
                     fontWeight: 700,
@@ -82,7 +82,7 @@ module.exports = {
                 },
 
                 '.font-h3': {
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Merriweather Sans',
                     fontStyle: 'normal',
 
                     fontWeight: 700,
@@ -93,7 +93,7 @@ module.exports = {
                 },
 
                 '.font-h4': {
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Merriweather Sans',
                     fontStyle: 'normal',
 
                     fontWeight: 700,
@@ -104,7 +104,7 @@ module.exports = {
                 },
 
                 '.font-h5': {
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Merriweather Sans',
                     fontStyle: 'normal',
 
                     fontWeight: 400,
@@ -115,7 +115,7 @@ module.exports = {
                 },
 
                 '.font-legend': {
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Merriweather Sans',
                     fontStyle: 'normal',
 
                     fontWeight: 400,
@@ -125,7 +125,7 @@ module.exports = {
                 },
 
                 '.font-legendb': {
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Merriweather Sans',
                     fontStyle: 'normal',
 
                     fontWeight: 700,
@@ -136,7 +136,7 @@ module.exports = {
                 },
 
                 '.font-m1': {
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Merriweather Sans',
                     fontStyle: 'normal',
 
                     fontWeight: 400,
@@ -147,7 +147,7 @@ module.exports = {
                 },
 
                 '.font-mb1': {
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Merriweather Sans',
                     fontStyle: 'normal',
 
                     fontWeight: 600,
@@ -158,7 +158,7 @@ module.exports = {
                 },
 
                 '.font-m2': {
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Merriweather Sans',
                     fontStyle: 'normal',
 
                     fontWeight: 500,

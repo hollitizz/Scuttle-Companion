@@ -21,7 +21,7 @@ export function useBarChartGenerateOptions(): ChartOptions<'bar'> {
 	return {
 		scales: {
 			x: {
-				ticks: { font: { family: "'Montserrat', sans-serif" } },
+				ticks: { font: { family: "'Merriweather Sans', sans-serif" } },
 				grid: {
 					color: ({ tick }) => {
 						if (!tick || tick.value !== 0) return useChartColors['hidden'];
@@ -32,7 +32,7 @@ export function useBarChartGenerateOptions(): ChartOptions<'bar'> {
 			y: {
 				beginAtZero: true,
 				border: { display: false },
-				ticks: { font: { family: "'Montserrat', sans-serif" } },
+				ticks: { font: { family: "'Merriweather Sans', sans-serif" } },
 				grid: {
 					color: ({ tick }) => {
 						if (tick.value !== 0) return useChartColors['light-2'];

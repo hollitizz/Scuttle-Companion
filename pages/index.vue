@@ -1,6 +1,6 @@
 <template>
     <div class="h-full w-full flex flex-col">
-        <template v-if="isEncrypted">
+        <template v-if="isEncrypted && !accounts">
             <div class="h-full w-full flex-center">
                 <form
                     @submit.prevent="login"
@@ -20,7 +20,7 @@
                 </form>
             </div>
         </template>
-        <template v-else><AccountList /> </template>
+        <template v-else> <AccountList /> </template>
     </div>
 </template>
 
@@ -34,7 +34,7 @@ const { settings } = storeToRefs(settingsStore);
 if (!settings.value) settingsStore.loadSettings();
 
 const accountsStore = useAccountsStore();
-const { password, isEncrypted } = storeToRefs(accountsStore);
+const { accounts, password, isEncrypted } = storeToRefs(accountsStore);
 if (!settings.value?.isEncrypted ?? false) accountsStore.loadAccounts();
 else isEncrypted.value = true;
 

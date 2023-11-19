@@ -10,7 +10,7 @@ export const useAccountsStore = defineStore('useAccountsStore', () => {
     function createFile() {
         fs.writeFileSync(
             process.env['RESOURCES_FOLDER'] + 'accounts.lal',
-            JSON.stringify([], null, 4)
+            JSON.stringify({ accounts: [] }, null, 4)
         );
     }
 
@@ -36,8 +36,7 @@ export const useAccountsStore = defineStore('useAccountsStore', () => {
     }
 
     function saveAccounts() {
-        if (isEncrypted.value && !password.value)
-            return;
+        if (isEncrypted.value && !password.value) return;
         if (isEncrypted.value) {
             fs.writeFileSync(
                 process.env['RESOURCES_FOLDER'] + 'accounts.lal',
@@ -60,6 +59,6 @@ export const useAccountsStore = defineStore('useAccountsStore', () => {
         isEncrypted,
 
         loadAccounts,
-        saveAccounts,
+        saveAccounts
     };
 });

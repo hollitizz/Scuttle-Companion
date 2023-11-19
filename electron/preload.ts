@@ -3,7 +3,7 @@ import fs from 'fs';
 if (process.platform === 'darwin') {
 } else if (process.platform === 'win32') {
     if (process.env.VITE_DEV_SERVER_URL) {
-        process.env['RESOURCES_FOLDER'] = `../resources/`;
+        process.env['RESOURCES_FOLDER'] = `resources/`;
         fs.existsSync(process.env['RESOURCES_FOLDER']) ||
         fs.mkdirSync(process.env['RESOURCES_FOLDER']);
     } else {

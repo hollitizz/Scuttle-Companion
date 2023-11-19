@@ -22,7 +22,7 @@ export function useLineChartGenerateDefaultOptions(): ChartOptions<'line'> {
 	return {
 		scales: {
 			x: {
-				ticks: { font: { family: "'Montserrat', sans-serif" } },
+				ticks: { font: { family: "'Merriweather Sans', sans-serif" } },
 				grid: {
 					color: ({ tick }) => {
 						if (!tick || tick.value !== 0) return useChartColors['hidden'];
@@ -34,7 +34,7 @@ export function useLineChartGenerateDefaultOptions(): ChartOptions<'line'> {
 				beginAtZero: true,
 				border: { display: true },
 				ticks: {
-					font: { family: "'Montserrat', sans-serif" }
+					font: { family: "'Merriweather Sans', sans-serif" }
 				},
 				grid: {
 					color: ({ tick }) => {
