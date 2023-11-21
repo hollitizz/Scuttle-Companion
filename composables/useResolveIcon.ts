@@ -13,6 +13,10 @@ async function downloadImage(url: string, savePath: string) {
 export async function useResolveIcon(iconId: number) {
     const path = `${process.env['RESOURCES_FOLDER']}profileIcons/${iconId}.png`;
 
+    if (!fs.existsSync(`${process.env['RESOURCES_FOLDER']}profileIcons/`)) {
+        fs.mkdirSync(`${process.env['RESOURCES_FOLDER']}profileIcons/`);
+    }
+
     if (fs.existsSync(path)) {
         return path;
     } else {
