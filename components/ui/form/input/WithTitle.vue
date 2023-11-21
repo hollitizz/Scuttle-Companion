@@ -1,17 +1,23 @@
 <template>
-    <legend :class="$attrs.class ?? '' + 'ml-1.5 mb-0.5'">Tets</legend>
-    <UiFormInput
-        v-bind="$attrs"
-        :modelValue="modelValue"
-        @update:modelValue="emits('update:modelValue', $event)"
-        @change:modelValue="emits('change:modelValue', $event)"
-    />
+    <div class="flex flex-col">
+        <legend :class="'ml-1.5 mb-0.5 w-full'">{{ title }}</legend>
+        <UiFormInput
+            v-bind="{ ...$attrs, class: 'w-full h-full', style: '', ...$props }"
+            :modelValue="modelValue"
+            @update:modelValue="emits('update:modelValue', $event)"
+            @change:modelValue="emits('change:modelValue', $event)"
+        />
+    </div>
 </template>
 
 <script lang="ts" setup>
 defineProps({
     modelValue: {
         type: String as PropType<String | Number>,
+        required: true
+    },
+    title: {
+        type: String,
         required: true
     },
     type: {

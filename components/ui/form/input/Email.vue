@@ -10,6 +10,7 @@
             '--font-color': fontColor
         }"
         :modelValue="modelValue"
+        :autocomplete="autocomplete"
         @input="manageInput"
         @change="manageChange"
     />

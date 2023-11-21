@@ -1,5 +1,5 @@
 <template>
-    <header class="flex justify-between">
+    <!-- <header class="flex justify-between">
         <img class="p-0.5 pl-1" src="@/assets/icon.png" alt="logo" />
         <div class="flex items-center gap-1 relative">
             <SvgDash
@@ -64,7 +64,7 @@
         <div class="flex-1 h-[calc(100vh-2rem)]">
             <slot />
         </div>
-    </main>
+    </main> -->
 </template>
 
 <script lang="ts" setup>

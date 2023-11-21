@@ -1,7 +1,7 @@
 <template>
     <button
         v-bind="{ ...$attrs, class: '', style: '' }"
-        class="px-4 py-2 rounded-lg font-h3"
+        class="p-1.5 rounded-xl font-h4 select-none"
         :disabled="disabled"
         :style="`--bg-color: ${bgColor}; --outline-color: ${outlineColor}; --font-color: ${fontColor};`"
     >

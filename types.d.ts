@@ -334,3 +334,11 @@ interface RankedStats {
     wins: number;
     losses: number;
 }
+
+interface Lockfile {
+    name: string;
+    pid: number;
+    port: number;
+    password: string;
+    protocol: string;
+}

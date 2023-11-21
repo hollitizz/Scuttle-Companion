@@ -11,22 +11,29 @@
         class="rounded-xl text-xl flex"
     >
         <input
+            ref="input"
             :type="isHide ? 'password' : 'text'"
             v-bind="{
                 ...$attrs,
-                class: 'rounded-xl p-0.5 pl-2 flex-1 w-full',
+                class: 'rounded-xl p-1.5 pl-2 font-h4 flex-1',
                 style: ''
             }"
             :class="{ 'is-hide': isHide && modelValue.length }"
             :id="id"
+            :autocomplete="autocomplete"
             @input="manageInput"
             @change="manageChange"
             @focus="isFocus = true"
             @blur="isFocus = false"
         />
-        <div @click="isHide = !isHide" class="p-1.5 h-8">
-            <SvgEye v-if="!isHide" class="h-full w-full" color="var(--accent)" />
-            <SvgEyeSlash v-else class="h-full w-full" color="var(--accent)" />
+        <div
+            @click="isHide = !isHide"
+            class="p-1 mr-0.5 ml-auto"
+            :style="{ height: svgHeight + 'px', width: svgHeight + 'px' }"
+            ref="svg"
+        >
+            <SvgEye v-if="!isHide" class="h-full w-full" />
+            <SvgEyeSlash v-else class="h-full w-full" />
         </div>
     </label>
 </template>
@@ -45,6 +52,10 @@ defineProps({
     autocomplete: {
         type: String as PropType<AutoComplete>,
         default: 'off'
+    },
+    size: {
+        type: Number,
+        default: 20
     },
 
     bgColor: {
@@ -67,6 +78,17 @@ defineProps({
 
 const isHide = ref(true);
 const isFocus = ref(false);
+const input = ref();
+const svgHeight = ref(0);
+
+watch(
+    () => input.value,
+    () => {
+        if (!input.value) return;
+        svgHeight.value = input.value.getBoundingClientRect().height;
+    },
+    { deep: true, immediate: true }
+);
 
 const emits = defineEmits<{
     (event: 'update:modelValue', value: string): void;

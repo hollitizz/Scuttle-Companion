@@ -1,6 +1,6 @@
 <template>
     <div class="h-full flex-center flex-col items-center">
-        <div class="flex-center flex-col">
+        <div class="flex-center flex-col select-none">
             <img class="icon" v-if="icon" :src="icon" alt="icon" />
             <h4 class="level">
                 <h3>{{ account.summoner_level }}</h3>

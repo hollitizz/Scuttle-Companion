@@ -6,10 +6,10 @@
     "description": "An app to help you to login to League of Legends and much more",
     "author": "Hollitizz",
     "scripts": {
-        "build-dir": "vue-tsc --noEmit && vite build && electron-builder --dir",
         "dev": "nuxi dev",
         "build": "nuxi build --prerender && electron-builder",
-        "preview": "vite preview",
+        "build:dir": "nuxi build --prerender && electron-builder --dir",
+        "preview": "nuxi preview",
         "release": "vue-tsc --noEmit && vite build && electron-builder -p always"
     },
     "main": "dist-electron/main.js",

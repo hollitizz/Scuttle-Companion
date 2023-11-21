@@ -3,7 +3,7 @@
         <ul
             class="h-full w-4/5 gap-4 flex flex-col items-center ml-auto overflow-y-auto"
         >
-            <template v-for="account in accounts?.concat(accounts)" :key="account.id">
+            <template v-for="account in accounts" :key="account.id">
                 <li class="bg-card-color w-full rounded-xl">
                     <Account :account="account" />
                 </li>
