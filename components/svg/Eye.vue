@@ -16,7 +16,7 @@
 </template>
 <script setup lang="ts">
 const { color } = defineProps({
-    color: { type: String, default: 'white' }
+    color: { type: String, default: 'var(--accent)' }
 });
 </script>
 

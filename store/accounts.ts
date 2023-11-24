@@ -35,6 +35,29 @@ export const useAccountsStore = defineStore('useAccountsStore', () => {
         }
     }
 
+    function addAccount(account: {
+        summoner_name: string;
+        username: string;
+        password: string;
+    }) {
+        accounts.value!.push({
+            ...account,
+            tier: 0,
+            rank: 0,
+            lp: 0,
+            icon_id: 5610,
+            is_provisional: false,
+            wins: 0,
+            losses: 0,
+            summoner_level: 0,
+            id: 0,
+            champions: [],
+            wallet: { rp: 0, be: 0 },
+            app_id: Math.floor(Math.random() * 1000000000)
+        });
+        saveAccounts();
+    }
+
     function saveAccounts() {
         if (isEncrypted.value && !password.value) return;
         if (isEncrypted.value) {
@@ -59,6 +82,7 @@ export const useAccountsStore = defineStore('useAccountsStore', () => {
         isEncrypted,
 
         loadAccounts,
+        addAccount,
         saveAccounts
     };
 });

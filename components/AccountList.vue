@@ -1,5 +1,6 @@
 <template>
     <div class="flex w-full h-full relative py-4 flex-end ">
+        <AccountAddModal v-model:isOpen="isOpen" />
         <ul
             class="h-full w-4/5 gap-4 flex flex-col items-center ml-auto overflow-y-auto"
         >
@@ -12,7 +13,7 @@
         <ul class=" mx-8 mt-4">
             <li>
                 <UiFormButton>
-                    <SvgAdd />
+                    <SvgAdd @click="isOpen = true " />
                 </UiFormButton>
             </li>
         </ul>
@@ -22,11 +23,15 @@
 <script lang="ts" setup>
 import { useAccountsStore } from '~/store/accounts';
 import { storeToRefs } from 'pinia';
+import { useLcuStore } from '~/store/lcu';
 
 const accountsStore = useAccountsStore();
 const { accounts } = storeToRefs(accountsStore);
+const lcuStore = useLcuStore();
 
-// add verification https://authenticate.riotgames.com/api/v1/login
+const isOpen = ref(true);
+
+
 </script>
 
 <style lang="scss" scoped></style>

@@ -30,12 +30,6 @@ import fs from 'fs';
 //     }
 // };
 
-// /**
-//  * https://tobiasahlin.com/spinkit
-//  * https://connoratherton.com/loaders
-//  * https://projects.lukehaas.me/css-loaders
-//  * https://matejkustec.github.io/SpinThatShit
-//  */
 // function useLoading() {
 //     const className = `loaders-css__square-spin`;
 
@@ -149,6 +143,12 @@ import fs from 'fs';
 // setTimeout(removeLoading, 4999);
 
 // ---------------------------------------------------------
+
+fetch(
+    'https://ddragon.leagueoflegends.com/api/versions.json'
+)
+    .then(res => res.json())
+    .then(res => process.env['PATCH'] = res[0]);
 
 if (process.platform === 'darwin') {
     process.env['RESOURCES_FOLDER'] = `resources/`;

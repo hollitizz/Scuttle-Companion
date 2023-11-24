@@ -342,3 +342,13 @@ interface Lockfile {
     password: string;
     protocol: string;
 }
+
+interface RankedStats {
+    tier: string;
+    division: string;
+    leaguePoints: number;
+    miniSeriesProgress: string;
+    isProvisional: boolean;
+    wins: number;
+    losses: number;
+}

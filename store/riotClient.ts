@@ -13,7 +13,7 @@ export const useRiotClientStore = defineStore('useRiotClientStore', () => {
     });
     const baseUrl = computed(() => {
         if (!lockfile.value) return null;
-        return `${lockfile.value.protocol}://localhost:${lockfile.value.port}`;
+        return `${lockfile.value.protocol}://127.0.0.1:${lockfile.value.port}`;
     });
     const httpsAgent = new https.Agent({
         rejectUnauthorized: false

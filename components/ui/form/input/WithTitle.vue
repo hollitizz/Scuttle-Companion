@@ -2,7 +2,13 @@
     <div class="flex flex-col">
         <legend :class="'ml-1.5 mb-0.5 w-full'">{{ title }}</legend>
         <UiFormInput
-            v-bind="{ ...$attrs, class: 'w-full h-full', style: '', ...$props }"
+            v-bind="{
+                ...$attrs,
+                class: 'w-full h-full',
+                style: '',
+                ...$props,
+                title: ''
+            }"
             :modelValue="modelValue"
             @update:modelValue="emits('update:modelValue', $event)"
             @change:modelValue="emits('change:modelValue', $event)"

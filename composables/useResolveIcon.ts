@@ -3,7 +3,6 @@ import fs from 'fs';
 async function downloadImage(url: string, savePath: string) {
     const res = await fetch(url);
 
-    console.log('res');
     const blob = await res.arrayBuffer();
     const buffer = Buffer.from(blob);
     fs.writeFileSync(savePath, buffer);
@@ -21,7 +20,9 @@ export async function useResolveIcon(iconId: number) {
         return path;
     } else {
         return await downloadImage(
-            `http://ddragon.leagueoflegends.com/cdn/13.14.1/img/profileicon/${iconId}.png`,
+            `http://ddragon.leagueoflegends.com/cdn/${
+                process.env['PATCH'] ?? '13.23.1'
+            }/img/profileicon/${iconId}.png`,
             path
         );
     }

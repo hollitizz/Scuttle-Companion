@@ -1,7 +1,8 @@
 <template>
     <input
+        ref="input"
         type="number"
-        v-bind="{ ...$attrs, class: '', style: '' }"
+        v-bind="{ ...$attrs, class: '', style: '', ...$props }"
         class="rounded-xl p-1.5 pl-2 font-h4"
         :style="{
             '--bg-color': bgColor,
@@ -12,6 +13,7 @@
         :autocomplete="autocomplete"
         @input="manageInput"
         @change="manageChange"
+        @keydown.esc.stop="input?.blur()"
     />
 </template>
 
@@ -54,6 +56,8 @@ const emits = defineEmits<{
     (event: 'change:modelValue', value: string): void;
 }>();
 
+const input = ref<HTMLInputElement>();
+
 function manageInput(event: Event) {
     const target = event?.target as HTMLInputElement;
     emits('update:modelValue', target?.value);
@@ -68,10 +72,10 @@ function manageChange(event: Event) {
 <style lang="scss" scoped>
 input {
     &:focus {
-        outline: 1.2px solid var(--focus);
+        outline: 2px solid var(--focus);
     }
 
-    outline: 1.2px solid var(--outline-color);
+    outline: 2px solid var(--outline-color);
     outline-offset: -1px;
     background: var(--bg-color, white);
     color: var(--font-color, white);
