@@ -1,16 +1,23 @@
 <template>
-    <div class="card">
-        <slot />
+    <div class="wrapper">
+        <div class="card">
+            <slot />
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup></script>
 
 <style lang="scss" scoped>
-.card {
-    background-color: var(--card-color);
+.wrapper {
+    padding: 0.0625rem;
+    background: linear-gradient(140deg, var(--accent) 0%, #343434 50%);
     border-radius: 30px;
-    padding: 0.625rem 1rem;
-    border: 1px solid #44a9b4;
+
+    .card {
+        background-color: var(--card-color);
+        border-radius: 30px;
+        padding: 0.625rem 1rem;
+    }
 }
 </style>
