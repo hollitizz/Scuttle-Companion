@@ -3,18 +3,17 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
     --text: #ffffff;
-    --background: #1c5877;
-    --primary: #084363;
-    --secondary: #023954;
-    --accent: #2c8fc3;
+    --background: #050307;
+    --primary: #003d57;
+    --secondary: #44f0ba;
+    --accent: #44a9b4;
     --success: #81e052;
     --danger: #ee2b3b;
     --warning: #f9c753;
 
-    --card-color: rgba(0, 0, 0, 0.1);
+    --card-color: #0d0b0f;
 }
 
 html {

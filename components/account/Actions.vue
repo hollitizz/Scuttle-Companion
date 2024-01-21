@@ -1,6 +1,6 @@
 <template>
     <div class="flex-center">
-        <UiFormButton class="w-32 p-2 !font-h3" @click="login"> Se connecter </UiFormButton>
+        <UiFormButton @click="login"> Se connecter </UiFormButton>
     </div>
 </template>
 

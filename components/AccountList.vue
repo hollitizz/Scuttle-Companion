@@ -1,19 +1,19 @@
 <template>
-    <div class="flex w-full h-full relative py-4 flex-end ">
+    <div class="flex w-full h-full relative py-4 flex-end">
         <AccountAddModal v-model:isOpen="isOpen" />
         <ul
-            class="h-full w-4/5 gap-4 flex flex-col items-center ml-auto overflow-y-auto"
+            class="h-full w-4/5 gap-4 flex flex-col items-center ml-12 overflow-y-auto"
         >
             <template v-for="account in accounts" :key="account.id">
-                <li class="bg-card-color w-full rounded-xl">
+                <UiCard class="w-full">
                     <Account :account="account" />
-                </li>
+                </UiCard>
             </template>
         </ul>
-        <ul class=" mx-8 mt-4">
+        <ul class="mx-auto mt-4">
             <li>
                 <UiFormButton>
-                    <SvgAdd @click="isOpen = true " />
+                    <SvgAdd @click="isOpen = true" />
                 </UiFormButton>
             </li>
         </ul>
@@ -30,8 +30,6 @@ const { accounts } = storeToRefs(accountsStore);
 const lcuStore = useLcuStore();
 
 const isOpen = ref(true);
-
-
 </script>
 
 <style lang="scss" scoped></style>

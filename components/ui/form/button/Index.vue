@@ -1,11 +1,11 @@
 <template>
     <button
         v-bind="{ ...$attrs, class: '', style: '' }"
-        class="p-1.5 rounded-xl font-h4 select-none"
+        class="px-5 py-2.5 rounded-full font-mb1 select-none"
         :disabled="disabled"
         :style="`--bg-color: ${bgColor}; --outline-color: ${outlineColor}; --font-color: ${fontColor};`"
     >
-            <slot />
+        <slot />
     </button>
 </template>
 
@@ -21,7 +21,7 @@ defineProps({
     },
     fontColor: {
         type: String as PropType<CssColors>,
-        default: 'white'
+        default: 'var(--text)'
     },
 
     disabled: {

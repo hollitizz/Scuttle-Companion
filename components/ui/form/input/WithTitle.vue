@@ -37,7 +37,7 @@ defineProps({
 
     bgColor: {
         type: String as PropType<CssColors>,
-        default: 'white'
+        default: 'var(--background)'
     },
     outlineColor: {
         type: String as PropType<CssColors>,

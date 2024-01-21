@@ -26,11 +26,11 @@
             @change="manageChange"
             @focus="isFocus = true"
             @blur="isFocus = false"
-        @keydown.esc.stop="input?.blur()"
+            @keydown.esc.stop="input?.blur()"
         />
         <div
             @click="isHide = !isHide"
-            class="p-1 mr-0.5 ml-auto "
+            class="p-1 mr-0.5 ml-auto"
             :style="{ height: svgHeight + 'px', width: svgHeight + 'px' }"
             ref="svg"
         >
@@ -62,7 +62,7 @@ defineProps({
 
     bgColor: {
         type: String as PropType<CssColors>,
-        default: 'white'
+        default: 'var(--background)'
     },
     outlineColor: {
         type: String as PropType<CssColors>,
@@ -111,6 +111,7 @@ function manageChange(event: Event) {
 <style lang="scss" scoped>
 label {
     input {
+        background: var(--bg-color, white);
         &::placeholder {
             color: var(--outline-color);
         }

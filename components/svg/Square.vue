@@ -35,6 +35,6 @@
 
 <script setup lang="ts">
 const props = defineProps({
-    color: { type: String, default: 'white' }
+    color: { type: String, default: 'var(--accent)' }
 });
 </script>
