@@ -11,7 +11,7 @@
 <style lang="scss" scoped>
 .wrapper {
     padding: 0.0625rem;
-    background: linear-gradient(140deg, var(--accent) 0%, #343434 50%);
+    background: linear-gradient(160deg, var(--accent) 0%, #343434 50%);
     border-radius: 30px;
 
     .card {
