@@ -1,7 +1,15 @@
 <template>
     <div class="h-full flex-center flex-col items-center">
         <div class="flex-center flex-col select-none">
-            <img class="icon" v-if="icon" :src="icon" alt="icon" />
+            <img
+                class="icon"
+                :class="{
+                    'outline outline-2 outline-success': account.isLogged
+                }"
+                v-if="icon"
+                :src="icon"
+                alt="icon"
+            />
             <h4 class="level">
                 <h3>{{ account.summoner_level }}</h3>
             </h4>
@@ -30,18 +38,12 @@ onMounted(async () => {
 }
 
 .level {
-    margin-top: -15px;
+    margin-top: -13px;
     margin-bottom: -5px;
     border-radius: 10px;
-    background-color: var(--primary);
+    background-color: var(--background);
+    padding: 5px;
     outline-offset: -2px;
     outline: solid 4px var(--card-color);
-
-    h3 {
-        padding: 5px;
-        border-radius: 10px;
-        outline: solid 4px var(--background);
-        outline-offset: -2px;
-    }
 }
 </style>

@@ -13,10 +13,11 @@ interface Account {
     losses: number;
     champions: string[];
     summoner_level: number;
+    isLogged?: boolean;
     wallet: {
         rp: number;
         be: number;
-    }
+    };
 }
 
 interface LeagueSettings {

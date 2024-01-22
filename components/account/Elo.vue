@@ -1,23 +1,32 @@
 <template>
-    <div class="h-full flex-center ml-2">
-        <div class="rounded-full bg-primary h-28 w-28 flex-center p-2 select-none">
-            <img class="mt-4" :src="tierImg" :alt="tier"/>
-        </div>
-        <div class="text-center m-auto">
-            <h3 class="m-0 select-none">{{ tier + rank }}</h3>
-            <h3 class="m-0 select-none">{{ account.lp }} LP</h3>
-            <h3 v-if="account.wins || account.losses" class="m-0 select-none">
-                {{
-                    `${account.is_provisional ? '[P] ' : ''}${account.wins}V ${
-                        account.losses
-                    }D`
-                }}
-            </h3>
-        </div>
-    </div>
+    <VTooltip :distance="-20">
+        <UiCardCircle class="select-none w-40 h-40">
+            <img :src="tierImg" :alt="tier" />
+        </UiCardCircle>
+        <template #popper>
+            <div class="text-center m-auto">
+                <p class="m-0 select-none">{{ tier + rank }}</p>
+                <p v-if="account.tier > 0" class="m-0 select-none">
+                    {{ account.lp }} LP
+                </p>
+                <p
+                    v-if="account.wins || account.losses"
+                    class="m-0 select-none"
+                >
+                    {{
+                        `${account.is_provisional ? '[P] ' : ''}${
+                            account.wins
+                        }V ${account.losses}D`
+                    }}
+                </p>
+            </div>
+        </template>
+    </VTooltip>
 </template>
 
 <script lang="ts" setup>
+import { Tooltip as VTooltip } from 'floating-vue';
+
 import ChallengerImg from '@/assets/rank/10.png';
 import GrandmasterImg from '@/assets/rank/9.png';
 import MasterImg from '@/assets/rank/8.png';

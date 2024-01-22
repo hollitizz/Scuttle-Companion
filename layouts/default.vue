@@ -1,17 +1,23 @@
 <template>
     <header class="flex justify-between">
-        <div class="icon flex-center py-1">
+        <div class="icon flex-center py-1" @dblclick="close">
             <img src="@/assets/icon.png" alt="logo" />
         </div>
         <div class="flex items-center gap-1 relative">
-            <div class="hover:bg-white hover:bg-opacity-10 h-full flex-center">
-                <SvgDash class="h-8 w-8" @click="minimize" />
+            <div
+                class="hover:bg-white hover:bg-opacity-10 h-full flex-center"
+                @click="minimize"
+            >
+                <SvgDash class="h-8 w-8" />
             </div>
-            <div class="hover:bg-white hover:bg-opacity-10 h-full flex-center">
-                <SvgSquare class="h-8 w-8" @click="maximize" />
+            <div
+                class="hover:bg-white hover:bg-opacity-10 h-full flex-center"
+                @click="maximize"
+            >
+                <SvgSquare class="h-8 w-8" />
             </div>
-            <div class="hover:bg-red h-full flex-center w-10">
-                <SvgCross class="h-8 w-8" @click="close" />
+            <div class="hover:bg-red h-full flex-center w-10" @click="close">
+                <SvgCross class="h-8 w-8" />
             </div>
         </div>
     </header>

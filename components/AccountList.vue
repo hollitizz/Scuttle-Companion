@@ -5,7 +5,11 @@
             class="h-full w-4/5 gap-4 flex flex-col items-center ml-12 overflow-y-auto"
         >
             <template v-for="account in accounts" :key="account.id">
-                <UiCard class="w-full">
+                <UiCard
+                    class="w-full h-[12.5rem]"
+                    borderColor="linear-gradient(165deg, var(--accent) 0%, #343434 55%)"
+                    style="--card-padding: 0.625rem 0"
+                >
                     <Account :account="account" />
                 </UiCard>
             </template>

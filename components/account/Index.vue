@@ -1,8 +1,8 @@
 <template>
-    <div class="grid grid-cols-3 relative w-full items-center p-2 h-[152px]">
-        <AccountElo :account="account"/>
-        <AccountInfos :account="account"/>
-        <AccountActions :account="account"/>
+    <div class="grid grid-cols-3 relative h-full w-full items-center">
+        <AccountElo class="flex-center" :account="account" />
+        <AccountInfos :account="account" />
+        <AccountActions :account="account" />
     </div>
 </template>
 
@@ -15,5 +15,4 @@ const props = defineProps({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -134,10 +134,17 @@ app.whenReady()
     .then(() => {
         if (!process.env.VITE_DEV_SERVER_URL) {
             globalShortcut.register('F12', () => {});
-            // globalShortcut.register('CommandOrControl+R', () => {});
-            // globalShortcut.register('CommandOrControl+Shift+R', () => {});
-            // globalShortcut.register('Alt+CommandOrControl+I', () => {});
-            // globalShortcut.register('Shift+CommandOrControl+I', () => {});
+            globalShortcut.register('CommandOrControl+R', () => {});
+            globalShortcut.register('CommandOrControl+Shift+R', () => {});
+            globalShortcut.register('Alt+CommandOrControl+I', () => {});
+            globalShortcut.register('CommandOrControl+Shift+I', () => {});
             // autoUpdater.checkForUpdatesAndNotify();
+        } else {
+            globalShortcut.register('F12', () => {
+                win?.webContents.toggleDevTools();
+            });
+            globalShortcut.register('F5', () => {
+                win?.webContents.reload();
+            });
         }
     });

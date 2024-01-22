@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 defineProps({
     borderColor: {
-        type: String as PropType<CssColors | string>,
+        type: String as PropType<CssColors>,
         default: '#343434'
     },
     backgroundColor: {
@@ -23,14 +23,13 @@ defineProps({
 .wrapper {
     padding: 0.0625rem;
     background: var(--border-color, #343434);
-    border-radius: 30px;
+    border-radius: 9999px;
 
     .card {
         width: 100%;
         height: 100%;
         background-color: var(--card-color);
-        border-radius: 30px;
-        padding: var(--card-padding, 0.625rem 1rem);
+        border-radius: 9999px;
     }
 }
 </style>
