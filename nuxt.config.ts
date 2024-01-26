@@ -26,12 +26,7 @@ export default defineNuxtConfig({
         '@/assets/css/tooltip.css'
     ],
 
-    modules: [
-        'nuxt-electron',
-        '@pinia/nuxt',
-        'floating-vue/nuxt',
-        '@nuxt/devtools'
-    ],
+    modules: ['nuxt-electron', '@pinia/nuxt', '@nuxt/devtools'],
 
     pinia: {
         //@ts-ignore
@@ -47,5 +42,5 @@ export default defineNuxtConfig({
 
     build: {
         transpile: ['vue-toastification', 'vue-squircle']
-    },
+    }
 });

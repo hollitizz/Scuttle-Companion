@@ -4,6 +4,7 @@ import https from 'https';
 
 export const useRiotClientStore = defineStore('useRiotClientStore', () => {
     const lockfile = ref(null as Lockfile | null);
+    const isOpeningRiotClient = ref(false);
     const auth = computed(() => {
         if (!lockfile.value) return null;
         return {
@@ -19,12 +20,29 @@ export const useRiotClientStore = defineStore('useRiotClientStore', () => {
         rejectUnauthorized: false
     });
 
-    function refreshLockfile() {
+    async function refreshLockfile(retry: number = 0) {
+        if (!process.env['RIOT_LOCKFILE']) return;
         if (
-            !process.env['RIOT_LOCKFILE'] ||
-            !fs.existsSync(process.env['RIOT_LOCKFILE'])
-        )
-            return;
+            !fs.existsSync(process.env['RIOT_LOCKFILE']) &&
+            !isOpeningRiotClient.value &&
+            !lockfile.value
+        ) {
+            console.log('Opening Riot Client');
+            const hasError = !useOpenGame('League of Legends');
+            if (hasError) return;
+            isOpeningRiotClient.value = true;
+        }
+        if (
+            isOpeningRiotClient.value &&
+            !fs.existsSync(process.env['RIOT_LOCKFILE']) &&
+            retry < 60
+        ) {
+            console.log('Waiting for Riot Client to open');
+            await useSleep(500);
+            return await refreshLockfile(retry + 1);
+        }
+        isOpeningRiotClient.value = false;
+        if (!fs.existsSync(process.env['RIOT_LOCKFILE'])) return;
         if (fs.existsSync(process.env['RIOT_LOCKFILE'])) {
             const file = fs
                 .readFileSync(process.env['RIOT_LOCKFILE'], 'utf-8')
@@ -44,7 +62,7 @@ export const useRiotClientStore = defineStore('useRiotClientStore', () => {
         password: string,
         persistLogin = false
     ): Promise<{ success: boolean; message: string }> {
-        refreshLockfile();
+        await refreshLockfile();
         if (!lockfile.value)
             return {
                 success: false,

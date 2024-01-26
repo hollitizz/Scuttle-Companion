@@ -33,7 +33,7 @@ const accountsStore = useAccountsStore();
 const { accounts } = storeToRefs(accountsStore);
 const lcuStore = useLcuStore();
 
-const isOpen = ref(true);
+const isOpen = ref(false);
 </script>
 
 <style lang="scss" scoped></style>

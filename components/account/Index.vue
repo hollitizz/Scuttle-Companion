@@ -1,6 +1,6 @@
 <template>
     <div class="grid grid-cols-3 relative h-full w-full items-center">
-        <AccountElo class="flex-center" :account="account" />
+        <AccountElo class="pl-12" :account="account" />
         <AccountInfos :account="account" />
         <AccountActions :account="account" />
     </div>

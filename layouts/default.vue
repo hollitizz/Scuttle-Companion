@@ -29,42 +29,48 @@
                         content: 'Revenir à la liste les comptes',
                         placement: 'right'
                     }"
-                    :class="{
-                        on: $route.path === '/'
-                    }"
                 >
-                    <nuxt-link tag="li" to="/">
-                        <SvgDrag />
+                    <nuxt-link class="cursor-pointer" to="/">
+                        <SvgDrag
+                            :color="
+                                $route.path === '/'
+                                    ? 'var(--secondary)'
+                                    : undefined
+                            "
+                        />
                     </nuxt-link>
                 </li>
-                <li
-                    v-tooltip="{ content: 'Paramètres', placement: 'right' }"
-                    :class="{
-                        on: $route.path === '/settings'
-                    }"
-                >
-                    <nuxt-link to="/settings">
-                        <SvgSettings />
+                <li v-tooltip="{ content: 'Paramètres', placement: 'right' }">
+                    <nuxt-link class="cursor-pointer" to="/settings">
+                        <SvgSettings
+                            :color="
+                                $route.path === '/settings'
+                                    ? 'var(--secondary)'
+                                    : undefined
+                            "
+                        />
                     </nuxt-link>
                 </li>
             </ul>
             <UiSeparator class="px-2" />
             <ul>
                 <li
+                    class="cursor-pointer"
                     v-tooltip="{
                         content: 'Lancer League of Legends',
                         placement: 'right'
                     }"
-                    @click="openGame('League of Legends')"
+                    @click="useOpenGame('League of Legends')"
                 >
                     <SvgLeague />
                 </li>
                 <li
+                    class="cursor-pointer"
                     v-tooltip="{
                         content: 'Lancer Valorant',
                         placement: 'right'
                     }"
-                    @click="openGame('Valorant')"
+                    @click="useOpenGame('Valorant')"
                 >
                     <SvgValorant class="w-8 h-8" />
                 </li>
@@ -78,7 +84,6 @@
 
 <script lang="ts" setup>
 import { ipcRenderer } from 'electron';
-import { spawn } from 'child_process';
 
 function minimize() {
     ipcRenderer.send('minimize');
@@ -90,35 +95,6 @@ function maximize() {
 
 function close() {
     ipcRenderer.send('close');
-}
-
-function openGame(game: 'League of Legends' | 'Valorant') {
-    if (!process.env['LEAGUE_EXECUTABLE']) {
-        return useToast.error(
-            `Impossible de lancer ${game} car le chemin d'accès n'est pas valide`
-        );
-    }
-
-    const product =
-        game === 'League of Legends' ? 'league_of_legends' : 'valorant';
-
-    try {
-        if (process.platform === 'win32') {
-            spawn('cmd.exe', [
-                '/c',
-                'start',
-                '""',
-                process.env['LEAGUE_EXECUTABLE'],
-                `--launch-product=${product}`,
-                '--launch-patchline=live'
-            ]);
-        } else if (process.platform === 'darwin') {
-            spawn('open', [process.env['LEAGUE_EXECUTABLE']]);
-        }
-        useToast.success(`${game} lancé !`);
-    } catch (e) {
-        useToast.error(`Impossible de lancer ${game}`);
-    }
 }
 </script>
 
@@ -149,23 +125,16 @@ main {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: flex-start;
         border-right: 2px solid var(--primary);
-        gap: 0.625rem;
-
+        list-style: none;
         ul {
             li {
-                padding: 0 0.625rem;
-
                 svg {
+                    margin: 0.625rem;
                     width: 2.5rem;
                     height: 2.5rem;
                 }
-                // &:hover {
-                //     background-color: rgba(255, 255, 255, 0.1);
-                // }
-                // &.on {
-                //     background-color: rgba(255, 255, 255, 0.05);
-                // }
             }
         }
     }

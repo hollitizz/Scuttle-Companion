@@ -61,10 +61,8 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
             process.env['LEAGUE_EXECUTABLE'] = settings.value.leagueExecutable;
         } else {
             setLeaguePath(
-                fs.existsSync(
-                    `${process.env['SystemDrive']}/Riot Games/Riot Client/RiotClientServices.exe`
-                )
-                    ? `${process.env['SystemDrive']}/Riot Games/Riot Client/RiotClientServices.exe`
+                fs.existsSync(`${process.env['DEFAULT_LEAGUE_EXECUTABLE']}`)
+                    ? `${process.env['DEFAULT_LEAGUE_EXECUTABLE']}`
                     : ''
             );
         }
@@ -73,13 +71,12 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
             settings.value.leagueLockfile !== '' &&
             fs.existsSync(settings.value.leagueLockfile)
         ) {
-            process.env['LEAGUE_LOCKFILE'] = settings.value.leagueLockfile + '/lockfile';
+            process.env['LEAGUE_LOCKFILE'] =
+                settings.value.leagueLockfile + '/lockfile';
         } else {
             setLockfilePath(
-                fs.existsSync(
-                    `${process.env['SystemDrive']}/Riot Games/League of Legends`
-                )
-                    ? `${process.env['SystemDrive']}/Riot Games/League of Legends`
+                fs.existsSync(`${process.env['DEFAULT_LEAGUE_LOCKFILE']}`)
+                    ? `${process.env['DEFAULT_LEAGUE_LOCKFILE']}`
                     : ''
             );
         }
