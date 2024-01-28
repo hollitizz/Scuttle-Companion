@@ -16,8 +16,11 @@
         </ul>
         <ul class="mx-auto mt-4">
             <li>
-                <UiFormButton>
-                    <SvgAdd @click="isOpen = true" />
+                <UiFormButton
+                    v-tooltip="'Ajouter un compte'"
+                    @click="isOpen = true"
+                >
+                    <SvgAdd />
                 </UiFormButton>
             </li>
         </ul>

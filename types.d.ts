@@ -353,3 +353,8 @@ interface RankedStats {
     wins: number;
     losses: number;
 }
+
+interface NavItem {
+    name: string;
+    component: Component;
+}
