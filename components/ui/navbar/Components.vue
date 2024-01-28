@@ -47,7 +47,7 @@ const selectedIndex = ref(0);
         width: 0;
         height: 0.25rem;
         border-radius: 9999px 0;
-        background-color: var(--secondary);
+        background: var(--secondary);
         transition: width 0.2s ease-in-out;
     }
 
