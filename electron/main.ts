@@ -108,7 +108,7 @@ function createWindow() {
         minHeight: 600,
         width: 1024,
         height: 768,
-        backgroundColor: '#1c5877',
+        backgroundColor: '#000000',
 
         icon: path.join('assets/favicon.ico'),
         frame: false
