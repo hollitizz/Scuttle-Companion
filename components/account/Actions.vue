@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useRiotClientStore } from '~/store/riotClient';
+import { useRiotClientStore } from '~/stores/riotClient';
 
 const useRiotClient = useRiotClientStore();
 
@@ -30,3 +30,4 @@ async function login() {
 </script>
 
 <style lang="scss" scoped></style>
+~/stores/riotClient

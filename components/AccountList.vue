@@ -28,9 +28,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useAccountsStore } from '~/store/accounts';
+import { useAccountsStore } from '~/stores/accounts';
 import { storeToRefs } from 'pinia';
-import { useLcuStore } from '~/store/lcu';
+import { useLcuStore } from '~/stores/lcu';
 
 const accountsStore = useAccountsStore();
 const { accounts } = storeToRefs(accountsStore);
@@ -40,3 +40,4 @@ const isOpen = ref(false);
 </script>
 
 <style lang="scss" scoped></style>
+~/stores/accounts~/stores/lcu

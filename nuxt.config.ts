@@ -1,4 +1,9 @@
 export default defineNuxtConfig({
+    ssr: false,
+    experimental: {
+        appManifest: false
+    },
+
     electron: {
         build: [
             {
@@ -26,11 +31,10 @@ export default defineNuxtConfig({
         '@/assets/css/tooltip.css'
     ],
 
-    modules: ['nuxt-electron', '@pinia/nuxt', '@nuxt/devtools'],
+    modules: ['nuxt-electron', '@pinia/nuxt'],
 
     pinia: {
-        //@ts-ignore
-        autoImports: ['defineStore', ['defineStore', 'definePiniaStore']]
+        storesDirs: ['./stores/**']
     },
 
     postcss: {
@@ -41,6 +45,6 @@ export default defineNuxtConfig({
     },
 
     build: {
-        transpile: ['vue-toastification', 'vue-squircle']
+        transpile: ['vue-toastification']
     }
 });

@@ -25,9 +25,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useSettingsStore } from '~/store/settings';
+import { useSettingsStore } from '~/stores/settings';
 import { storeToRefs } from 'pinia';
-import { useAccountsStore } from '~/store/accounts';
+import { useAccountsStore } from '~/stores/accounts';
 
 const settingsStore = useSettingsStore();
 const { settings } = storeToRefs(settingsStore);
@@ -43,3 +43,4 @@ function login() {
         accountsStore.loadAccounts();
 }
 </script>
+~/stores/settings~/stores/accounts
