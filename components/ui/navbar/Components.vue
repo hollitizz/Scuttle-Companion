@@ -9,7 +9,7 @@
                 }"
             >
                 <div @click="selectedIndex = index">
-                    <h3 class="p-1">{{ item.name }}</h3>
+                    <h3 class="p-1 select-none">{{ item.name }}</h3>
                 </div>
             </li>
         </ul>
@@ -37,8 +37,7 @@ const selectedIndex = ref(0);
 <style lang="scss" scoped>
 .navbar-item {
     cursor: pointer;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s ease-in-out;
+    position: relative;
 
     &::after {
         content: '';
@@ -46,9 +45,10 @@ const selectedIndex = ref(0);
         display: block;
         width: 0;
         height: 0.25rem;
-        border-radius: 9999px 0;
+        border-radius: 4px;
         background: var(--secondary);
         transition: width 0.2s ease-in-out;
+        transform-origin: left;
     }
 
     &:hover {
@@ -58,8 +58,6 @@ const selectedIndex = ref(0);
     }
 
     &.selected {
-        color: var(--text-primary);
-
         &::after {
             width: 100%;
         }

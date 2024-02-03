@@ -1,0 +1,105 @@
+name: Build/release
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    create-release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4.1.1
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Get package info
+              id: package
+              uses: kylejrp/action-nodejs-package-info@v1.2
+
+            - name: Check Release Existence
+              id: release-existence
+              uses: insightsengineering/release-existence-action@v1.0.0
+              with:
+                  release-tag: ${{ steps.package.outputs.version }}
+
+            - name: Create Release
+              if: steps.release-existence.outputs.release-exists == 'false'
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: ${{ steps.package.outputs.version }}
+                  release_name: Release ${{ steps.package.outputs.version }}
+                  body: |
+                      ${{ github.event.head_commit.message }}
+                  draft: false
+                  prerelease: false
+
+    build-windows:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4.1.1
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Get package info
+              id: package
+              uses: kylejrp/action-nodejs-package-info@v1.2
+
+            - name: Install Dependencies
+              run: npm install
+
+            - name: Build
+              run: npm run build
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Upload File
+              uses: svenstaro/upload-release-action@v2
+              with:
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  file: ./release/${{ steps.package.outputs.version }}/${{ steps.package.outputs.name }}_${{ steps.package.outputs.version }}.exe
+                  tag: ${{ steps.package.outputs.version }}
+                  overwrite: true
+
+    build-macos:
+        runs-on: macos-latest
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4.1.1
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Get package info
+              id: package
+              uses: kylejrp/action-nodejs-package-info@v1.2
+
+            - name: Install Dependencies
+              run: npm install
+
+            - name: Build
+              run: npm run build
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Upload File
+              uses: svenstaro/upload-release-action@v2
+              with:
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  file: ./release/${{ steps.package.outputs.version }}/${{ steps.package.outputs.name }}_${{ steps.package.outputs.version }}.dmg
+                  tag: ${{ steps.package.outputs.version }}
+                  overwrite: true
