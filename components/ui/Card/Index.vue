@@ -1,5 +1,11 @@
 <template>
-    <div class="wrapper">
+    <div
+        class="wrapper"
+        :style="{
+            '--border-color': borderColor,
+            '--background-color': backgroundColor
+        }"
+    >
         <div class="card">
             <slot />
         </div>
@@ -28,7 +34,7 @@ defineProps({
     .card {
         width: 100%;
         height: 100%;
-        background-color: var(--card-color);
+        background-color: var(--background-color);
         border-radius: 30px;
         padding: var(--card-padding, 0.625rem 1rem);
     }

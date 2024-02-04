@@ -76,7 +76,7 @@
                 </li>
             </ul>
         </nav>
-        <div class="flex-1 h-[calc(100vh-2rem)]">
+        <div class="flex-1 h-[calc(100vh-2.625rem)]">
             <slot />
         </div>
     </main>

@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full w-full flex flex-col">
+    <div class="h-full w-full flex flex-col relative">
         <template v-if="isEncrypted && !accounts">
             <div class="h-full w-full flex-center">
                 <form

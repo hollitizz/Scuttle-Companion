@@ -1,6 +1,11 @@
 <template>
-    <div v-if="isOpen" ref="modal" class="modal">
-        <div class="w-full h-full px-4 py-2">
+    <div
+        v-if="isOpen"
+        ref="modal"
+        class="modal cursor-pointer"
+        @click="closeModal"
+    >
+        <div class="content cursor-auto" @click.stop>
             <slot />
         </div>
     </div>
@@ -9,7 +14,7 @@
 <script lang="ts" setup>
 const modal = ref();
 
-defineProps({
+const props = defineProps({
     isOpen: {
         type: Boolean,
         required: true
@@ -21,7 +26,6 @@ const emits = defineEmits<{
 }>();
 
 onMounted(() => {
-    document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
             closeModal();
@@ -30,19 +34,12 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    document.removeEventListener('mousedown', handleClickOutside);
     document.removeEventListener('keydown', (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
             closeModal();
         }
     });
 });
-
-const handleClickOutside = (event: MouseEvent) => {
-    if (modal.value && !modal.value.contains(event.target)) {
-        closeModal();
-    }
-};
 
 function closeModal() {
     emits('update:isOpen', false);
@@ -52,14 +49,22 @@ function closeModal() {
 <style lang="scss" scoped>
 .modal {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    background-color: var(--background);
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    border: 0.25rem solid var(--primary);
-    border-radius: 20px;
-    border-left: 0.6rem solid var(--primary);
+    .content {
+        border: var(--border-color, #343434) solid 1px;
+        border-radius: 30px;
+        padding: 2rem;
+        background-color: var(--card-color);
+        border-radius: 20px;
+    }
 }
 </style>

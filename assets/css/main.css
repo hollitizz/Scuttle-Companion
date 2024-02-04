@@ -42,26 +42,6 @@ img {
     user-drag: none;
 }
 
-::-webkit-scrollbar {
-    width: 0.4rem;
-    height: 0.4rem;
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-    margin: 0.4rem 0.4rem;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #d1d1d8;
-    border-radius: 100vw;
-}
-
-::-webkit-scrollbar-corner,
-::-webkit-scrollbar-button {
-    display: none;
-}
-
 #__nuxt {
     display: flex;
     flex-direction: column;
@@ -88,17 +68,7 @@ body,
     width: 100vw;
     height: 100vh;
 
-    scrollbar-color: var(--primary) transparent;
-    scrollbar-width: auto;
-
     overflow: hidden;
-}
-
-@media screen and (max-width: 640px) {
-    ::-webkit-scrollbar {
-        -webkit-appearance: none !important;
-        width: 0px !important;
-    }
 }
 
 #__nuxt {

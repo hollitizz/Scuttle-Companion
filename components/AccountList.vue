@@ -1,9 +1,9 @@
 <template>
-    <div class="flex w-full h-full relative py-4 flex-end">
+    <div
+        class="flex w-full h-full relative py-4 px-2 flex-start overflow-y-auto"
+    >
         <AccountAddModal v-model:isOpen="isOpen" />
-        <ul
-            class="h-full w-4/5 gap-4 flex flex-col items-center ml-12 overflow-y-auto"
-        >
+        <ul class="h-fit w-4/5 gap-4 flex flex-col items-center ml-12">
             <template v-for="account in accounts" :key="account.id">
                 <UiCard
                     class="w-full h-[12.5rem]"
@@ -14,13 +14,14 @@
                 </UiCard>
             </template>
         </ul>
-        <ul class="mx-auto mt-4">
+        <ul class="mx-auto mt-4 top-4 right-0 sticky">
             <li>
                 <UiFormButton
                     v-tooltip="'Ajouter un compte'"
                     @click="isOpen = true"
+                    :small="true"
                 >
-                    <SvgAdd />
+                    <SvgAdd class="w-6 h-6" />
                 </UiFormButton>
             </li>
         </ul>

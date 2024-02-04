@@ -28,6 +28,7 @@ export default defineNuxtConfig({
         '@/assets/css/fonts.css',
         '@/assets/css/animations.css',
         '@/assets/css/toast.css',
+        '@/assets/css/scrollbar.css',
         '@/assets/css/tooltip.css'
     ],
 

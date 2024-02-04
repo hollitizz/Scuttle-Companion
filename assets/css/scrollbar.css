@@ -1,0 +1,43 @@
+:root {
+    --scroll-color: var(--accent);
+}
+
+@supports (-moz-appearance: none) {
+    :root {
+        scrollbar-color: var(--scroll-color) transparent;
+        scrollbar-width: thin;
+    }
+}
+
+@supports selector(::-webkit-scrollbar) {
+    ::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+        margin: 0.5rem 0.5rem;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--scroll-color);
+        border: 2px solid transparent;
+
+        background-clip: padding-box;
+
+        border-radius: 100vw;
+    }
+
+    ::-webkit-scrollbar-corner,
+    ::-webkit-scrollbar-button {
+        display: none;
+    }
+
+    @media screen and (max-width: 640px) {
+        ::-webkit-scrollbar {
+            -webkit-appearance: none !important;
+            width: 0px !important;
+        }
+    }
+}

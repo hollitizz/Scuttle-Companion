@@ -2,6 +2,9 @@
     <button
         v-bind="{ ...$attrs, class: '', style: '' }"
         class="px-5 py-2.5 rounded-full font-mb1 select-none"
+        :class="{
+            small
+        }"
         :disabled="disabled"
         :style="`--bg-color: ${bgColor}; --outline-color: ${outlineColor}; --font-color: ${fontColor};`"
     >
@@ -23,6 +26,10 @@ defineProps({
         type: String as PropType<CssColors>,
         default: 'var(--text)'
     },
+    small: {
+        type: Boolean,
+        default: false
+    },
 
     disabled: {
         type: Boolean,
@@ -38,6 +45,11 @@ button {
     background: var(--bg-color);
     color: var(--font-color);
     cursor: pointer;
+
+    &.small {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.4rem;
+    }
 
     &:not(:disabled) {
         &:hover {
