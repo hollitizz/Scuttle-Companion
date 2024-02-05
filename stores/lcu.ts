@@ -26,7 +26,6 @@ export const useLcuStore = defineStore('useLcuStore', () => {
             !fs.existsSync(process.env['LEAGUE_LOCKFILE'])
         )
             return;
-        console.log('refreshLockfile', process.env['LEAGUE_LOCKFILE']);
         if (fs.existsSync(process.env['LEAGUE_LOCKFILE'])) {
             const file = fs
                 .readFileSync(process.env['LEAGUE_LOCKFILE'], 'utf-8')
@@ -116,7 +115,7 @@ export const useLcuStore = defineStore('useLcuStore', () => {
                 miniSeriesProgress: soloQStats.miniSeriesProgress,
                 isProvisional: soloQStats.isProvisional,
                 wins: soloQStats.wins,
-                losses: soloQStats.losses,
+                losses: soloQStats.losses
             }
         };
     }

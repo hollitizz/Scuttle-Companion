@@ -20,15 +20,15 @@ export const useRiotClientStore = defineStore('useRiotClientStore', () => {
         rejectUnauthorized: false
     });
 
-    async function refreshLockfile(retry: number = 0) {
+    async function refreshLockfile(retry: number = 0, force: boolean = false) {
         if (!process.env['RIOT_LOCKFILE']) return;
         if (
-            !fs.existsSync(process.env['RIOT_LOCKFILE']) &&
-            !isOpeningRiotClient.value &&
-            !lockfile.value
+            (!fs.existsSync(process.env['RIOT_LOCKFILE']) || force) &&
+            !isOpeningRiotClient.value
         ) {
             console.log('Opening Riot Client');
             const hasError = !useOpenGame('League of Legends');
+            await useSleep(1000);
             if (hasError) return;
             isOpeningRiotClient.value = true;
         }
@@ -39,7 +39,7 @@ export const useRiotClientStore = defineStore('useRiotClientStore', () => {
         ) {
             console.log('Waiting for Riot Client to open');
             await useSleep(500);
-            return await refreshLockfile(retry + 1);
+            return await refreshLockfile(retry + 1, force);
         }
         isOpeningRiotClient.value = false;
         if (!fs.existsSync(process.env['RIOT_LOCKFILE'])) return;
@@ -47,6 +47,11 @@ export const useRiotClientStore = defineStore('useRiotClientStore', () => {
             const file = fs
                 .readFileSync(process.env['RIOT_LOCKFILE'], 'utf-8')
                 .split(':');
+            if (!file.length) {
+                console.log('Waiting for Riot Client to open');
+                await useSleep(500);
+                return await refreshLockfile(retry + 1, true);
+            }
             lockfile.value = {
                 name: file[0],
                 pid: parseInt(file[1]),
@@ -62,7 +67,7 @@ export const useRiotClientStore = defineStore('useRiotClientStore', () => {
         password: string,
         persistLogin = false
     ): Promise<{ success: boolean; message: string }> {
-        await refreshLockfile();
+        await refreshLockfile(0, true);
         if (!lockfile.value)
             return {
                 success: false,

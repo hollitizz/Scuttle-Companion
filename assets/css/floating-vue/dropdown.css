@@ -1,0 +1,52 @@
+/* Default dropdown theme */
+.v-popper--theme-dropdown.v-popper__popper--show-to .v-popper__inner {
+    background: var(--background);
+    border: 1px var(--accent) solid;
+
+    color: var(--primary) !important;
+    font-family: Montserrat !important;
+    font-size: 0.625rem !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+    letter-spacing: 0.3px !important;
+}
+
+/* dropdown-select theme */
+.v-popper--theme-dropdown-select.v-popper__popper--show-to .v-popper__inner {
+    background: white;
+    border: 1px var(--primary) solid;
+
+    overflow-y: auto;
+    overflow-x: clip;
+    max-height: 12rem;
+}
+
+.v-popper--theme-dropdown-select.v-popper__popper--show-to
+    .v-popper__inner.bottom {
+    border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.v-popper--theme-dropdown-select.v-popper__popper--show-to
+    .v-popper__inner.top {
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+/* dropdown-search theme */
+.v-popper--theme-dropdown-search.v-popper__popper--show-to .v-popper__inner {
+    background: white;
+    border: 1px var(--primary) solid;
+    border-radius: 0.5rem;
+
+    overflow-y: auto;
+    overflow-x: clip;
+    max-height: 12rem;
+}
+
+/* dropdown-empty theme */
+.v-popper--theme-dropdown-empty.v-popper__popper--show-to .v-popper__inner {
+    background: transparent;
+
+    overflow-y: auto;
+    overflow-x: clip;
+}

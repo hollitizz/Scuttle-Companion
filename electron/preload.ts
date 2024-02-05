@@ -184,9 +184,11 @@ if (process.platform === 'darwin') {
 
     process.env['LEAGUE_LOCKFILE'] = '';
     process.env['LEAGUE_EXECUTABLE'] = '';
+    process.env['DEFAULT_LEAGUE_LOCKFILE'] = '';
 
     process.env['VALORANT_LOCKFILE'] = '';
     process.env['VALORANT_EXECUTABLE'] = '';
+    process.env['DEFAULT_VALORANT_LOCKFILE'] = '';
 } else {
     throw new Error('Unsupported platform');
 }

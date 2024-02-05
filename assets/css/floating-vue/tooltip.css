@@ -1,0 +1,13 @@
+/* Default tooltip theme */
+.v-popper--theme-tooltip .v-popper__inner {
+    background: var(--background) !important;
+    border: 1px var(--accent) solid !important;
+
+    color: var(--text) !important;
+    @apply font-mb1;
+}
+
+/* tooltip-border-primary theme */
+.v-popper--theme-tooltip-border-primary .v-popper__inner {
+    border: 1px var(--primary) solid;
+}

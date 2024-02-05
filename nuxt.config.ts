@@ -29,7 +29,12 @@ export default defineNuxtConfig({
         '@/assets/css/animations.css',
         '@/assets/css/toast.css',
         '@/assets/css/scrollbar.css',
-        '@/assets/css/tooltip.css'
+        '@/assets/css/tooltip.css',
+
+        '@/assets/css/floating-vue/dropdown.css',
+        '@/assets/css/floating-vue/tooltip.css',
+        '@/assets/css/floating-vue/menu.css',
+        '@/assets/css/floating-vue/global.css'
     ],
 
     modules: ['nuxt-electron', '@pinia/nuxt'],

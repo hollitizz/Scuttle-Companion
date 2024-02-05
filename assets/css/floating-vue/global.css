@@ -1,0 +1,9 @@
+.v-popper__arrow-container {
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+}
+
+.v-popper__popper {
+    @apply font-mb1;
+}

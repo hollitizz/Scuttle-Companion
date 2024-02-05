@@ -1,0 +1,23 @@
+/* Default menu theme */
+.v-popper--theme-menu .v-popper__inner {
+    background: var(--background);
+    border: 1px var(--accent) solid;
+    border-radius: 0.5rem;
+
+    color: var(--text);
+}
+
+/* menu-transparent theme */
+.v-popper--theme-menu-transparent .v-popper__inner {
+    background: transparent;
+    border: none !important;
+    overflow: visible;
+
+    transition: transform 400ms ease-in-out;
+    transform: translateX(0);
+}
+
+.v-popper--theme-menu-transparent .v-popper__inner:has(.active) {
+    transition: transform 300ms ease-in-out;
+    transform: translateX(-19rem);
+}

@@ -22,8 +22,8 @@ module.exports = {
                 success: 'var(--success)',
                 warning: 'var(--warning)',
                 danger: 'var(--danger)',
-                'card-color': 'var(--card-color)',
-            },
+                'card-color': 'var(--card-color)'
+            }
         }
     },
     plugins: [

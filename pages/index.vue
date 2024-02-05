@@ -43,4 +43,3 @@ function login() {
         accountsStore.loadAccounts();
 }
 </script>
-~/stores/settings~/stores/accounts

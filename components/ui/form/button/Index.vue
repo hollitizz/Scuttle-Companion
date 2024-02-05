@@ -47,7 +47,7 @@ button {
     cursor: pointer;
 
     &.small {
-        font-size: 0.8rem;
+        @apply font-legendb;
         padding: 0.25rem 0.4rem;
     }
 
