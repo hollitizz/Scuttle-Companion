@@ -41,4 +41,3 @@ const isOpen = ref(false);
 </script>
 
 <style lang="scss" scoped></style>
-~/stores/accounts~/stores/lcu
