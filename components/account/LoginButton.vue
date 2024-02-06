@@ -1,6 +1,6 @@
 <template>
     <VMenu theme="menu-transparent">
-        <UiFormButton @click="login"> Se connecter </UiFormButton>
+        <UiFormButton @click="login(false)"> Se connecter </UiFormButton>
         <template #popper>
             <UiFormButton @click="login(true)" :small="true">
                 Rester connecté

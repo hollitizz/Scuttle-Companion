@@ -28,7 +28,7 @@ export const useRiotClientStore = defineStore('useRiotClientStore', () => {
         ) {
             console.log('Opening Riot Client');
             const hasError = !useOpenGame('League of Legends');
-            await useSleep(1000);
+            if (force) await useSleep(2000);
             if (hasError) return;
             isOpeningRiotClient.value = true;
         }
