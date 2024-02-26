@@ -175,7 +175,7 @@ if (process.platform === 'darwin') {
             fs.mkdirSync(process.env['RESOURCES_FOLDER']);
     } else {
         process.env['RESOURCES_FOLDER'] =
-            `${process.env['APPDATA']}/League\ login\ app/resources/`;
+            `${process.env['APPDATA']}/Scuttle\ Companion/resources/`;
         fs.existsSync(process.env['RESOURCES_FOLDER']) ||
             fs.mkdirSync(process.env['RESOURCES_FOLDER']);
     }

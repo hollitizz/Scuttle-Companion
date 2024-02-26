@@ -5,6 +5,14 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
     const settings = ref(null as Settings | null);
 
     function loadDefaultConfig() {
+        if (
+            fs.existsSync(
+                process.env['APPDATA'] +
+                    '/League login app/resources/config.lal'
+            )
+        )
+            useEventBus.emit('ask_migrate_old_conf');
+
         fs.writeFileSync(
             process.env['RESOURCES_FOLDER'] + 'config.lal',
             JSON.stringify(
@@ -83,6 +91,8 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
     }
 
     function loadSettings() {
+        useEventBus.emit('ask_migrate_old_conf');
+
         if (!fs.existsSync(process.env['RESOURCES_FOLDER'] + 'config.lal'))
             loadDefaultConfig();
         settings.value = JSON.parse(

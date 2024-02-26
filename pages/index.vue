@@ -1,5 +1,8 @@
 <template>
     <div class="h-full w-full flex flex-col relative">
+        <UiModalConfirm v-model:is-open="isAskingMigrate">
+            <template #question> </template>
+        </UiModalConfirm>
         <template v-if="isEncrypted && !accounts">
             <div class="h-full w-full flex-center">
                 <form
@@ -25,16 +28,15 @@
 </template>
 
 <script lang="ts" setup>
-import { useSettingsStore } from '~/stores/settings';
-import { storeToRefs } from 'pinia';
-import { useAccountsStore } from '~/stores/accounts';
-
 const settingsStore = useSettingsStore();
 const { settings } = storeToRefs(settingsStore);
-if (!settings.value) settingsStore.loadSettings();
+useMountedFetch(() => {
+    if (!settings.value) settingsStore.loadSettings();
+});
 
 const accountsStore = useAccountsStore();
 const { accounts, password, isEncrypted } = storeToRefs(accountsStore);
+
 if (!settings.value?.isEncrypted ?? false) accountsStore.loadAccounts();
 else isEncrypted.value = true;
 
@@ -42,4 +44,10 @@ function login() {
     if (settingsStore.checkPassword(password.value))
         accountsStore.loadAccounts();
 }
+
+const isAskingMigrate = ref(false);
+
+useEventBus.on('ask_migrate_old_conf', () => {
+    isAskingMigrate.value = true;
+});
 </script>

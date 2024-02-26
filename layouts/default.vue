@@ -26,7 +26,7 @@
             <ul>
                 <li
                     v-tooltip="{
-                        content: 'Revenir à la liste les comptes',
+                        content: 'Liste des comptes',
                         placement: 'right'
                     }"
                 >
