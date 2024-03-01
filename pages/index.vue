@@ -1,7 +1,10 @@
 <template>
     <div class="h-full w-full flex flex-col relative">
         <UiModalConfirm v-model:is-open="isAskingMigrate">
-            <template #question> </template>
+            <template #information>
+                Une ancienne configuration a été détectée
+            </template>
+            <template #question> Voulez-vous la restaurer ? </template>
         </UiModalConfirm>
         <template v-if="isEncrypted && !accounts">
             <div class="h-full w-full flex-center">

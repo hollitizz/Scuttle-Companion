@@ -6,14 +6,40 @@
         @click="closeModal"
     >
         <div class="content cursor-auto" @click.stop>
-            <slot name="question" />
+            <div class="text-base">
+                <slot name="information" />
+            </div>
+            <div
+                class="flex-1 flex flex-col justify-center items-center w-full"
+            >
+                <div class="text-sm font-semibold flex-1 flex-center mb-6">
+                    <slot name="question">
+                        <h2>Êtes-vous sûr ?</h2>
+                    </slot>
+                </div>
 
-            <slot name="yes">
-                <UiFormButton @click="emits('yes')">Oui</UiFormButton>
-            </slot>
-            <slot name="no">
-                <UiFormButton @click="emits('no')">Non</UiFormButton>
-            </slot>
+                <div class="flex w-full items-center justify-around">
+                    <UiFormButton
+                        @click="
+                            emits('no');
+                            closeModal();
+                        "
+                        aria-label="Non"
+                    >
+                        Non
+                    </UiFormButton>
+
+                    <UiFormButton
+                        @click="
+                            emits('yes');
+                            closeModal();
+                        "
+                        aria-label="Oui"
+                    >
+                        Oui
+                    </UiFormButton>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -37,14 +63,24 @@ const emits = defineEmits<{
 onMounted(() => {
     document.addEventListener('keydown', (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
+            emits('no');
+            closeModal();
+        }
+        if (event.key === 'Enter') {
+            emits('yes');
             closeModal();
         }
     });
 });
 
 onUnmounted(() => {
-    document.removeEventListener('keydown', (event: KeyboardEvent) => {
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
+            emits('no');
+            closeModal();
+        }
+        if (event.key === 'Enter') {
+            emits('yes');
             closeModal();
         }
     });
@@ -69,6 +105,8 @@ function closeModal() {
     justify-content: center;
 
     .content {
+        @apply flex h-48 flex-col justify-between items-start gap-y-6 text-center;
+
         border: var(--border-color, #343434) solid 1px;
         border-radius: 30px;
         padding: 2rem;

@@ -91,8 +91,6 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
     }
 
     function loadSettings() {
-        useEventBus.emit('ask_migrate_old_conf');
-
         if (!fs.existsSync(process.env['RESOURCES_FOLDER'] + 'config.lal'))
             loadDefaultConfig();
         settings.value = JSON.parse(
