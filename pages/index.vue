@@ -1,11 +1,12 @@
 <template>
     <div class="h-full w-full flex flex-col relative">
-        <UiModalConfirm v-model:is-open="isAskingMigrate">
+        <UiModalConfirm v-model:is-open="isAskingMigrate" @yes="migrateOldConf">
             <template #information>
                 Une ancienne configuration a été détectée
             </template>
             <template #question> Voulez-vous la restaurer ? </template>
         </UiModalConfirm>
+
         <template v-if="isEncrypted && !accounts">
             <div class="h-full w-full flex-center">
                 <form
@@ -26,6 +27,7 @@
                 </form>
             </div>
         </template>
+
         <template v-else> <AccountList /> </template>
     </div>
 </template>
@@ -33,15 +35,15 @@
 <script lang="ts" setup>
 const settingsStore = useSettingsStore();
 const { settings } = storeToRefs(settingsStore);
-useMountedFetch(() => {
-    if (!settings.value) settingsStore.loadSettings();
-});
 
 const accountsStore = useAccountsStore();
 const { accounts, password, isEncrypted } = storeToRefs(accountsStore);
+useMountedFetch(() => {
+    if (!settings.value) settingsStore.loadSettings();
 
-if (!settings.value?.isEncrypted ?? false) accountsStore.loadAccounts();
-else isEncrypted.value = true;
+    if (!settings.value?.isEncrypted ?? false) accountsStore.loadAccounts();
+    else isEncrypted.value = true;
+});
 
 function login() {
     if (settingsStore.checkPassword(password.value))
@@ -49,6 +51,13 @@ function login() {
 }
 
 const isAskingMigrate = ref(false);
+
+function migrateOldConf() {
+    settingsStore.migrateOldConf();
+    settingsStore.loadSettings();
+    accounts.value = null;
+    if (settings.value?.isEncrypted) isEncrypted.value = true;
+}
 
 useEventBus.on('ask_migrate_old_conf', () => {
     isAskingMigrate.value = true;

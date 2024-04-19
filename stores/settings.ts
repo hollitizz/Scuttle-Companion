@@ -29,6 +29,39 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
         );
     }
 
+    function migrateOldConf() {
+        if (
+            fs.existsSync(
+                process.env['APPDATA'] +
+                    '/League login app/resources/config.lal'
+            )
+        ) {
+            const config = fs.readFileSync(
+                process.env['APPDATA'] +
+                    '/League login app/resources/config.lal'
+            );
+            fs.writeFileSync(
+                process.env['RESOURCES_FOLDER'] + 'config.lal',
+                config
+            );
+        }
+        if (
+            fs.existsSync(
+                process.env['APPDATA'] +
+                    '/League login app/resources/config.lal'
+            )
+        ) {
+            const accounts = fs.readFileSync(
+                process.env['APPDATA'] +
+                    '/League login app/resources/accounts.lal'
+            );
+            fs.writeFileSync(
+                process.env['RESOURCES_FOLDER'] + 'accounts.lal',
+                accounts
+            );
+        }
+    }
+
     function setMissingSettings() {
         if (!settings.value) return loadDefaultConfig();
         if (settings.value.isEncrypted === undefined)
@@ -165,6 +198,8 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
         settings,
 
         loadSettings,
+
+        migrateOldConf,
 
         setPassword,
         changePassword,
