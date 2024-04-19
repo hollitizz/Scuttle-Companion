@@ -30,7 +30,7 @@
                         placement: 'right'
                     }"
                 >
-                    <nuxt-link class="cursor-pointer" to="/">
+                    <nuxt-link class="cursor-pointer outline-none" to="/">
                         <SvgDrag
                             :color="
                                 $route.path === '/'
@@ -41,7 +41,10 @@
                     </nuxt-link>
                 </li>
                 <li v-tooltip="{ content: 'Paramètres', placement: 'right' }">
-                    <nuxt-link class="cursor-pointer" to="/settings">
+                    <nuxt-link
+                        class="cursor-pointer outline-none"
+                        to="/settings"
+                    >
                         <SvgSettings
                             :color="
                                 $route.path === '/settings'
