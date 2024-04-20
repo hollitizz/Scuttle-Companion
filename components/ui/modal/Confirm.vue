@@ -1,47 +1,38 @@
 <template>
-    <div
-        v-if="isOpen"
-        ref="modal"
-        class="modal cursor-pointer"
-        @click="closeModal"
-    >
-        <div class="content cursor-auto" @click.stop>
-            <div class="text-base">
-                <slot name="information" />
+    <UiModal :isOpen="isOpen" @update:isOpen="emits('update:isOpen', $event)">
+        <div class="text-base">
+            <slot name="information" />
+        </div>
+        <div class="flex-1 flex flex-col justify-center items-center w-full">
+            <div class="text-sm font-semibold flex-1 flex-center mb-6">
+                <slot name="question">
+                    <h2>Êtes-vous sûr ?</h2>
+                </slot>
             </div>
-            <div
-                class="flex-1 flex flex-col justify-center items-center w-full"
-            >
-                <div class="text-sm font-semibold flex-1 flex-center mb-6">
-                    <slot name="question">
-                        <h2>Êtes-vous sûr ?</h2>
-                    </slot>
-                </div>
 
-                <div class="flex w-full items-center justify-around">
-                    <UiFormButton
-                        @click="
-                            emits('no');
-                            closeModal();
-                        "
-                        aria-label="Non"
-                    >
-                        Non
-                    </UiFormButton>
+            <div class="flex w-full items-center justify-around">
+                <UiFormButton
+                    @click="
+                        emits('no');
+                        closeModal();
+                    "
+                    aria-label="Non"
+                >
+                    Non
+                </UiFormButton>
 
-                    <UiFormButton
-                        @click="
-                            emits('yes');
-                            closeModal();
-                        "
-                        aria-label="Oui"
-                    >
-                        Oui
-                    </UiFormButton>
-                </div>
+                <UiFormButton
+                    @click="
+                        emits('yes');
+                        closeModal();
+                    "
+                    aria-label="Oui"
+                >
+                    Oui
+                </UiFormButton>
             </div>
         </div>
-    </div>
+    </UiModal>
 </template>
 
 <script lang="ts" setup>

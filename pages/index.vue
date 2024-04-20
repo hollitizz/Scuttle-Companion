@@ -28,7 +28,9 @@
             </div>
         </template>
 
-        <template v-else> <AccountList /> </template>
+        <template v-else>
+            <AccountList />
+        </template>
     </div>
 </template>
 

@@ -4,8 +4,18 @@
         ref="modal"
         class="modal cursor-pointer"
         @click="closeModal"
+        :class="{
+            closing: closing
+        }"
     >
-        <div class="content cursor-auto" @click.stop>
+        <div
+            class="content cursor-auto"
+            @click.stop
+            :class="{
+                opening: opening,
+                closing: closing
+            }"
+        >
             <slot />
         </div>
     </div>
@@ -25,7 +35,28 @@ const emits = defineEmits<{
     (e: 'update:isOpen', value: boolean): void;
 }>();
 
+const opening = ref(false);
+const closing = ref(false);
+
+watch(
+    () => props.isOpen,
+    nValue => {
+        if (nValue) {
+            opening.value = true;
+            setTimeout(() => {
+                opening.value = false;
+            }, 300);
+        }
+    }
+);
+
 onMounted(() => {
+    if (props.isOpen) {
+        opening.value = true;
+        setTimeout(() => {
+            opening.value = false;
+        }, 300);
+    }
     document.addEventListener('keydown', (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
             closeModal();
@@ -42,7 +73,11 @@ onUnmounted(() => {
 });
 
 function closeModal() {
-    emits('update:isOpen', false);
+    closing.value = true;
+    setTimeout(() => {
+        emits('update:isOpen', false);
+        closing.value = false;
+    }, 300);
 }
 </script>
 
@@ -66,5 +101,13 @@ function closeModal() {
         background-color: var(--card-color);
         border-radius: 20px;
     }
+}
+
+.opening {
+    animation: grow 0.3s;
+}
+
+.closing {
+    animation: shrink 0.3s;
 }
 </style>
