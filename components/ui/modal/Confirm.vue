@@ -53,6 +53,7 @@ const emits = defineEmits<{
 
 onMounted(() => {
     document.addEventListener('keydown', (event: KeyboardEvent) => {
+        if (!props.isOpen) return;
         if (event.key === 'Escape') {
             emits('no');
             closeModal();
@@ -66,6 +67,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     document.addEventListener('keydown', (event: KeyboardEvent) => {
+        if (!props.isOpen) return;
         if (event.key === 'Escape') {
             emits('no');
             closeModal();

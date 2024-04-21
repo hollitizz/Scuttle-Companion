@@ -4,6 +4,8 @@ const encryptpwd = require('encrypt-with-password');
 
 export const useAccountsStore = defineStore('useAccountsStore', () => {
     const accounts = ref(null as Account[] | null);
+    const connectedAccount = ref(null as Account | null);
+    const lastConnectedId = ref(null as number | null);
     const password = ref('');
     const isEncrypted = ref(false);
 
@@ -45,15 +47,16 @@ export const useAccountsStore = defineStore('useAccountsStore', () => {
             tier: 0,
             rank: 0,
             lp: 0,
-            icon_id: 5610,
+            icon_id: 29,
             is_provisional: false,
             wins: 0,
             losses: 0,
             summoner_level: 0,
-            id: 0,
+            id: new Date().getTime() + Math.floor(Math.random() * 50),
+            isInitialized: false,
             champions: [],
             wallet: { rp: 0, be: 0 },
-            app_id: Math.floor(Math.random() * 1000000000)
+            tag: ''
         });
         saveAccounts();
     }
@@ -80,6 +83,8 @@ export const useAccountsStore = defineStore('useAccountsStore', () => {
         accounts,
         password,
         isEncrypted,
+        connectedAccount,
+        lastConnectedId,
 
         loadAccounts,
         addAccount,

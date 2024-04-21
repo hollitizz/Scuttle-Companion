@@ -1,20 +1,25 @@
 <template>
-    <div class="h-full flex-center flex-col items-center">
+    <div class="h-full flex-center flex-col">
+        <div class="flex-1"></div>
+
         <div class="flex-center flex-col select-none">
             <img
                 class="icon"
                 :class="{
-                    'outline outline-2 outline-success': account.isLogged
+                    'outline outline-2 outline-success':
+                        account.id === connectedAccount?.id
                 }"
                 v-if="icon"
                 :src="icon"
                 alt="icon"
             />
+
             <h4 class="level">
                 <h3>{{ account.summoner_level }}</h3>
             </h4>
         </div>
-        <h2 class="text-2xl">{{ account.summoner_name }}</h2>
+
+        <h2 class="text-2xl flex-1 mt-1">{{ account.summoner_name }}</h2>
     </div>
 </template>
 
@@ -26,10 +31,18 @@ const props = defineProps({
     }
 });
 
+const { connectedAccount } = storeToRefs(useAccountsStore());
+
 const icon = ref(null as string | null);
-onMounted(async () => {
-    icon.value = await useResolveIcon(props.account.icon_id);
-});
+
+watch(
+    () => props.account.icon_id,
+    async () => {
+        if (!props.account.icon_id) return;
+        icon.value = await useResolveIcon(props.account.icon_id);
+    },
+    { immediate: true }
+);
 </script>
 
 <style lang="scss" scoped>

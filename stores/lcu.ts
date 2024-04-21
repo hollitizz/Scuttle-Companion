@@ -40,10 +40,10 @@ export const useLcuStore = defineStore('useLcuStore', () => {
         }
     }
 
-    async function lcuFetch<T>(
+    async function lcuFetch<T = any>(
         endpoint: string,
         params: Record<string, any> = {}
-    ): Promise<T | any> {
+    ): Promise<{ success: boolean; message: string; data?: T }> {
         refreshLockfile();
         if (!lockfile.value)
             return {
@@ -57,8 +57,10 @@ export const useLcuStore = defineStore('useLcuStore', () => {
                 ? `${baseUrl.value}${endpoint}`
                 : endpoint) + query.toString();
         const body = params.body ? JSON.stringify(params.body) : undefined;
+
         delete params.query;
         delete params.body;
+
         const response = await fetch(url, {
             method: params.method ?? 'GET',
             // @ts-ignore
@@ -73,52 +75,50 @@ export const useLcuStore = defineStore('useLcuStore', () => {
             body,
             ...params
         });
+
         if (response.status === 200)
-            return { success: true, message: '', data: await response.json() };
+            return {
+                success: true,
+                message: '',
+                data: (await response.json()) as T
+            };
         if (response.status === 400)
             return {
                 success: false,
-                message: 'Une erreur est survenue',
-                data: null
+                message: `Error ${response.status}: Une erreur est survenue`
             };
         if (response.status === 401)
             return {
                 success: false,
-                message: 'Une erreur est survenue',
-                data: null
+                message: `Error ${response.status}: Une erreur est survenue`
             };
         if (response.status === 404)
             return {
                 success: false,
-                message: 'Une erreur est survenue',
-                data: null
+                message: `Error ${response.status}: Une erreur est survenue`
             };
-    }
-
-    async function getSummonerRankedStats(): Promise<{
-        success: boolean;
-        message: string;
-        data: RankedStats | null;
-    }> {
-        const res = await lcuFetch('/lol-ranked/v1/current-ranked-stats');
-        const soloQStats = res.data.queues.find(
-            (queue: any) => queue.queueType === 'RANKED_SOLO_5x5'
-        );
 
         return {
-            success: res.success,
-            message: res.message,
-            data: {
-                tier: soloQStats.tier,
-                division: soloQStats.division,
-                leaguePoints: soloQStats.leaguePoints,
-                miniSeriesProgress: soloQStats.miniSeriesProgress,
-                isProvisional: soloQStats.isProvisional,
-                wins: soloQStats.wins,
-                losses: soloQStats.losses
-            }
+            success: false,
+            message: `Error ${response.status}: Une erreur est survenue`
         };
     }
 
-    return { getSummonerRankedStats };
+    async function getSummonerRankedStats() {
+        const res = await lcuFetch<LolRankedV1CurrentRankedStats>(
+            '/lol-ranked/v1/current-ranked-stats'
+        );
+
+        return res;
+    }
+
+    async function getConnectedAccountInfo() {
+        const res = await lcuFetch<LolSummonerV1CurrentSummoner>(
+            '/lol-summoner/v1/current-summoner'
+        );
+
+        return res;
+    }
+
+    return { getSummonerRankedStats, getConnectedAccountInfo };
 });

@@ -21,6 +21,8 @@ const props = defineProps({
     }
 });
 
+const { lastConnectedId } = storeToRefs(useAccountsStore());
+
 async function login(stayConnected = false) {
     const { success, message } = await useRiotClient.login(
         props.account.username,
@@ -32,6 +34,7 @@ async function login(stayConnected = false) {
     } else {
         useToast.error(message);
     }
+    lastConnectedId.value = props.account.id;
 }
 </script>
 

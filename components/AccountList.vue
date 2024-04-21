@@ -4,13 +4,16 @@
     >
         <AccountAddModal v-model:isOpen="isOpen" />
         <ul class="h-fit w-4/5 gap-4 flex flex-col items-center ml-12">
-            <template v-for="account in accounts" :key="account.id">
+            <template v-for="(account, index) in accounts" :key="account.id">
                 <UiCard
                     class="w-full h-[12.5rem]"
                     borderColor="linear-gradient(165deg, var(--accent) 0%, #343434 55%)"
                     style="--card-padding: 0.625rem 0"
                 >
-                    <Account :account="account" />
+                    <Account
+                        :account="account"
+                        @delete="deleteAccount(index)"
+                    />
                 </UiCard>
             </template>
         </ul>
@@ -33,6 +36,12 @@ const accountsStore = useAccountsStore();
 const { accounts } = storeToRefs(accountsStore);
 
 const isOpen = ref(false);
+
+function deleteAccount(index: number) {
+    if (!accounts.value?.[index]) return;
+    accounts.value.splice(index, 1);
+    accountsStore.saveAccounts();
+}
 </script>
 
 <style lang="scss" scoped></style>

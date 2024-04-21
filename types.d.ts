@@ -1,6 +1,5 @@
 interface Account {
     id: number;
-    app_id: number;
     summoner_name: string;
     username: string;
     password: string;
@@ -13,11 +12,12 @@ interface Account {
     losses: number;
     champions: string[];
     summoner_level: number;
-    isLogged?: boolean;
+    isInitialized: boolean;
     wallet: {
         rp: number;
         be: number;
     };
+    tag: string;
 }
 
 interface LeagueSettings {
