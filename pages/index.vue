@@ -62,6 +62,7 @@ async function refreshConnectedAccount() {
 
     connectedAccount.value = current_account;
     connectedAccount.value.id = account.data.summonerId;
+    lastConnectedId.value = account.data.summonerId;
     connectedAccount.value.summoner_level = account.data.summonerLevel;
     connectedAccount.value.icon_id = account.data.profileIconId;
     connectedAccount.value.summoner_name = account.data.gameName;
