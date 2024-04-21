@@ -2,7 +2,6 @@
     <div
         class="flex w-full h-full relative py-4 px-2 flex-start overflow-y-auto"
     >
-        <AccountAddModal v-model:isOpen="isOpen" />
         <ul class="h-fit w-4/5 gap-4 flex flex-col items-center ml-12">
             <template v-for="(account, index) in accounts" :key="account.id">
                 <UiCard
@@ -12,21 +11,14 @@
                 >
                     <Account
                         :account="account"
+                        :editMode="editMode"
                         @delete="deleteAccount(index)"
                     />
                 </UiCard>
             </template>
         </ul>
         <ul class="mx-auto mt-4 top-4 right-0 sticky">
-            <li>
-                <UiFormButton
-                    v-tooltip="'Ajouter un compte'"
-                    @click="isOpen = true"
-                    :small="true"
-                >
-                    <SvgAdd class="w-6 h-6" />
-                </UiFormButton>
-            </li>
+            <RightMenu @toggle:editMode="editMode = !editMode" />
         </ul>
     </div>
 </template>
@@ -35,7 +27,7 @@
 const accountsStore = useAccountsStore();
 const { accounts } = storeToRefs(accountsStore);
 
-const isOpen = ref(false);
+const editMode = ref(false);
 
 function deleteAccount(index: number) {
     if (!accounts.value?.[index]) return;

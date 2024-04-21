@@ -5,6 +5,7 @@
 
 :root {
     --text: #ffffff;
+
     --background: #050307;
     --primary: #003d57;
     --secondary: #44f0ba;
@@ -12,6 +13,10 @@
     --success: #81e052;
     --danger: #ee2b3b;
     --warning: #f9c753;
+
+    --red: var(--danger);
+    --green: var(--success);
+    --yellow: var(--warning);
 
     --card-color: #0d0b0f;
 }

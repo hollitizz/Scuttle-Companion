@@ -11,8 +11,8 @@
 
 @supports selector(::-webkit-scrollbar) {
     ::-webkit-scrollbar {
-        width: 0.5rem;
-        height: 0.5rem;
+        width: 0.6rem;
+        height: 0.6rem;
     }
 
     ::-webkit-scrollbar-track {

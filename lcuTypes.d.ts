@@ -202,3 +202,33 @@ interface LolRankedV1CurrentRankedStats {
     }[];
     rankedRegaliaLevel: number;
 }
+
+interface LolChampionsV1OwnedChampionsMinimal {
+    id: number;
+    name: string;
+    alias: string;
+    title: string;
+    roles: string[];
+    freeToPlay: boolean;
+    botEnabled: boolean;
+    rankedPlayEnabled: boolean;
+    active: boolean;
+    ownership: {
+        owned: boolean;
+        rental: {
+            rented: boolean;
+            winCountRemaining: number;
+            purchaseDate: number;
+            endDate: number;
+        };
+        loyaltyReward: boolean;
+        xboxGPReward: boolean;
+    };
+    disabledQueues: string[];
+    banVoPath: string;
+    chooseVoPath: string;
+    stingerSfxPath: string;
+    baseSplashPath: string;
+    baseLoadScreenPath: string;
+    squarePortraitPath: string;
+}

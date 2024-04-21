@@ -108,10 +108,22 @@ async function refreshRankedData() {
     accountsStore.saveAccounts();
 }
 
+async function refreshChampList() {
+    if (!connectedAccount.value) return;
+
+    const champList = await lcuStore.getChampList();
+
+    if (!champList.success || !champList.data) return;
+
+    connectedAccount.value.champions = champList.data;
+    // accountsStore.saveAccounts();
+}
+
 function startJobs() {
     setInterval(async () => {
         if (!(await refreshConnectedAccount())) return;
         refreshRankedData();
+        refreshChampList();
     }, 1000 * 3);
 }
 

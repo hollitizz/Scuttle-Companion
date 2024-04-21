@@ -1,7 +1,15 @@
-import { app, BrowserWindow, ipcMain, shell, globalShortcut } from 'electron';
+import {
+    app,
+    BrowserWindow,
+    ipcMain,
+    shell,
+    globalShortcut,
+    ipcRenderer
+} from 'electron';
 import path from 'path';
 import { release } from 'node:os';
 import fs from 'fs';
+import https from 'https';
 // import { autoUpdater } from 'electron-updater';
 
 process.env.ROOT = path.join(__dirname, '..');
@@ -79,23 +87,6 @@ function clientListeners() {
         } else {
             win.maximize();
         }
-    });
-
-    ipcMain.on('migrate-old-conf', () => {
-        const config = fs.readFileSync(
-            process.env['RESOURCES_FOLDER'] + 'config.lal'
-        );
-        const accounts = fs.readFileSync(
-            process.env['RESOURCES_FOLDER'] + 'accounts.lal'
-        );
-        fs.writeFileSync(
-            process.env['RESOURCES_FOLDER'] + 'config.json',
-            config
-        );
-        fs.writeFileSync(
-            process.env['RESOURCES_FOLDER'] + 'accounts.json',
-            accounts
-        );
     });
 }
 

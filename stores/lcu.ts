@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import https from 'https';
 import fs from 'fs';
+import { ipcRenderer } from 'electron';
 
 export const useLcuStore = defineStore('useLcuStore', () => {
     const lockfile = ref(null as Lockfile | null);
@@ -120,5 +121,52 @@ export const useLcuStore = defineStore('useLcuStore', () => {
         return res;
     }
 
-    return { getSummonerRankedStats, getConnectedAccountInfo };
+    async function downloadChampTile(url: string, savePath: string) {
+        const res = await fetch(url, {
+            // @ts-ignore
+            agent: httpsAgent,
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Basic ${btoa(
+                    auth.value?.username + ':' + auth.value?.password
+                )}`
+            }
+        });
+        const blob = await res.arrayBuffer();
+        const buffer = Buffer.from(blob);
+        fs.writeFileSync(savePath, buffer);
+        return savePath;
+    }
+
+    async function getChampList() {
+        const res = await lcuFetch<LolChampionsV1OwnedChampionsMinimal[]>(
+            '/lol-champions/v1/owned-champions-minimal'
+        );
+        if (!res.success || !res.data) return [];
+
+        return res.data.reduce((acc: string[], cur: any) => {
+            if (!cur.ownership.owned) return acc;
+            acc.push(cur.name);
+            if (
+                !fs.existsSync(
+                    `${process.env['RESOURCES_FOLDER']}championTiles`
+                )
+            )
+                fs.mkdirSync(`${process.env['RESOURCES_FOLDER']}championTiles`);
+            if (
+                !fs.existsSync(
+                    `${process.env['RESOURCES_FOLDER']}championTiles/${cur.name}.png`
+                )
+            ) {
+                if (cur.alias === 'FiddleSticks') cur.alias = 'Fiddlesticks';
+                downloadChampTile(
+                    `${baseUrl.value}${cur.squarePortraitPath}`,
+                    `${process.env['RESOURCES_FOLDER']}championTiles/${cur.name}.png`
+                );
+            }
+            return acc;
+        }, [] as string[]);
+    }
+
+    return { getSummonerRankedStats, getConnectedAccountInfo, getChampList };
 });
