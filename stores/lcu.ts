@@ -142,7 +142,7 @@ export const useLcuStore = defineStore('useLcuStore', () => {
         const res = await lcuFetch<LolChampionsV1OwnedChampionsMinimal[]>(
             '/lol-champions/v1/owned-champions-minimal'
         );
-        if (!res.success || !res.data) return [];
+        if (!res.success || !res.data) return null;
 
         return res.data.reduce((acc: string[], cur: any) => {
             if (!cur.ownership.owned) return acc;

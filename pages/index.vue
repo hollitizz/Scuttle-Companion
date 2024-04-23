@@ -113,14 +113,15 @@ async function refreshChampList() {
 
     const champList = await lcuStore.getChampList();
 
-    if (!champList.success || !champList.data) return;
+    if (!champList) return;
 
-    connectedAccount.value.champions = champList.data;
+    connectedAccount.value.champions = champList;
     // accountsStore.saveAccounts();
 }
 
 function startJobs() {
     setInterval(async () => {
+        console.log('Refreshing data');
         if (!(await refreshConnectedAccount())) return;
         refreshRankedData();
         refreshChampList();
@@ -128,6 +129,7 @@ function startJobs() {
 }
 
 useMountedFetch(() => {
+    // $fetch('/api/test').then(console.log).catch(console.error);
     if (!settings.value) settingsStore.loadSettings();
 
     if (!settings.value?.isEncrypted ?? false) {

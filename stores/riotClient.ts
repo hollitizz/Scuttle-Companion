@@ -21,7 +21,7 @@ export const useRiotClientStore = defineStore('useRiotClientStore', () => {
 
     async function getLockfileContent() {
         if (!process.env['RIOT_LOCKFILE']) return null;
-        console.log('Writing lockfile');
+
         const file = fs
             .readFileSync(process.env['RIOT_LOCKFILE'], 'utf-8')
             .split(':');

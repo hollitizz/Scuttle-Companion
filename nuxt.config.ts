@@ -53,5 +53,9 @@ export default defineNuxtConfig({
 
     build: {
         transpile: ['vue-toastification']
+    },
+
+    devtools: {
+        enabled: false
     }
 });
