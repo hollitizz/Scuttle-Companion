@@ -38,6 +38,10 @@ const emits = defineEmits<{
 const opening = ref(false);
 const closing = ref(false);
 
+defineExpose({
+    closeModal
+});
+
 watch(
     () => props.isOpen,
     nValue => {
@@ -58,6 +62,7 @@ onMounted(() => {
         }, 300);
     }
     document.addEventListener('keydown', (event: KeyboardEvent) => {
+        if (!props.isOpen) return;
         if (event.key === 'Escape') {
             closeModal();
         }
@@ -66,6 +71,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     document.removeEventListener('keydown', (event: KeyboardEvent) => {
+        if (!props.isOpen) return;
         if (event.key === 'Escape') {
             closeModal();
         }
