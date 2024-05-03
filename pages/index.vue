@@ -101,7 +101,7 @@ async function refreshRankedData() {
     connectedAccount.value.rank = APIRank.findIndex(
         rank => rank === soloq_data.division
     );
-    connectedAccount.value.lp = 0;
+    connectedAccount.value.lp = soloq_data.leaguePoints;
     connectedAccount.value.wins = soloq_data.wins;
     connectedAccount.value.losses = soloq_data.losses;
     connectedAccount.value.is_provisional = soloq_data.isProvisional;
@@ -116,20 +116,21 @@ async function refreshChampList() {
     if (!champList) return;
 
     connectedAccount.value.champions = champList;
-    // accountsStore.saveAccounts();
+    accountsStore.saveAccounts();
 }
 
-function startJobs() {
-    setInterval(async () => {
-        console.log('Refreshing data');
-        if (!(await refreshConnectedAccount())) return;
+async function startJobs() {
+    await refreshConnectedAccount();
+    if (connectedAccount.value) {
         refreshRankedData();
         refreshChampList();
-    }, 1000 * 3);
+    }
+    setInterval(refreshConnectedAccount, 1000 * 3);
+    setInterval(refreshRankedData, 1000 * 10);
+    setInterval(refreshChampList, 1000 * 60 * 10);
 }
 
 useMountedFetch(() => {
-    // $fetch('/api/test').then(console.log).catch(console.error);
     if (!settings.value) settingsStore.loadSettings();
 
     if (!settings.value?.isEncrypted ?? false) {
