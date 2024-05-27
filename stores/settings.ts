@@ -88,7 +88,9 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
     }
 
     function setLockfilePath(path: string) {
-        if (!path.endsWith('/lockfile')) path += '/lockfile';
+        if (path.length && !path.endsWith('/lockfile')) path += '/lockfile';
+        console.log(path);
+
         settings.value!.leagueLockfile = path;
         process.env['LEAGUE_LOCKFILE'] = path;
         saveSettings();
@@ -111,12 +113,16 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
 
         if (
             settings.value.leagueLockfile !== '' &&
-            fs.existsSync(settings.value.leagueLockfile)
+            fs.existsSync(
+                settings.value.leagueLockfile.slice(0, 0 - '/lockfile'.length)
+            )
         ) {
             setLockfilePath(settings.value.leagueLockfile);
         } else {
             setLockfilePath(
-                fs.existsSync(`${process.env['DEFAULT_LEAGUE_LOCKFILE']}`)
+                fs.existsSync(
+                    `${process.env['DEFAULT_LEAGUE_LOCKFILE']!.slice(0, 0 - '/lockfile'.length)}`
+                )
                     ? `${process.env['DEFAULT_LEAGUE_LOCKFILE']}`
                     : ''
             );

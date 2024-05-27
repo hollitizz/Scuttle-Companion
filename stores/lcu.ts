@@ -22,6 +22,10 @@ export const useLcuStore = defineStore('useLcuStore', () => {
     });
 
     function refreshLockfile() {
+        console.log(
+            process.env['LEAGUE_LOCKFILE'],
+            fs.existsSync(process.env['LEAGUE_LOCKFILE'])
+        );
         if (
             !process.env['LEAGUE_LOCKFILE'] ||
             !fs.existsSync(process.env['LEAGUE_LOCKFILE'])
@@ -76,6 +80,7 @@ export const useLcuStore = defineStore('useLcuStore', () => {
             body,
             ...params
         });
+        console.log(response.status);
 
         if (response.status === 200)
             return {
