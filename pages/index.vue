@@ -60,6 +60,10 @@ async function refreshConnectedAccount() {
 
     if (!current_account || !account.data) return false;
 
+    let hasAccountChanged = false;
+
+    if (connectedAccount.value?.id !== current_account.id)
+        hasAccountChanged = true;
     connectedAccount.value = current_account;
     connectedAccount.value.id = account.data.summonerId;
     lastConnectedId.value = account.data.summonerId;
@@ -68,6 +72,10 @@ async function refreshConnectedAccount() {
     connectedAccount.value.summoner_name = account.data.gameName;
     connectedAccount.value.tag = '#' + account.data.tagLine;
 
+    if (hasAccountChanged) {
+        refreshRankedData();
+        refreshChampList();
+    }
     accountsStore.saveAccounts();
     return true;
 }
@@ -121,10 +129,6 @@ async function refreshChampList() {
 
 async function startJobs() {
     await refreshConnectedAccount();
-    if (connectedAccount.value) {
-        refreshRankedData();
-        refreshChampList();
-    }
     setInterval(refreshConnectedAccount, 1000 * 3);
     setInterval(refreshRankedData, 1000 * 10);
     setInterval(refreshChampList, 1000 * 60 * 10);
@@ -135,14 +139,13 @@ useMountedFetch(() => {
 
     if (!settings.value?.isEncrypted ?? false) {
         accountsStore.loadAccounts();
-        startJobs();
     } else isEncrypted.value = true;
+    startJobs();
 });
 
 function login() {
     if (settingsStore.checkPassword(password.value)) {
         accountsStore.loadAccounts();
-        startJobs();
     }
 }
 

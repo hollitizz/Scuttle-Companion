@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import https from 'https';
 import fs from 'fs';
-import { ipcRenderer } from 'electron';
+import { FetchError } from 'ofetch';
 
 export const useLcuStore = defineStore('useLcuStore', () => {
     const lockfile = ref(null as Lockfile | null);
@@ -22,10 +22,6 @@ export const useLcuStore = defineStore('useLcuStore', () => {
     });
 
     function refreshLockfile() {
-        console.log(
-            process.env['LEAGUE_LOCKFILE'],
-            fs.existsSync(process.env['LEAGUE_LOCKFILE'])
-        );
         if (
             !process.env['LEAGUE_LOCKFILE'] ||
             !fs.existsSync(process.env['LEAGUE_LOCKFILE'])
@@ -66,47 +62,38 @@ export const useLcuStore = defineStore('useLcuStore', () => {
         delete params.query;
         delete params.body;
 
-        const response = await fetch(url, {
-            method: params.method ?? 'GET',
-            // @ts-ignore
-            agent: httpsAgent,
-            headers: {
-                'Content-Type': 'application/json',
-                authorization: `Basic ${btoa(
-                    auth.value?.username + ':' + auth.value?.password
-                )}`,
-                ...params.headers
-            },
-            body,
-            ...params
-        });
-        console.log(response.status);
-
-        if (response.status === 200)
-            return {
-                success: true,
-                message: '',
-                data: (await response.json()) as T
-            };
-        if (response.status === 400)
-            return {
-                success: false,
-                message: `Error ${response.status}: Une erreur est survenue`
-            };
-        if (response.status === 401)
+        let response: null | T = null;
+        try {
+            response = await $fetch<T>(url, {
+                method: params.method ?? 'GET',
+                // @ts-ignore
+                agent: httpsAgent,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: `Basic ${btoa(
+                        auth.value?.username + ':' + auth.value?.password
+                    )}`,
+                    ...params.headers
+                },
+                body,
+                ...params
+            });
+        } catch (e) {
+            if (!(e instanceof FetchError)) {
+                return {
+                    success: false,
+                    message: 'Error 500: Unknown error'
+                };
+            }
             return {
                 success: false,
-                message: `Error ${response.status}: Une erreur est survenue`
+                message: `Error ${e.status}: Une erreur est survenue`
             };
-        if (response.status === 404)
-            return {
-                success: false,
-                message: `Error ${response.status}: Une erreur est survenue`
-            };
-
+        }
         return {
-            success: false,
-            message: `Error ${response.status}: Une erreur est survenue`
+            success: true,
+            message: '',
+            data: response
         };
     }
 
