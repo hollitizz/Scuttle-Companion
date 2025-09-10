@@ -1,5 +1,5 @@
 <template>
-    <VTooltip :distance="-20">
+    <VTooltip :distance="-20" :skidding="-10">
         <UiCardCircle class="select-none w-40 h-40">
             <img :src="tierImg" :alt="tier" />
         </UiCardCircle>

@@ -10,6 +10,7 @@
                     style="--card-padding: 0.625rem 0"
                 >
                     <Account
+                        v-model:search="search"
                         :account="account"
                         :editMode="editMode"
                         @delete="deleteAccount(index)"
@@ -28,6 +29,7 @@ const accountsStore = useAccountsStore();
 const { accounts } = storeToRefs(accountsStore);
 
 const editMode = ref(false);
+const search = ref('');
 
 function deleteAccount(index: number) {
     if (!accounts.value?.[index]) return;

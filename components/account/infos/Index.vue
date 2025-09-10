@@ -1,8 +1,25 @@
 <template>
-    <div class="h-full flex-center flex-col">
+    <div class="h-full flex-center flex-col relative">
         <div class="flex-1"></div>
 
-        <div class="flex-center flex-col select-none">
+        <div class="flex-center flex-col select-none relative">
+            <div
+                :id="`${account.id}`"
+                @click="!!account.champions.length && emits('click:info')"
+                :class="[
+                    'absolute -right-2 -top-2 w-6 h-6 p-0.5 rounded-full overflow-hidden',
+                    'bg-primary outline outline-4 outline-card-color z-10 cursor-pointer',
+                    {
+                        'transition-all hover:scale-110 active:scale-105':
+                            !!account.champions.length,
+                        'cursor-not-allowed after:bg-black/50 after:absolute after:inset-0 ':
+                            !account.champions.length
+                    }
+                ]"
+            >
+                <img src="~/assets/svg/info.svg" />
+            </div>
+
             <img
                 class="icon"
                 :class="{
@@ -31,6 +48,8 @@ const props = defineProps({
     }
 });
 
+const emits = defineEmits(['click:info']);
+
 const { connectedAccount } = storeToRefs(useAccountsStore());
 
 const icon = ref(null as string | null);
@@ -54,7 +73,7 @@ watch(
     margin-top: -13px;
     margin-bottom: -5px;
     border-radius: 10px;
-    background-color: var(--background);
+    background-color: var(--primary);
     padding: 5px;
     outline-offset: -2px;
     outline: solid 4px var(--card-color);

@@ -98,29 +98,35 @@ export const useRiotClientStore = defineStore('useRiotClientStore', () => {
                 success: false,
                 message: 'Impossible de lancer le client Riot'
             };
-        const response = await request(
+
+        // const response1 = await request('/rso-auth/v2/authorizations', 'POST', {
+        //     clientId: 'riot-client',
+        //     trustLevels: ['always_trusted']
+        // });
+
+        const response2 = await request(
             '/rso-auth/v1/session/credentials',
             'PUT',
             {
                 username,
                 password,
-                persistLogin: undefined
+                persistLogin: persistLogin
             }
         );
-        if (response) {
-            if (response.status === 201)
+        if (response2) {
+            if (response2.status === 201)
                 return { success: true, message: 'Vous êtes connecté' };
-            if (response.status === 400)
+            if (response2.status === 400)
                 return {
                     success: false,
                     message: 'Un compte est déjà connecté'
                 };
-            if (response.status === 401)
+            if (response2.status === 401)
                 return {
                     success: false,
                     message: "Nom d'utilisateur ou mot de passe incorrect"
                 };
-            if (response.status === 404) {
+            if (response2.status === 404) {
                 lockfile.value = null;
                 return {
                     success: false,

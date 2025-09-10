@@ -42,7 +42,7 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
             );
             fs.writeFileSync(
                 process.env['RESOURCES_FOLDER'] + 'config.lal',
-                config
+                config.toString()
             );
         }
         if (
@@ -57,7 +57,7 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
             );
             fs.writeFileSync(
                 process.env['RESOURCES_FOLDER'] + 'accounts.lal',
-                accounts
+                accounts.toString()
             );
         }
     }
@@ -175,7 +175,8 @@ export const useSettingsStore = defineStore('useSettingsStore', () => {
     }
     function checkPassword(password: string) {
         if (!bcrypt.compareSync(password, settings.value?.password ?? '')) {
-            return new Error('Mot de passe incorrect');
+            useToast.error('Mot de passe incorrect');
+            return false;
         }
         return true;
     }

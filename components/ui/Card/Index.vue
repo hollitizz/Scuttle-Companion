@@ -3,7 +3,9 @@
         class="wrapper"
         :style="{
             '--border-color': borderColor,
-            '--background-color': backgroundColor
+            '--background-color': backgroundColor,
+            '--card-padding': padding,
+            '--card-radius': radius
         }"
     >
         <div class="card">
@@ -21,6 +23,14 @@ defineProps({
     backgroundColor: {
         type: String as PropType<CssColors>,
         default: 'var(--card-color)'
+    },
+    padding: {
+        type: String,
+        default: 'var(--card-padding, 0.625rem 1rem)'
+    },
+    radius: {
+        type: String,
+        default: '30px'
     }
 });
 </script>
@@ -29,13 +39,13 @@ defineProps({
 .wrapper {
     padding: 0.0625rem;
     background: var(--border-color, #343434);
-    border-radius: 30px;
+    border-radius: var(--card-radius, 30px);
 
     .card {
         width: 100%;
         height: 100%;
         background-color: var(--background-color);
-        border-radius: 30px;
+        border-radius: var(--card-radius, 30px);
         padding: var(--card-padding, 0.625rem 1rem);
     }
 }

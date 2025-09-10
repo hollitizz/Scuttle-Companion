@@ -137,7 +137,7 @@ async function startJobs() {
 useMountedFetch(() => {
     if (!settings.value) settingsStore.loadSettings();
 
-    if (!settings.value?.isEncrypted ?? false) {
+    if (!settings.value?.isEncrypted) {
         accountsStore.loadAccounts();
     } else isEncrypted.value = true;
     startJobs();
